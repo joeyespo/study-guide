@@ -7,19 +7,81 @@ ToDo - Study Guide: Matching
  * Fix wierd term-add bug -- was because file was NOT being truncated .. must use FileMode.Create to create/truncate a file
  * Fix group .. do not make dirty unless selected
  * Use 'regular' font style when text is too long in definitions box
+ * "Perfect!" in definition window on perfect completion
+   x Until Done is clicked
  * Use RTB for definitions
    - Use HTML-like code for colors/fonts .. NOT RTF
    - Control pasted colors in RTF .. convert to HTML-like code
+ * Multiple terms
+   * Do not show count + 1, but jst count
+   * Have the 'Multiple' word and textbox flash green when correct, not the 'Correct' (until complete)
+   * Show 'completed terms so far' in programmed order in list (fix algorithm)
+   - In-order mode
+ * Case INSENSITIVE comparing for all terms
+ - Show what file is opened in Study Guide
+ - Create a menu for Study Guide
+ - Fix: show 'correct multiterm' when selected last 2 multiterms really quickly
+ - Editor Improvement:
+   - Context Menus
+   - When activating the form, only SetFocus when necessary
+   - Do not reset the current position in textboxes when saving
+   - Store information in 'Add' textboxes for when returning from 'Source Code' view
+   - "Auto-add period" option to add periods to the end of definitions for you
+   - Warn if added a duplicate definition
+   - Highlight non-definition textboxes when focussed
+   - Ctrl+Shift+Enter in 'Add Definition' will add it and not delete the 'Term'
+   - 'Find' and other editing functions in all textboxes
  - Use 'Validating' events in editor for textboxes
  - Show parsing errors for the matching sheets
  - Create a dialog for loading sheets
  - "Stop studying?" dialog box
- - "Perfect!" in definition window on perfect completion (until Done is clicked)
+ - Do not exit when 'closed' when dirty, and an error occurs when saving
+ - Do not reposition cursor when saving and editing a definition
+ - Make a 'new instance of ..' button/menu item for editor/player
  - Statistics (charts of improvement, terms that needed most work, etc)
  - Hide mouse when not in use (editor/player)
  - Context menus in each RTB
+ - Make a way to test yourself on ONLY the words to improve on
  - Better empty term/definition handling
- * Preferences
+ - Preferences --> SoftInstall
+ - Set 'Done' to be the default button when in 'Improving'
+ - Reorganize
  * SetFocus
- * Option: Custom sounds (have None as a selection)
- * Option: Mute sounds
+ - Use SoftInstall for options
+ - Option: Custom sounds (have None as a selection)
+ - Option: Mute sounds
+ - Option: Remember window positions
+
+----------------------------------------------------------------------------------------------------------
+>> Allow all titles in open/save dialog path .. fix path name from study sheet title (ie. to allow "Blah: blah").
+
+See the end of this message for details on invoking 
+just-in-time (JIT) debugging instead of this dialog box.
+
+************** Exception Text **************
+System.NotSupportedException: The given path's format is not supported.
+   at System.Security.Util.StringExpressionSet.CanonicalizePath(String path, Boolean needFullPath)
+   at System.Security.Util.StringExpressionSet.AddExpressions(String[] str, Boolean checkForDuplicates, Boolean needFullPath)
+   at System.Security.Permissions.FileIOPermission.AddPathList(FileIOPermissionAccess access, String[] pathListOrig, Boolean checkForDuplicates, Boolean needFullPath, Boolean copyPathList)
+   at System.Security.Permissions.FileIOPermission..ctor(FileIOPermissionAccess access, String[] pathList, Boolean checkForDuplicates, Boolean needFullPath)
+   at System.IO.Path.GetFullPath(String path)
+   at System.Windows.Forms.IntSecurity.UnsafeGetFullPath(String fileName)
+   at System.Windows.Forms.IntSecurity.DemandFileIO(FileIOPermissionAccess access, String fileName)
+   at System.Windows.Forms.FileDialog.get_FileName()
+   at System.Windows.Forms.SaveFileDialog.RunFileDialog(OPENFILENAME_I ofn)
+   at System.Windows.Forms.FileDialog.RunDialog(IntPtr hWndOwner)
+   at System.Windows.Forms.CommonDialog.ShowDialog(IWin32Window owner)
+   at Uberware.Study.frmMain.DoSaveAs()
+   at Uberware.Study.frmMain.menuFileSaveAs_Click(Object sender, EventArgs e)
+   at System.Windows.Forms.MenuItem.OnClick(EventArgs e)
+   at System.Windows.Forms.MenuItemData.Execute()
+   at System.Windows.Forms.Command.Invoke()
+   at System.Windows.Forms.Control.WmCommand(Message& m)
+   at System.Windows.Forms.Control.WndProc(Message& m)
+   at System.Windows.Forms.ScrollableControl.WndProc(Message& m)
+   at System.Windows.Forms.ContainerControl.WndProc(Message& m)
+   at System.Windows.Forms.Form.WndProc(Message& m)
+   at System.Windows.Forms.ControlNativeWindow.OnMessage(Message& m)
+   at System.Windows.Forms.ControlNativeWindow.WndProc(Message& m)
+   at System.Windows.Forms.NativeWindow.Callback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+----------------------------------------------------------------------------------------------------------

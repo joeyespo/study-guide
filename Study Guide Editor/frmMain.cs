@@ -97,6 +97,8 @@ namespace Uberware.Study
     private System.Windows.Forms.MenuItem menuToolsTest;
     private System.Windows.Forms.MenuItem menuFileLine03;
     private System.Windows.Forms.MenuItem menuFilePlayer;
+    private System.Windows.Forms.Button btnMoveUp;
+    private System.Windows.Forms.Button btnMoveDown;
 		
     /// <summary> Required designer variable. </summary>
 		private System.ComponentModel.Container components = null;
@@ -212,6 +214,8 @@ namespace Uberware.Study
       this.btnMenu = new System.Windows.Forms.Button();
       this.menuMenu = new System.Windows.Forms.ContextMenu();
       this.menuMenuExit = new System.Windows.Forms.MenuItem();
+      this.btnMoveUp = new System.Windows.Forms.Button();
+      this.btnMoveDown = new System.Windows.Forms.Button();
       this.grpInfo.SuspendLayout();
       this.panSheet.SuspendLayout();
       this.panItems.SuspendLayout();
@@ -443,6 +447,7 @@ namespace Uberware.Study
       // 
       this.splTerms.Dock = System.Windows.Forms.DockStyle.Bottom;
       this.splTerms.Location = new System.Drawing.Point(0, 98);
+      this.splTerms.MinSize = 20;
       this.splTerms.Name = "splTerms";
       this.splTerms.Size = new System.Drawing.Size(228, 8);
       this.splTerms.TabIndex = 1;
@@ -453,6 +458,7 @@ namespace Uberware.Study
       // 
       this.txtTerm.Dock = System.Windows.Forms.DockStyle.Bottom;
       this.txtTerm.Location = new System.Drawing.Point(0, 106);
+      this.txtTerm.Multiline = true;
       this.txtTerm.Name = "txtTerm";
       this.txtTerm.ReadOnly = true;
       this.txtTerm.Size = new System.Drawing.Size(228, 20);
@@ -475,8 +481,10 @@ namespace Uberware.Study
       // panTermsModify
       // 
       this.panTermsModify.Controls.AddRange(new System.Windows.Forms.Control[] {
+                                                                                 this.btnMoveUp,
                                                                                  this.chkReadOnly,
-                                                                                 this.btnDelete});
+                                                                                 this.btnDelete,
+                                                                                 this.btnMoveDown});
       this.panTermsModify.Dock = System.Windows.Forms.DockStyle.Bottom;
       this.panTermsModify.Location = new System.Drawing.Point(8, 142);
       this.panTermsModify.Name = "panTermsModify";
@@ -970,6 +978,28 @@ namespace Uberware.Study
       this.menuMenuExit.Text = "E&xit";
       this.menuMenuExit.Click += new System.EventHandler(this.menuMenuExit_Click);
       // 
+      // btnMoveUp
+      // 
+      this.btnMoveUp.Enabled = false;
+      this.btnMoveUp.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+      this.btnMoveUp.Location = new System.Drawing.Point(168, 4);
+      this.btnMoveUp.Name = "btnMoveUp";
+      this.btnMoveUp.Size = new System.Drawing.Size(28, 20);
+      this.btnMoveUp.TabIndex = 2;
+      this.btnMoveUp.Text = "UP";
+      this.btnMoveUp.Click += new System.EventHandler(this.btnMoveUp_Click);
+      // 
+      // btnMoveDown
+      // 
+      this.btnMoveDown.Enabled = false;
+      this.btnMoveDown.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+      this.btnMoveDown.Location = new System.Drawing.Point(200, 4);
+      this.btnMoveDown.Name = "btnMoveDown";
+      this.btnMoveDown.Size = new System.Drawing.Size(28, 20);
+      this.btnMoveDown.TabIndex = 3;
+      this.btnMoveDown.Text = "DN";
+      this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
+      // 
       // frmMain
       // 
       this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
@@ -1112,8 +1142,12 @@ namespace Uberware.Study
             txtAuthor.Focus();
           else if ((chkInfo.Checked) && (m_Sheet.Description == ""))
             txtDescription.Focus();
-          else if ((lstTermList.Items.Count == 0) && (chkAdd.Checked))
+          else if ((chkAdd.Checked) && (txtTermsAdd.Text == ""))
             txtTermsAdd.Focus();
+          else if (chkAdd.Checked)
+            txtDefinitionAdd.Focus();
+          else if (lstTermList.Items.Count == 0)
+            chkAdd.Focus();
           else
             lstTermList.Focus();
         }
@@ -1188,6 +1222,17 @@ namespace Uberware.Study
     
     private void btnDelete_Click(object sender, System.EventArgs e)
     { DoRemoveTerm(); }
+    
+    private void btnMoveUp_Click(object sender, System.EventArgs e)
+    {
+      if (lstTermList.SelectedIndex <= 0) return;
+      DoSwapTerm(lstTermList.SelectedIndex, (lstTermList.SelectedIndex-1));
+    }
+    private void btnMoveDown_Click(object sender, System.EventArgs e)
+    {
+      if (lstTermList.SelectedIndex >= (lstTermList.Items.Count-1)) return;
+      DoSwapTerm(lstTermList.SelectedIndex, (lstTermList.SelectedIndex+1));
+    }
     
     private void btnMenu_Click(object sender, System.EventArgs e)
     { menuMenu.GetContextMenu().Show(btnMenu.Parent, new Point(btnMenu.Left, btnMenu.Bottom)); }
@@ -1391,7 +1436,6 @@ namespace Uberware.Study
       bool b = ((chkReadOnly.Checked == false) && (chkReadOnly.Enabled) && (lstTermList.SelectedIndex != -1));
       lblDefinition.Text = (( b )?( "Definitions [edit]: " ):( "Definitions:" ));
       splTerms.Visible = b; txtTerm.Visible = b; txtTerm.ReadOnly = !b;
-      splTerms.Enabled = false;   // !!!!! Multiterm
     }
     
     private void lstTermList_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -1404,7 +1448,10 @@ namespace Uberware.Study
       
       if (lstTermList.SelectedIndex != -1)
       {
-        txtTerm.Text = m_Sheet.Terms[lstTermList.SelectedIndex];
+        btnMoveUp.Enabled = lstTermList.SelectedIndex > 0;
+        btnMoveDown.Enabled = lstTermList.SelectedIndex < (lstTermList.Items.Count-1);
+        
+        txtTerm.Lines = MatchingSheet.SplitTerms(m_Sheet.Terms[lstTermList.SelectedIndex]);
         
         // !!!!! Mini-HTML
         //string s = m_Sheet.Definitions[lstTermList.SelectedIndex];
@@ -1422,6 +1469,9 @@ namespace Uberware.Study
         txtTerm.Text = "";
         txtDefinition.Text = "";
         txtDefinition.ReadOnly = true;
+        
+        btnMoveUp.Enabled = false;
+        btnMoveDown.Enabled = false;
       }
     }
     private void lstTermList_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
@@ -1567,7 +1617,7 @@ namespace Uberware.Study
       }
       catch (IOException e)
       {
-        MessageBox.Show(this, e.Message, "File Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        MessageBox.Show(this, e.Message, "File Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         return false;
       }
       
@@ -1701,7 +1751,7 @@ namespace Uberware.Study
         return false;
       }
       
-      bool b = DoAddTerm(txtTermsAdd.Text, txtDefinitionAdd.Text);
+      bool b = DoAddTerm(MatchingSheet.JoinTerms(txtTermsAdd.Lines), txtDefinitionAdd.Text);
       
       txtTermsAdd.Text = "";
       txtDefinitionAdd.Text = "";
@@ -1745,7 +1795,7 @@ namespace Uberware.Study
     private bool DoRemoveTerm (int index)
     {
       if (m_Sheet == null) return false;
-      if (index >= m_Sheet.TermCount) return false;
+      if ((index < 0) || (index >= m_Sheet.TermCount)) return false;
       
       // Delete term at index
       string [] terms = new string [(m_Sheet.TermCount - 1)];
@@ -1779,6 +1829,35 @@ namespace Uberware.Study
       return true;
     }
     
+    private bool DoSwapTerm (int index, int index2)
+    {
+      if (m_Sheet == null) return false;
+      if ((index < 0) || (index >= m_Sheet.TermCount)) return false;
+      if ((index2 < 0) || (index2 >= m_Sheet.TermCount)) return false;
+      if (index == index2) return true;
+      
+      string temp;
+      
+      temp = m_Sheet.Terms[index];
+      m_Sheet.Terms[index] = m_Sheet.Terms[index2];
+      m_Sheet.Terms[index2] = temp;
+      
+      temp = m_Sheet.Definitions[index];
+      m_Sheet.Definitions[index] = m_Sheet.Definitions[index2];
+      m_Sheet.Definitions[index2] = temp;
+      
+      temp = (string)lstTermList.Items[index];
+      lstTermList.Items[index] = lstTermList.Items[index2];
+      lstTermList.Items[index2] = temp;
+      
+      lstTermList.SelectedIndex = index2;
+      
+      DoMakeDirty();
+      DoUpdateSheetItems();
+      chkReadOnly_CheckedChanged(chkReadOnly, new EventArgs());
+      return true;
+    }
+    
     
     private bool ValidateEditing ()
     {
@@ -1805,11 +1884,12 @@ namespace Uberware.Study
         return false;
       }
       
-      if (m_Sheet.Terms[lstTermList.SelectedIndex] == txtTerm.Text)
+      string s = MatchingSheet.JoinTerms(txtTerm.Lines);
+      if (m_Sheet.Terms[lstTermList.SelectedIndex] == s)
         return true;
       
-      m_Sheet.Terms[lstTermList.SelectedIndex] = txtTerm.Text;
-      lstTermList.Items[lstTermList.SelectedIndex] = txtTerm.Text;
+      m_Sheet.Terms[lstTermList.SelectedIndex] = s;
+      lstTermList.Items[lstTermList.SelectedIndex] = s;
       DoMakeDirty();
       
       lstTermList_SelectedIndexChanged(lstTermList, new EventArgs());
@@ -2071,13 +2151,6 @@ namespace Uberware.Study
       
       if (m_DesignMode)
       { chkAdd.Checked = true; txtTermsAdd.Focus(); }
-      
-      // !!!!! Multiterm
-      if (chkMultiTerm.Checked)
-      {
-        MessageBox.Show(this, "Feature not yet implemented.", "Study Guide Editor");
-        chkMultiTerm.Checked = false;
-      }
     }
     
   }

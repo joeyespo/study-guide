@@ -241,6 +241,55 @@ namespace Uberware.Study
       return string.Equals(a, b);
     }
     
+    public static string JoinTerms (string [] terms)
+    {
+      string res = "";
+      foreach (string term in terms)
+      {
+        string s = term.Trim();
+        if (s == "") continue;
+        if (res != "") res += ", ";
+        res += s.Replace(@"\\", @"\").Replace(",", @"\,");
+      }
+      return res;
+    }
+    public static string [] SplitTerms (string terms)
+    {
+      ArrayList res = new ArrayList();
+      string temp = "";
+      char ch;
+      
+      for (int i = 0; i < terms.Length; i++)
+      {
+        ch = terms[i];
+        if (ch == '\\')
+        {
+          i++;
+          if (i >= terms.Length)
+          { temp += ch; break; }
+          
+          char ch2 = terms[i];
+          if (ch2 == '\\') temp += ch2;
+          else if (ch2 == ',') temp += ch2;
+          else temp += (ch.ToString() + ch2.ToString());  // !!!!! Error
+        }
+        else if (ch == ',')
+        {
+          temp = temp.Trim();
+          if (temp != "") res.Add(temp);
+          temp = "";
+        }
+        else
+          temp += ch;
+      }
+      
+      // Add remaining
+      temp = temp.Trim();
+      if (temp != "") res.Add(temp);
+      
+      return (string [])res.ToArray(typeof(string));
+    }
+    
     public static string EscapeString (string s)
     {
       string res = s;
