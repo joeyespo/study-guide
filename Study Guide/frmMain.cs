@@ -52,6 +52,10 @@ namespace Uberware.Study
     
     private MatchingSheet m_Sheet = null;
     
+    private Font m_BoldFont = null;
+    private Font m_RegularFont = null;
+    
+    private bool m_AutoBeginStudy = false;
     private bool m_Studying = false;
     private bool m_Improving = false;
     
@@ -100,7 +104,7 @@ namespace Uberware.Study
     private System.Windows.Forms.Timer tmrResetColors;
     private System.Windows.Forms.MenuItem menuMainEdit;
     private System.Windows.Forms.MenuItem menuMainNew;
-    private System.Windows.Forms.RichTextBox rtbDefinition;
+    private System.Windows.Forms.RichTextBox txtDefinition;
     private System.Windows.Forms.Panel panDefinition;
     private System.Windows.Forms.MenuItem menuMainLine02;
     private System.Windows.Forms.Button btnEditor;
@@ -189,7 +193,7 @@ namespace Uberware.Study
       this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
       this.btnExit = new System.Windows.Forms.Button();
       this.tmrResetColors = new System.Windows.Forms.Timer(this.components);
-      this.rtbDefinition = new System.Windows.Forms.RichTextBox();
+      this.txtDefinition = new System.Windows.Forms.RichTextBox();
       this.panDefinition = new System.Windows.Forms.Panel();
       this.btnEditor = new System.Windows.Forms.Button();
       this.panTerms.SuspendLayout();
@@ -575,22 +579,22 @@ namespace Uberware.Study
       this.tmrResetColors.Interval = 500;
       this.tmrResetColors.Tick += new System.EventHandler(this.tmrResetColors_Tick);
       // 
-      // rtbDefinition
+      // txtDefinition
       // 
-      this.rtbDefinition.Anchor = (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+      this.txtDefinition.Anchor = (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
         | System.Windows.Forms.AnchorStyles.Left) 
         | System.Windows.Forms.AnchorStyles.Right);
-      this.rtbDefinition.BackColor = System.Drawing.SystemColors.Control;
-      this.rtbDefinition.BorderStyle = System.Windows.Forms.BorderStyle.None;
-      this.rtbDefinition.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-      this.rtbDefinition.Name = "rtbDefinition";
-      this.rtbDefinition.ReadOnly = true;
-      this.rtbDefinition.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-      this.rtbDefinition.Size = new System.Drawing.Size(354, 94);
-      this.rtbDefinition.TabIndex = 0;
-      this.rtbDefinition.Text = "";
-      this.rtbDefinition.ContentsResized += new System.Windows.Forms.ContentsResizedEventHandler(this.rtbDefinition_ContentsResized);
-      this.rtbDefinition.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.rtbDefinition_LinkClicked);
+      this.txtDefinition.BackColor = System.Drawing.SystemColors.Control;
+      this.txtDefinition.BorderStyle = System.Windows.Forms.BorderStyle.None;
+      this.txtDefinition.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+      this.txtDefinition.Name = "txtDefinition";
+      this.txtDefinition.ReadOnly = true;
+      this.txtDefinition.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+      this.txtDefinition.Size = new System.Drawing.Size(354, 94);
+      this.txtDefinition.TabIndex = 0;
+      this.txtDefinition.Text = "";
+      this.txtDefinition.ContentsResized += new System.Windows.Forms.ContentsResizedEventHandler(this.txtDefinition_ContentsResized);
+      this.txtDefinition.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.txtDefinition_LinkClicked);
       // 
       // panDefinition
       // 
@@ -598,7 +602,7 @@ namespace Uberware.Study
         | System.Windows.Forms.AnchorStyles.Right);
       this.panDefinition.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
       this.panDefinition.Controls.AddRange(new System.Windows.Forms.Control[] {
-                                                                                this.rtbDefinition});
+                                                                                this.txtDefinition});
       this.panDefinition.Location = new System.Drawing.Point(8, 64);
       this.panDefinition.Name = "panDefinition";
       this.panDefinition.Size = new System.Drawing.Size(356, 96);
@@ -640,12 +644,13 @@ namespace Uberware.Study
                                                                   this.txtWrong,
                                                                   this.btnExit});
       this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-      this.MinimumSize = new System.Drawing.Size(352, 468);
+      this.MinimumSize = new System.Drawing.Size(368, 468);
       this.Name = "frmMain";
       this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
       this.Text = "Study Guide";
       this.Closing += new System.ComponentModel.CancelEventHandler(this.frmMain_Closing);
+      this.Load += new System.EventHandler(this.frmMain_Load);
       this.Activated += new System.EventHandler(this.frmMain_Activated);
       this.panTerms.ResumeLayout(false);
       this.panTermList.ResumeLayout(false);
@@ -674,8 +679,26 @@ namespace Uberware.Study
       //m_Settings = (MatchingSettings)MatchingSettings.FromUserSettings();
       m_Settings = new MatchingSettings();  // Get default preferences
       
-      // Load sheet
-      if (args.Length > 0) form.DoOpen(args[0]);
+      // Parse command line
+      foreach (string arg in args)
+      {
+        if (arg.Length == 0) continue;
+        
+        if (arg[0] == '-')
+        {
+          // Get options
+          switch (arg)
+          {
+            case "-b": form.m_AutoBeginStudy = true; break;
+          }
+        }
+        else
+        {
+          // Load sheet
+          form.DoOpen(arg);
+          break;
+        }
+      }
       
       // Run app
       Application.Run(form);
@@ -684,6 +707,12 @@ namespace Uberware.Study
     #endregion
     
     
+    
+    private void frmMain_Load(object sender, System.EventArgs e)
+    {
+      m_BoldFont = txtDefinition.Font;
+      m_RegularFont = new Font(txtDefinition.Font, FontStyle.Regular);
+    }
     
     private void frmMain_Activated(object sender, System.EventArgs e)
     {
@@ -694,10 +723,19 @@ namespace Uberware.Study
         else
           lstTermList.Focus();
       }
-      else if (m_Sheet != null)
-        btnStudy.Focus();
       else
-        btnMenu.Focus();
+      {
+        if (m_Sheet != null)
+          btnStudy.Focus();
+        else
+          btnMenu.Focus();
+        
+        if (m_AutoBeginStudy)
+        {
+          m_AutoBeginStudy = false;
+          DoStudy();
+        }
+      }
     }
     
     private void frmMain_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -754,7 +792,25 @@ namespace Uberware.Study
     private void lstTermList_Leave(object sender, System.EventArgs e)
     { this.AcceptButton = null; }
     
-    private void rtbDefinition_LinkClicked(object sender, System.Windows.Forms.LinkClickedEventArgs e)
+    bool b = false;
+    private void txtDefinition_ContentsResized(object sender, System.Windows.Forms.ContentsResizedEventArgs e)
+    {
+      if (!this.Visible) return;
+      if (this.WindowState == FormWindowState.Minimized) return;
+      if (b) return;
+      
+      if ((e.NewRectangle.Height > txtDefinition.ClientSize.Height) && (txtDefinition.Font.Bold))
+      {
+        b = true;
+        txtDefinition.Font = m_RegularFont;
+        string s = txtDefinition.Rtf;
+        txtDefinition.Clear();
+        txtDefinition.Rtf = s;
+        b = false;
+      }
+    }
+    
+    private void txtDefinition_LinkClicked(object sender, System.Windows.Forms.LinkClickedEventArgs e)
     {
       try // Call the Process.Start method to open the default browser with a URL:
       { System.Diagnostics.Process.Start(e.LinkText); }
@@ -768,7 +824,7 @@ namespace Uberware.Study
     
     private bool DoNew ()
     {
-      return DoShowEditor(".");
+      return DoShowEditor("-n");
     }
     
     private bool DoOpen ()
@@ -805,6 +861,7 @@ namespace Uberware.Study
     
     private bool DoEdit ()
     {
+      if (m_Sheet == null) return false;
       return DoShowEditor(m_Sheet.FileName);
     }
     
@@ -849,10 +906,21 @@ namespace Uberware.Study
     
     private bool DoShowEditor ()
     { return DoShowEditor(""); }
-    private bool DoShowEditor (string arguments)
+    private bool DoShowEditor (string arg)
+    { return DoShowEditor( new string [] { arg }); }
+    private bool DoShowEditor (string [] args)
     {
+      string cmdline = "";
+      
+      // Build command line
+      foreach (string arg in args)
+      {
+        if (cmdline != "") cmdline += " ";
+        cmdline += (( arg.IndexOf(' ') == -1 )?( arg ):( '"' + arg + '"' ));
+      }
+      
       try
-      { System.Diagnostics.Process.Start(Path.Combine(Application.StartupPath, "Study Guide Editor"), (( arguments == "" )?( "" ):('"' + arguments + '"')) ); }
+      { System.Diagnostics.Process.Start(Path.Combine(Application.StartupPath, "Study Guide Editor"), cmdline); }
       catch (Win32Exception e)
       {
         // Failsafe
@@ -863,6 +931,29 @@ namespace Uberware.Study
       return true;
     }
     
+    
+    
+    private void DoShowDefinition (string definition)
+    {
+      if (definition.Substring(0, 1) == ((char)27).ToString())
+      {
+        if (!MatchingSheet.TextEquals(txtDefinition.Rtf, definition.Substring(1)))
+        {
+          txtDefinition.Clear();
+          txtDefinition.Font = m_BoldFont;
+          txtDefinition.Rtf = definition.Substring(1);
+        }
+      }
+      else
+      {
+        if (txtDefinition.Text != definition)
+        {
+          txtDefinition.Clear();
+          txtDefinition.Font = m_BoldFont;
+          txtDefinition.Text = definition;
+        }
+      }
+    }
     
     
     private bool DoNextTerm ()
@@ -881,7 +972,7 @@ namespace Uberware.Study
       
       // Update term and definition
       m_TermIndex = m_TermList[m_TermNum++];
-      rtbDefinition.Text = m_Sheet.Definitions[m_TermIndex];
+      DoShowDefinition(m_Sheet.Definitions[m_TermIndex]);
       lstTermList.SelectedIndex = 0; lstTermList.SelectedIndex = -1;
       
       lstTermList.Focus();
@@ -963,11 +1054,17 @@ namespace Uberware.Study
         if (m_Sheet == null)
           if (!DoOpen()) return false;
         
+        if (m_Sheet.TermCount == 0)
+        {
+          MessageBox.Show(this, "Could not begin; the Study Sheet is empty.", "Study Guide", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+          return false;
+        }
+        
         m_Studying = true;
         
         btnStudy.Text = "&Stop";
         Color bgc = Color.FromKnownColor(KnownColor.Window);
-        rtbDefinition.BackColor = bgc;
+        txtDefinition.BackColor = bgc;
         txtRemaining.BackColor = bgc; txtTotal.BackColor = bgc;
         lstTermList.BackColor = bgc;
         txtTotal.Text = m_Sheet.TermCount.ToString(); txtRemaining.Text = txtTotal.Text;
@@ -1016,8 +1113,8 @@ namespace Uberware.Study
         DoResetColors();
         
         btnStudy.Text = "&Begin";
-        rtbDefinition.Text = "";
-        rtbDefinition.BackColor = Color.FromKnownColor(KnownColor.Control);
+        txtDefinition.Text = "";
+        txtDefinition.BackColor = Color.FromKnownColor(KnownColor.Control);
         m_ImproveList = null;
         
         if (!noRefresh) this.Refresh();
@@ -1027,7 +1124,7 @@ namespace Uberware.Study
       {
         Color bgc = Color.FromKnownColor(KnownColor.Control);
         lstTermList.BackColor = bgc;
-        rtbDefinition.Text = "";
+        txtDefinition.Text = "";
         btnSelect.Enabled = false;
         
         lstTermList.Items.Clear();
@@ -1051,6 +1148,7 @@ namespace Uberware.Study
           }
           
           btnStudy.Text = "&Done";
+          lstImprove.Focus();
         }
         else
         {
@@ -1060,7 +1158,7 @@ namespace Uberware.Study
           DoResetColors();
           
           btnStudy.Text = "&Begin";
-          rtbDefinition.BackColor = bgc;
+          txtDefinition.BackColor = bgc;
           m_ImproveList = null;
         }
         
@@ -1085,7 +1183,7 @@ namespace Uberware.Study
       if (lstImprove.SelectedIndex == -1) return false;
       if (m_ImproveList == null) return false;
       
-      rtbDefinition.Text = m_Sheet.Definitions[(int)m_ImproveList[lstImprove.SelectedIndex]];
+      DoShowDefinition(m_Sheet.Definitions[(int)m_ImproveList[lstImprove.SelectedIndex]]);
       return true;
     }
     
@@ -1145,18 +1243,6 @@ namespace Uberware.Study
         
         // Term is unique; use it
         m_TermList[i] = val;
-      }
-    }
-
-    private void rtbDefinition_ContentsResized(object sender, System.Windows.Forms.ContentsResizedEventArgs e)
-    {
-      if (rtbDefinition.Text == "") return;
-      
-      bool b = e.NewRectangle.Height <= rtbDefinition.ClientSize.Height;
-      if (rtbDefinition.Font.Bold != b)
-      {
-        rtbDefinition.Font = new Font(rtbDefinition.Font, (( b )?( FontStyle.Bold ):( FontStyle.Regular )) );
-        rtbDefinition.Text = rtbDefinition.Text;  // Refresh
       }
     }
     

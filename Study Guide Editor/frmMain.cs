@@ -47,7 +47,6 @@ namespace Uberware.Study
     private System.Windows.Forms.MenuItem menuFileClose;
     private System.Windows.Forms.MenuItem menuFileLine01;
     private System.Windows.Forms.MenuItem menuFileExit;
-    private System.Windows.Forms.MenuItem menuEditorPreferences;
     private System.Windows.Forms.MenuItem menuHelpAbout;
     private System.Windows.Forms.Button btnExit;
     private System.Windows.Forms.Button btnTest;
@@ -76,11 +75,9 @@ namespace Uberware.Study
     private System.Windows.Forms.Panel panAddTerm;
     private System.Windows.Forms.Label lblTermsAdd;
     private System.Windows.Forms.TextBox txtTermsAdd;
-    private System.Windows.Forms.Panel panAddTermTextBox;
-    private System.Windows.Forms.CheckBox chkMultiTerm;
     private System.Windows.Forms.Panel panAddItem;
     private System.Windows.Forms.MenuItem menuDesigner;
-    private System.Windows.Forms.MenuItem menuDesignerAddTerm;
+    private System.Windows.Forms.MenuItem menuDesignerAddItem;
     private System.Windows.Forms.MenuItem menuHelp;
     private System.Windows.Forms.Panel panDefinition;
     private System.Windows.Forms.RichTextBox txtDefinition;
@@ -89,9 +86,16 @@ namespace Uberware.Study
     private System.Windows.Forms.Panel panTerms;
     private System.Windows.Forms.ListBox lstTermList;
     private System.Windows.Forms.Splitter splTerms;
-    private System.Windows.Forms.TextBox txtMultiTerm;
+    private System.Windows.Forms.TextBox txtTerm;
     private System.Windows.Forms.Label lblTermList;
     private System.Windows.Forms.Panel panItems;
+    private System.Windows.Forms.MenuItem menuDesignerEditDefinition;
+    private System.Windows.Forms.CheckBox chkMultiTerm;
+    private System.Windows.Forms.MenuItem menuToolsPreferences;
+    private System.Windows.Forms.MenuItem menuToolsLine01;
+    private System.Windows.Forms.MenuItem menuToolsTest;
+    private System.Windows.Forms.MenuItem menuFileLine03;
+    private System.Windows.Forms.MenuItem menuFilePlayer;
 		
     /// <summary> Required designer variable. </summary>
 		private System.ComponentModel.Container components = null;
@@ -142,6 +146,16 @@ namespace Uberware.Study
       this.txtDescription = new System.Windows.Forms.RichTextBox();
       this.chkInfo = new System.Windows.Forms.CheckBox();
       this.panSheet = new System.Windows.Forms.Panel();
+      this.panItems = new System.Windows.Forms.Panel();
+      this.panDefinition = new System.Windows.Forms.Panel();
+      this.txtDefinition = new System.Windows.Forms.RichTextBox();
+      this.lblDefinition = new System.Windows.Forms.Label();
+      this.splDefinition = new System.Windows.Forms.Splitter();
+      this.panTerms = new System.Windows.Forms.Panel();
+      this.lstTermList = new System.Windows.Forms.ListBox();
+      this.splTerms = new System.Windows.Forms.Splitter();
+      this.txtTerm = new System.Windows.Forms.TextBox();
+      this.lblTermList = new System.Windows.Forms.Label();
       this.panTermsModify = new System.Windows.Forms.Panel();
       this.chkReadOnly = new System.Windows.Forms.CheckBox();
       this.btnDelete = new System.Windows.Forms.Button();
@@ -153,14 +167,13 @@ namespace Uberware.Study
       this.panAddDefinition = new System.Windows.Forms.Panel();
       this.txtDefinitionAdd = new System.Windows.Forms.RichTextBox();
       this.lblDefinitionAdd = new System.Windows.Forms.Label();
-      this.panAddTermFooter = new System.Windows.Forms.Panel();
-      this.btnAddTerm = new System.Windows.Forms.Button();
       this.splAddSep = new System.Windows.Forms.Splitter();
       this.panAddTerm = new System.Windows.Forms.Panel();
-      this.panAddTermTextBox = new System.Windows.Forms.Panel();
-      this.chkMultiTerm = new System.Windows.Forms.CheckBox();
       this.txtTermsAdd = new System.Windows.Forms.TextBox();
       this.lblTermsAdd = new System.Windows.Forms.Label();
+      this.panAddTermFooter = new System.Windows.Forms.Panel();
+      this.chkMultiTerm = new System.Windows.Forms.CheckBox();
+      this.btnAddTerm = new System.Windows.Forms.Button();
       this.btnExit = new System.Windows.Forms.Button();
       this.btnTest = new System.Windows.Forms.Button();
       this.menuMain = new System.Windows.Forms.MainMenu();
@@ -177,9 +190,12 @@ namespace Uberware.Study
       this.menuViewSource = new System.Windows.Forms.MenuItem();
       this.menuViewDesigner = new System.Windows.Forms.MenuItem();
       this.menuTools = new System.Windows.Forms.MenuItem();
-      this.menuEditorPreferences = new System.Windows.Forms.MenuItem();
+      this.menuToolsTest = new System.Windows.Forms.MenuItem();
+      this.menuToolsLine01 = new System.Windows.Forms.MenuItem();
+      this.menuToolsPreferences = new System.Windows.Forms.MenuItem();
       this.menuDesigner = new System.Windows.Forms.MenuItem();
-      this.menuDesignerAddTerm = new System.Windows.Forms.MenuItem();
+      this.menuDesignerAddItem = new System.Windows.Forms.MenuItem();
+      this.menuDesignerEditDefinition = new System.Windows.Forms.MenuItem();
       this.menuHelp = new System.Windows.Forms.MenuItem();
       this.menuHelpAbout = new System.Windows.Forms.MenuItem();
       this.btnPlayer = new System.Windows.Forms.Button();
@@ -193,32 +209,23 @@ namespace Uberware.Study
       this.btnMenu = new System.Windows.Forms.Button();
       this.menuMenu = new System.Windows.Forms.ContextMenu();
       this.menuMenuExit = new System.Windows.Forms.MenuItem();
-      this.panItems = new System.Windows.Forms.Panel();
-      this.panDefinition = new System.Windows.Forms.Panel();
-      this.txtDefinition = new System.Windows.Forms.RichTextBox();
-      this.lblDefinition = new System.Windows.Forms.Label();
-      this.splDefinition = new System.Windows.Forms.Splitter();
-      this.panTerms = new System.Windows.Forms.Panel();
-      this.lstTermList = new System.Windows.Forms.ListBox();
-      this.splTerms = new System.Windows.Forms.Splitter();
-      this.txtMultiTerm = new System.Windows.Forms.TextBox();
-      this.lblTermList = new System.Windows.Forms.Label();
+      this.menuFileLine03 = new System.Windows.Forms.MenuItem();
+      this.menuFilePlayer = new System.Windows.Forms.MenuItem();
       this.grpInfo.SuspendLayout();
       this.panSheet.SuspendLayout();
+      this.panItems.SuspendLayout();
+      this.panDefinition.SuspendLayout();
+      this.panTerms.SuspendLayout();
       this.panTermsModify.SuspendLayout();
       this.panAdd.SuspendLayout();
       this.grpAdd.SuspendLayout();
       this.panAddItem.SuspendLayout();
       this.panAddDefinition.SuspendLayout();
-      this.panAddTermFooter.SuspendLayout();
       this.panAddTerm.SuspendLayout();
-      this.panAddTermTextBox.SuspendLayout();
+      this.panAddTermFooter.SuspendLayout();
       this.panInfo.SuspendLayout();
       this.panDesigner.SuspendLayout();
       this.panSource.SuspendLayout();
-      this.panItems.SuspendLayout();
-      this.panDefinition.SuspendLayout();
-      this.panTerms.SuspendLayout();
       this.SuspendLayout();
       // 
       // txtTitle
@@ -343,8 +350,126 @@ namespace Uberware.Study
       this.panSheet.DockPadding.All = 8;
       this.panSheet.Location = new System.Drawing.Point(0, 148);
       this.panSheet.Name = "panSheet";
-      this.panSheet.Size = new System.Drawing.Size(480, 288);
+      this.panSheet.Size = new System.Drawing.Size(480, 292);
       this.panSheet.TabIndex = 2;
+      // 
+      // panItems
+      // 
+      this.panItems.Controls.AddRange(new System.Windows.Forms.Control[] {
+                                                                           this.panDefinition,
+                                                                           this.splDefinition,
+                                                                           this.panTerms});
+      this.panItems.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.panItems.Location = new System.Drawing.Point(8, 8);
+      this.panItems.Name = "panItems";
+      this.panItems.Size = new System.Drawing.Size(462, 134);
+      this.panItems.TabIndex = 0;
+      // 
+      // panDefinition
+      // 
+      this.panDefinition.Controls.AddRange(new System.Windows.Forms.Control[] {
+                                                                                this.txtDefinition,
+                                                                                this.lblDefinition});
+      this.panDefinition.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.panDefinition.DockPadding.Bottom = 8;
+      this.panDefinition.Location = new System.Drawing.Point(236, 0);
+      this.panDefinition.Name = "panDefinition";
+      this.panDefinition.Size = new System.Drawing.Size(226, 134);
+      this.panDefinition.TabIndex = 2;
+      // 
+      // txtDefinition
+      // 
+      this.txtDefinition.BackColor = System.Drawing.SystemColors.Control;
+      this.txtDefinition.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.txtDefinition.Location = new System.Drawing.Point(0, 16);
+      this.txtDefinition.Name = "txtDefinition";
+      this.txtDefinition.ReadOnly = true;
+      this.txtDefinition.Size = new System.Drawing.Size(226, 110);
+      this.txtDefinition.TabIndex = 1;
+      this.txtDefinition.Text = "";
+      this.txtDefinition.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDefinition_KeyDown);
+      this.txtDefinition.Leave += new System.EventHandler(this.txtDefinition_Leave);
+      this.txtDefinition.Enter += new System.EventHandler(this.txtDefinition_Enter);
+      // 
+      // lblDefinition
+      // 
+      this.lblDefinition.Dock = System.Windows.Forms.DockStyle.Top;
+      this.lblDefinition.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+      this.lblDefinition.Name = "lblDefinition";
+      this.lblDefinition.Size = new System.Drawing.Size(226, 16);
+      this.lblDefinition.TabIndex = 0;
+      this.lblDefinition.Text = "Definitions:";
+      // 
+      // splDefinition
+      // 
+      this.splDefinition.Location = new System.Drawing.Point(228, 0);
+      this.splDefinition.MinExtra = 75;
+      this.splDefinition.MinSize = 75;
+      this.splDefinition.Name = "splDefinition";
+      this.splDefinition.Size = new System.Drawing.Size(8, 134);
+      this.splDefinition.TabIndex = 1;
+      this.splDefinition.TabStop = false;
+      this.splDefinition.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splDefinition_SplitterMoved);
+      // 
+      // panTerms
+      // 
+      this.panTerms.Controls.AddRange(new System.Windows.Forms.Control[] {
+                                                                           this.lstTermList,
+                                                                           this.splTerms,
+                                                                           this.txtTerm,
+                                                                           this.lblTermList});
+      this.panTerms.Dock = System.Windows.Forms.DockStyle.Left;
+      this.panTerms.DockPadding.Bottom = 8;
+      this.panTerms.Name = "panTerms";
+      this.panTerms.Size = new System.Drawing.Size(228, 134);
+      this.panTerms.TabIndex = 0;
+      // 
+      // lstTermList
+      // 
+      this.lstTermList.BackColor = System.Drawing.SystemColors.Control;
+      this.lstTermList.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.lstTermList.IntegralHeight = false;
+      this.lstTermList.Location = new System.Drawing.Point(0, 16);
+      this.lstTermList.Name = "lstTermList";
+      this.lstTermList.Size = new System.Drawing.Size(228, 82);
+      this.lstTermList.TabIndex = 2;
+      this.lstTermList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lstTermList_KeyDown);
+      this.lstTermList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lstTermList_MouseDown);
+      this.lstTermList.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lstTermList_MouseMove);
+      this.lstTermList.SelectedIndexChanged += new System.EventHandler(this.lstTermList_SelectedIndexChanged);
+      // 
+      // splTerms
+      // 
+      this.splTerms.Dock = System.Windows.Forms.DockStyle.Bottom;
+      this.splTerms.Location = new System.Drawing.Point(0, 98);
+      this.splTerms.Name = "splTerms";
+      this.splTerms.Size = new System.Drawing.Size(228, 8);
+      this.splTerms.TabIndex = 1;
+      this.splTerms.TabStop = false;
+      this.splTerms.Visible = false;
+      // 
+      // txtTerm
+      // 
+      this.txtTerm.Dock = System.Windows.Forms.DockStyle.Bottom;
+      this.txtTerm.Location = new System.Drawing.Point(0, 106);
+      this.txtTerm.Name = "txtTerm";
+      this.txtTerm.ReadOnly = true;
+      this.txtTerm.Size = new System.Drawing.Size(228, 20);
+      this.txtTerm.TabIndex = 3;
+      this.txtTerm.Text = "";
+      this.txtTerm.Visible = false;
+      this.txtTerm.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtTerm_KeyDown);
+      this.txtTerm.Leave += new System.EventHandler(this.txtTerm_Leave);
+      this.txtTerm.Enter += new System.EventHandler(this.txtTerm_Enter);
+      // 
+      // lblTermList
+      // 
+      this.lblTermList.Dock = System.Windows.Forms.DockStyle.Top;
+      this.lblTermList.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+      this.lblTermList.Name = "lblTermList";
+      this.lblTermList.Size = new System.Drawing.Size(228, 16);
+      this.lblTermList.TabIndex = 0;
+      this.lblTermList.Text = "Terms:";
       // 
       // panTermsModify
       // 
@@ -352,7 +477,7 @@ namespace Uberware.Study
                                                                                  this.chkReadOnly,
                                                                                  this.btnDelete});
       this.panTermsModify.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.panTermsModify.Location = new System.Drawing.Point(8, 138);
+      this.panTermsModify.Location = new System.Drawing.Point(8, 142);
       this.panTermsModify.Name = "panTermsModify";
       this.panTermsModify.Size = new System.Drawing.Size(462, 28);
       this.panTermsModify.TabIndex = 1;
@@ -363,23 +488,24 @@ namespace Uberware.Study
       this.chkReadOnly.Location = new System.Drawing.Point(80, 0);
       this.chkReadOnly.Name = "chkReadOnly";
       this.chkReadOnly.Size = new System.Drawing.Size(80, 28);
-      this.chkReadOnly.TabIndex = 0;
+      this.chkReadOnly.TabIndex = 1;
       this.chkReadOnly.Text = "Read-&only";
       this.chkReadOnly.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+      this.chkReadOnly.EnabledChanged += new System.EventHandler(this.chkReadOnly_EnabledChanged);
       this.chkReadOnly.CheckedChanged += new System.EventHandler(this.chkReadOnly_CheckedChanged);
       // 
       // btnDelete
       // 
       this.btnDelete.Name = "btnDelete";
       this.btnDelete.Size = new System.Drawing.Size(72, 28);
-      this.btnDelete.TabIndex = 1;
+      this.btnDelete.TabIndex = 0;
       this.btnDelete.Text = "De&lete";
       this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
       // 
       // splAdd
       // 
       this.splAdd.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.splAdd.Location = new System.Drawing.Point(8, 166);
+      this.splAdd.Location = new System.Drawing.Point(8, 170);
       this.splAdd.Name = "splAdd";
       this.splAdd.Size = new System.Drawing.Size(462, 12);
       this.splAdd.TabIndex = 2;
@@ -391,7 +517,7 @@ namespace Uberware.Study
                                                                          this.chkAdd,
                                                                          this.grpAdd});
       this.panAdd.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.panAdd.Location = new System.Drawing.Point(8, 178);
+      this.panAdd.Location = new System.Drawing.Point(8, 182);
       this.panAdd.Name = "panAdd";
       this.panAdd.Size = new System.Drawing.Size(462, 100);
       this.panAdd.TabIndex = 3;
@@ -425,9 +551,9 @@ namespace Uberware.Study
       // 
       this.panAddItem.Controls.AddRange(new System.Windows.Forms.Control[] {
                                                                              this.panAddDefinition,
-                                                                             this.panAddTermFooter,
                                                                              this.splAddSep,
-                                                                             this.panAddTerm});
+                                                                             this.panAddTerm,
+                                                                             this.panAddTermFooter});
       this.panAddItem.Dock = System.Windows.Forms.DockStyle.Fill;
       this.panAddItem.Location = new System.Drawing.Point(3, 16);
       this.panAddItem.Name = "panAddItem";
@@ -457,7 +583,9 @@ namespace Uberware.Study
       this.txtDefinitionAdd.Size = new System.Drawing.Size(216, 20);
       this.txtDefinitionAdd.TabIndex = 1;
       this.txtDefinitionAdd.Text = "";
+      this.txtDefinitionAdd.Leave += new System.EventHandler(this.txtDefinitionAdd_Leave);
       this.txtDefinitionAdd.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.LinkClicked);
+      this.txtDefinitionAdd.Enter += new System.EventHandler(this.txtDefinitionAdd_Enter);
       // 
       // lblDefinitionAdd
       // 
@@ -469,33 +597,13 @@ namespace Uberware.Study
       this.lblDefinitionAdd.TabIndex = 0;
       this.lblDefinitionAdd.Text = "Definition:";
       // 
-      // panAddTermFooter
-      // 
-      this.panAddTermFooter.Controls.AddRange(new System.Windows.Forms.Control[] {
-                                                                                   this.btnAddTerm});
-      this.panAddTermFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.panAddTermFooter.Location = new System.Drawing.Point(232, 52);
-      this.panAddTermFooter.Name = "panAddTermFooter";
-      this.panAddTermFooter.Size = new System.Drawing.Size(224, 29);
-      this.panAddTermFooter.TabIndex = 3;
-      // 
-      // btnAddTerm
-      // 
-      this.btnAddTerm.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
-      this.btnAddTerm.Location = new System.Drawing.Point(164, 0);
-      this.btnAddTerm.Name = "btnAddTerm";
-      this.btnAddTerm.Size = new System.Drawing.Size(52, 24);
-      this.btnAddTerm.TabIndex = 0;
-      this.btnAddTerm.Text = "&Add";
-      this.btnAddTerm.Click += new System.EventHandler(this.btnAddTerm_Click);
-      // 
       // splAddSep
       // 
       this.splAddSep.Location = new System.Drawing.Point(224, 0);
       this.splAddSep.MinExtra = 75;
       this.splAddSep.MinSize = 75;
       this.splAddSep.Name = "splAddSep";
-      this.splAddSep.Size = new System.Drawing.Size(8, 81);
+      this.splAddSep.Size = new System.Drawing.Size(8, 52);
       this.splAddSep.TabIndex = 1;
       this.splAddSep.TabStop = false;
       this.splAddSep.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splAddSep_SplitterMoved);
@@ -503,50 +611,26 @@ namespace Uberware.Study
       // panAddTerm
       // 
       this.panAddTerm.Controls.AddRange(new System.Windows.Forms.Control[] {
-                                                                             this.panAddTermTextBox,
+                                                                             this.txtTermsAdd,
                                                                              this.lblTermsAdd});
       this.panAddTerm.Dock = System.Windows.Forms.DockStyle.Left;
       this.panAddTerm.DockPadding.Bottom = 8;
       this.panAddTerm.DockPadding.Left = 8;
       this.panAddTerm.DockPadding.Top = 8;
       this.panAddTerm.Name = "panAddTerm";
-      this.panAddTerm.Size = new System.Drawing.Size(224, 81);
+      this.panAddTerm.Size = new System.Drawing.Size(224, 52);
       this.panAddTerm.TabIndex = 0;
-      // 
-      // panAddTermTextBox
-      // 
-      this.panAddTermTextBox.Controls.AddRange(new System.Windows.Forms.Control[] {
-                                                                                    this.chkMultiTerm,
-                                                                                    this.txtTermsAdd});
-      this.panAddTermTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.panAddTermTextBox.Location = new System.Drawing.Point(8, 24);
-      this.panAddTermTextBox.Name = "panAddTermTextBox";
-      this.panAddTermTextBox.Size = new System.Drawing.Size(216, 49);
-      this.panAddTermTextBox.TabIndex = 0;
-      this.panAddTermTextBox.SizeChanged += new System.EventHandler(this.panAddTermTextBox_SizeChanged);
-      // 
-      // chkMultiTerm
-      // 
-      this.chkMultiTerm.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-        | System.Windows.Forms.AnchorStyles.Right);
-      this.chkMultiTerm.Location = new System.Drawing.Point(0, 24);
-      this.chkMultiTerm.Name = "chkMultiTerm";
-      this.chkMultiTerm.Size = new System.Drawing.Size(216, 28);
-      this.chkMultiTerm.TabIndex = 2;
-      this.chkMultiTerm.Text = "Multiple Te&rms";
-      this.chkMultiTerm.CheckedChanged += new System.EventHandler(this.chkMultiTerm_CheckedChanged);
       // 
       // txtTermsAdd
       // 
-      this.txtTermsAdd.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-        | System.Windows.Forms.AnchorStyles.Right);
       this.txtTermsAdd.BackColor = System.Drawing.SystemColors.Control;
+      this.txtTermsAdd.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.txtTermsAdd.Location = new System.Drawing.Point(8, 24);
       this.txtTermsAdd.Name = "txtTermsAdd";
       this.txtTermsAdd.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
       this.txtTermsAdd.Size = new System.Drawing.Size(216, 20);
       this.txtTermsAdd.TabIndex = 1;
       this.txtTermsAdd.Text = "";
-      this.txtTermsAdd.MultilineChanged += new System.EventHandler(this.txtTermsAdd_MultilineChanged);
       this.txtTermsAdd.Leave += new System.EventHandler(this.txtTermsAdd_Leave);
       this.txtTermsAdd.Enter += new System.EventHandler(this.txtTermsAdd_Enter);
       // 
@@ -559,6 +643,36 @@ namespace Uberware.Study
       this.lblTermsAdd.Size = new System.Drawing.Size(216, 16);
       this.lblTermsAdd.TabIndex = 0;
       this.lblTermsAdd.Text = "Term:";
+      // 
+      // panAddTermFooter
+      // 
+      this.panAddTermFooter.Controls.AddRange(new System.Windows.Forms.Control[] {
+                                                                                   this.chkMultiTerm,
+                                                                                   this.btnAddTerm});
+      this.panAddTermFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
+      this.panAddTermFooter.Location = new System.Drawing.Point(0, 52);
+      this.panAddTermFooter.Name = "panAddTermFooter";
+      this.panAddTermFooter.Size = new System.Drawing.Size(456, 29);
+      this.panAddTermFooter.TabIndex = 3;
+      // 
+      // chkMultiTerm
+      // 
+      this.chkMultiTerm.Location = new System.Drawing.Point(8, 0);
+      this.chkMultiTerm.Name = "chkMultiTerm";
+      this.chkMultiTerm.Size = new System.Drawing.Size(180, 16);
+      this.chkMultiTerm.TabIndex = 3;
+      this.chkMultiTerm.Text = "Multiple Te&rms";
+      this.chkMultiTerm.CheckedChanged += new System.EventHandler(this.chkMultiTerm_CheckedChanged);
+      // 
+      // btnAddTerm
+      // 
+      this.btnAddTerm.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
+      this.btnAddTerm.Location = new System.Drawing.Point(396, 0);
+      this.btnAddTerm.Name = "btnAddTerm";
+      this.btnAddTerm.Size = new System.Drawing.Size(52, 24);
+      this.btnAddTerm.TabIndex = 0;
+      this.btnAddTerm.Text = "&Add";
+      this.btnAddTerm.Click += new System.EventHandler(this.btnAddTerm_Click);
       // 
       // btnExit
       // 
@@ -600,6 +714,8 @@ namespace Uberware.Study
                                                                              this.menuFileSave,
                                                                              this.menuFileSaveAs,
                                                                              this.menuFileLine02,
+                                                                             this.menuFilePlayer,
+                                                                             this.menuFileLine03,
                                                                              this.menuFileExit});
       this.menuFile.Text = "&File";
       // 
@@ -648,7 +764,7 @@ namespace Uberware.Study
       // 
       // menuFileExit
       // 
-      this.menuFileExit.Index = 7;
+      this.menuFileExit.Index = 9;
       this.menuFileExit.Text = "E&xit";
       this.menuFileExit.Click += new System.EventHandler(this.menuFileExit_Click);
       // 
@@ -678,28 +794,49 @@ namespace Uberware.Study
       // 
       this.menuTools.Index = 2;
       this.menuTools.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-                                                                              this.menuEditorPreferences});
+                                                                              this.menuToolsTest,
+                                                                              this.menuToolsLine01,
+                                                                              this.menuToolsPreferences});
       this.menuTools.Text = "&Tools";
       // 
-      // menuEditorPreferences
+      // menuToolsTest
       // 
-      this.menuEditorPreferences.Index = 0;
-      this.menuEditorPreferences.Text = "&Preferences...";
-      this.menuEditorPreferences.Click += new System.EventHandler(this.menuEditorPreferences_Click);
+      this.menuToolsTest.Index = 0;
+      this.menuToolsTest.Text = "&Test Sheet...";
+      this.menuToolsTest.Click += new System.EventHandler(this.menuToolsTest_Click);
+      // 
+      // menuToolsLine01
+      // 
+      this.menuToolsLine01.Index = 1;
+      this.menuToolsLine01.Text = "-";
+      // 
+      // menuToolsPreferences
+      // 
+      this.menuToolsPreferences.Index = 2;
+      this.menuToolsPreferences.Text = "&Preferences...";
+      this.menuToolsPreferences.Click += new System.EventHandler(this.menuEditorPreferences_Click);
       // 
       // menuDesigner
       // 
       this.menuDesigner.Index = 3;
       this.menuDesigner.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-                                                                                 this.menuDesignerAddTerm});
+                                                                                 this.menuDesignerAddItem,
+                                                                                 this.menuDesignerEditDefinition});
       this.menuDesigner.Text = "&Designer";
       // 
-      // menuDesignerAddTerm
+      // menuDesignerAddItem
       // 
-      this.menuDesignerAddTerm.Index = 0;
-      this.menuDesignerAddTerm.Shortcut = System.Windows.Forms.Shortcut.CtrlD;
-      this.menuDesignerAddTerm.Text = "A&dd Term";
-      this.menuDesignerAddTerm.Click += new System.EventHandler(this.menuDesignerAddTerm_Click);
+      this.menuDesignerAddItem.Index = 0;
+      this.menuDesignerAddItem.Shortcut = System.Windows.Forms.Shortcut.CtrlD;
+      this.menuDesignerAddItem.Text = "A&dd Item";
+      this.menuDesignerAddItem.Click += new System.EventHandler(this.menuDesignerAddItem_Click);
+      // 
+      // menuDesignerEditDefinition
+      // 
+      this.menuDesignerEditDefinition.Index = 1;
+      this.menuDesignerEditDefinition.Shortcut = System.Windows.Forms.Shortcut.CtrlT;
+      this.menuDesignerEditDefinition.Text = "Edi&t Definition";
+      this.menuDesignerEditDefinition.Click += new System.EventHandler(this.menuDesignerEditDefinition_Click);
       // 
       // menuHelp
       // 
@@ -745,9 +882,9 @@ namespace Uberware.Study
                                                                               this.panInfo,
                                                                               this.txtTitle,
                                                                               this.panSheet});
-      this.panDesigner.Location = new System.Drawing.Point(8, 8);
+      this.panDesigner.Location = new System.Drawing.Point(8, 4);
       this.panDesigner.Name = "panDesigner";
-      this.panDesigner.Size = new System.Drawing.Size(480, 436);
+      this.panDesigner.Size = new System.Drawing.Size(480, 440);
       this.panDesigner.TabIndex = 0;
       // 
       // panSource
@@ -758,15 +895,15 @@ namespace Uberware.Study
       this.panSource.Controls.AddRange(new System.Windows.Forms.Control[] {
                                                                             this.btnNormalize,
                                                                             this.txtSource});
-      this.panSource.Location = new System.Drawing.Point(8, 8);
+      this.panSource.Location = new System.Drawing.Point(8, 4);
       this.panSource.Name = "panSource";
-      this.panSource.Size = new System.Drawing.Size(480, 436);
+      this.panSource.Size = new System.Drawing.Size(480, 440);
       this.panSource.TabIndex = 1;
       // 
       // btnNormalize
       // 
       this.btnNormalize.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
-      this.btnNormalize.Location = new System.Drawing.Point(388, 404);
+      this.btnNormalize.Location = new System.Drawing.Point(388, 408);
       this.btnNormalize.Name = "btnNormalize";
       this.btnNormalize.Size = new System.Drawing.Size(92, 32);
       this.btnNormalize.TabIndex = 0;
@@ -779,12 +916,13 @@ namespace Uberware.Study
         | System.Windows.Forms.AnchorStyles.Left) 
         | System.Windows.Forms.AnchorStyles.Right);
       this.txtSource.BackColor = System.Drawing.SystemColors.Control;
+      this.txtSource.DetectUrls = false;
       this.txtSource.Name = "txtSource";
-      this.txtSource.Size = new System.Drawing.Size(480, 396);
+      this.txtSource.Size = new System.Drawing.Size(480, 400);
       this.txtSource.TabIndex = 1;
       this.txtSource.Text = "";
+      this.txtSource.WordWrap = false;
       this.txtSource.TextChanged += new System.EventHandler(this.txtSource_TextChanged);
-      this.txtSource.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.LinkClicked);
       // 
       // btnMenu
       // 
@@ -808,118 +946,16 @@ namespace Uberware.Study
       this.menuMenuExit.Text = "E&xit";
       this.menuMenuExit.Click += new System.EventHandler(this.menuMenuExit_Click);
       // 
-      // panItems
+      // menuFileLine03
       // 
-      this.panItems.Controls.AddRange(new System.Windows.Forms.Control[] {
-                                                                           this.panDefinition,
-                                                                           this.splDefinition,
-                                                                           this.panTerms});
-      this.panItems.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.panItems.Location = new System.Drawing.Point(8, 8);
-      this.panItems.Name = "panItems";
-      this.panItems.Size = new System.Drawing.Size(462, 130);
-      this.panItems.TabIndex = 0;
+      this.menuFileLine03.Index = 8;
+      this.menuFileLine03.Text = "-";
       // 
-      // panDefinition
+      // menuFilePlayer
       // 
-      this.panDefinition.Controls.AddRange(new System.Windows.Forms.Control[] {
-                                                                                this.txtDefinition,
-                                                                                this.lblDefinition});
-      this.panDefinition.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.panDefinition.DockPadding.Bottom = 8;
-      this.panDefinition.Location = new System.Drawing.Point(236, 0);
-      this.panDefinition.Name = "panDefinition";
-      this.panDefinition.Size = new System.Drawing.Size(226, 130);
-      this.panDefinition.TabIndex = 2;
-      // 
-      // txtDefinition
-      // 
-      this.txtDefinition.BackColor = System.Drawing.SystemColors.Control;
-      this.txtDefinition.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.txtDefinition.Location = new System.Drawing.Point(0, 16);
-      this.txtDefinition.Name = "txtDefinition";
-      this.txtDefinition.ReadOnly = true;
-      this.txtDefinition.Size = new System.Drawing.Size(226, 106);
-      this.txtDefinition.TabIndex = 1;
-      this.txtDefinition.Text = "";
-      // 
-      // lblDefinition
-      // 
-      this.lblDefinition.Dock = System.Windows.Forms.DockStyle.Top;
-      this.lblDefinition.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-      this.lblDefinition.Name = "lblDefinition";
-      this.lblDefinition.Size = new System.Drawing.Size(226, 16);
-      this.lblDefinition.TabIndex = 0;
-      this.lblDefinition.Text = "Definitions:";
-      // 
-      // splDefinition
-      // 
-      this.splDefinition.Location = new System.Drawing.Point(228, 0);
-      this.splDefinition.MinExtra = 75;
-      this.splDefinition.MinSize = 75;
-      this.splDefinition.Name = "splDefinition";
-      this.splDefinition.Size = new System.Drawing.Size(8, 130);
-      this.splDefinition.TabIndex = 1;
-      this.splDefinition.TabStop = false;
-      this.splDefinition.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splDefinition_SplitterMoved);
-      // 
-      // panTerms
-      // 
-      this.panTerms.Controls.AddRange(new System.Windows.Forms.Control[] {
-                                                                           this.lstTermList,
-                                                                           this.splTerms,
-                                                                           this.txtMultiTerm,
-                                                                           this.lblTermList});
-      this.panTerms.Dock = System.Windows.Forms.DockStyle.Left;
-      this.panTerms.DockPadding.Bottom = 8;
-      this.panTerms.Name = "panTerms";
-      this.panTerms.Size = new System.Drawing.Size(228, 130);
-      this.panTerms.TabIndex = 0;
-      // 
-      // lstTermList
-      // 
-      this.lstTermList.BackColor = System.Drawing.SystemColors.Control;
-      this.lstTermList.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.lstTermList.IntegralHeight = false;
-      this.lstTermList.Location = new System.Drawing.Point(0, 16);
-      this.lstTermList.Name = "lstTermList";
-      this.lstTermList.Size = new System.Drawing.Size(228, 78);
-      this.lstTermList.TabIndex = 2;
-      this.lstTermList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lstTermList_MouseDown);
-      this.lstTermList.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.lstTermList_KeyPress);
-      this.lstTermList.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lstTermList_MouseMove);
-      this.lstTermList.SelectedIndexChanged += new System.EventHandler(this.lstTermList_SelectedIndexChanged);
-      // 
-      // splTerms
-      // 
-      this.splTerms.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.splTerms.Location = new System.Drawing.Point(0, 94);
-      this.splTerms.Name = "splTerms";
-      this.splTerms.Size = new System.Drawing.Size(228, 8);
-      this.splTerms.TabIndex = 1;
-      this.splTerms.TabStop = false;
-      this.splTerms.Visible = false;
-      // 
-      // txtMultiTerm
-      // 
-      this.txtMultiTerm.BackColor = System.Drawing.SystemColors.Control;
-      this.txtMultiTerm.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.txtMultiTerm.Location = new System.Drawing.Point(0, 102);
-      this.txtMultiTerm.Name = "txtMultiTerm";
-      this.txtMultiTerm.ReadOnly = true;
-      this.txtMultiTerm.Size = new System.Drawing.Size(228, 20);
-      this.txtMultiTerm.TabIndex = 3;
-      this.txtMultiTerm.Text = "";
-      this.txtMultiTerm.Visible = false;
-      // 
-      // lblTermList
-      // 
-      this.lblTermList.Dock = System.Windows.Forms.DockStyle.Top;
-      this.lblTermList.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-      this.lblTermList.Name = "lblTermList";
-      this.lblTermList.Size = new System.Drawing.Size(228, 16);
-      this.lblTermList.TabIndex = 0;
-      this.lblTermList.Text = "Terms:";
+      this.menuFilePlayer.Index = 7;
+      this.menuFilePlayer.Text = "&Player...";
+      this.menuFilePlayer.Click += new System.EventHandler(this.menuFilePlayer_Click);
       // 
       // frmMain
       // 
@@ -945,20 +981,19 @@ namespace Uberware.Study
       this.Activated += new System.EventHandler(this.frmMain_Activated);
       this.grpInfo.ResumeLayout(false);
       this.panSheet.ResumeLayout(false);
+      this.panItems.ResumeLayout(false);
+      this.panDefinition.ResumeLayout(false);
+      this.panTerms.ResumeLayout(false);
       this.panTermsModify.ResumeLayout(false);
       this.panAdd.ResumeLayout(false);
       this.grpAdd.ResumeLayout(false);
       this.panAddItem.ResumeLayout(false);
       this.panAddDefinition.ResumeLayout(false);
-      this.panAddTermFooter.ResumeLayout(false);
       this.panAddTerm.ResumeLayout(false);
-      this.panAddTermTextBox.ResumeLayout(false);
+      this.panAddTermFooter.ResumeLayout(false);
       this.panInfo.ResumeLayout(false);
       this.panDesigner.ResumeLayout(false);
       this.panSource.ResumeLayout(false);
-      this.panItems.ResumeLayout(false);
-      this.panDefinition.ResumeLayout(false);
-      this.panTerms.ResumeLayout(false);
       this.ResumeLayout(false);
 
     }
@@ -976,16 +1011,42 @@ namespace Uberware.Study
     [STAThread]
     static void Main (string [] args)
     {
+      bool bSourceCode = false;
+      bool bNewSheet = false;
       frmMain form = new frmMain();
       
       // !!!!! Load settings
       
-      // Load sheet
-      if (args.Length > 0)
+      // Parse command line
+      foreach (string arg in args)
       {
-        if (args[0] == ".") form.DoNew();
-        else form.DoOpen(args[0]);
+        if (arg.Length == 0) continue;
+        
+        if (arg[0] == '-')
+        {
+          // Get options
+          switch (arg)
+          {
+            case "-c": bSourceCode = true; break;
+            case "-n": bNewSheet = true; break;
+          }
+        }
+        else
+        {
+          // Failsafe
+          bNewSheet = false;
+          
+          // Load sheet
+          form.DoOpen(arg);
+          break;
+        }
       }
+      
+      // Do options
+      if (bSourceCode)
+        form.DoShowMode(false);
+      if (bNewSheet)
+        form.DoNew();
       
       // Run app
       Application.Run(form);
@@ -999,18 +1060,21 @@ namespace Uberware.Study
       // Populate context menu
       menuMenu.MenuItems.RemoveAt(0);       // Remove 'Exit' menu item
       menuMenu.MergeMenu(menuFile);         // Append 'File' menu items
-      menuMenu.MenuItems.RemoveAt(7);       // Remove 'File' menu's exit
+      menuMenu.MenuItems.RemoveAt(9);       // Remove 'File' menu's exit
+      menuMenu.MenuItems.RemoveAt(8);       // Remove separator
       menuMenu.MergeMenu(menuTools);        // Append 'Editor' menu items
-      menuMenu.MergeMenu(menuHelp);        // Append 'About' menu items
+      menuMenu.MergeMenu(menuHelp);         // Append 'About' menu items
       menuMenu.MenuItems.Add("-");          // Add a separator menu item
       menuMenu.MenuItems.Add(menuMenuExit); // Add the 'Exit' menu item
       
       // Close all checks via the CheckedChanged functions
       chkInfo.Checked = false;
       chkAdd.Checked = false;
+      chkReadOnly.Checked = false;
+      
       
       // Adjust min/max sizes
-      splAdd.MinSize = (chkMultiTerm.Height + lblTermsAdd.Height + txtAuthor.Height + chkMultiTerm.Height) + 8;
+      splAdd.MinSize = ((chkAdd.Height + lblTermsAdd.Height + txtAuthor.Height + panAddTermFooter.Height) + 18) + 1;
       splAdd.MinExtra = (lblTermList.Height + txtAuthor.Height + splTerms.Height + txtAuthor.Height + panTermsModify.Height) + 16;
       
       // Show designer mode
@@ -1023,7 +1087,11 @@ namespace Uberware.Study
       {
         if (m_DesignMode)
         {
-          if (m_Sheet.Title == "")
+          if ((lstTermList.SelectedIndex != -1) && (txtDefinition.Text.Trim() == ""))
+            txtDefinition.Focus();
+          else if ((lstTermList.SelectedIndex != -1) && (txtTerm.Text.Trim() == ""))
+            txtTerm.Focus();
+          else if (m_Sheet.Title == "")
             txtTitle.Focus();
           else if ((chkInfo.Checked) && (m_Sheet.Author == ""))
             txtAuthor.Focus();
@@ -1048,7 +1116,10 @@ namespace Uberware.Study
     }
     
     private void frmMain_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-    { if (!DoClose()) e.Cancel = true; }
+    {
+      // Close first
+      if (!DoClose()) e.Cancel = true;
+    }
     
     
     
@@ -1062,22 +1133,36 @@ namespace Uberware.Study
     { DoSave(); }
     private void menuFileSaveAs_Click(object sender, System.EventArgs e)
     { DoSaveAs(); }
+    private void menuFilePlayer_Click(object sender, System.EventArgs e)
+    { DoShowPlayer(); }
     private void menuViewSource_Click(object sender, System.EventArgs e)
     {
       if (!m_DesignMode) return;
-      
       DoShowSource();
       frmMain_Activated(this, new EventArgs());
     }
     private void menuViewDesigner_Click(object sender, System.EventArgs e)
     {
       if (m_DesignMode) return;
-      
       DoShowDesigner();
       frmMain_Activated(this, new EventArgs());
     }
+    private void menuToolsTest_Click(object sender, System.EventArgs e)
+    { DoTest(); }
     private void menuEditorPreferences_Click(object sender, System.EventArgs e)
     { DoPreferences(); }
+    private void menuDesignerAddItem_Click(object sender, System.EventArgs e)
+    {
+      if (m_Sheet == null) return;
+      chkAdd.Checked = true;
+      txtTermsAdd.Focus();
+    }
+    private void menuDesignerEditDefinition_Click(object sender, System.EventArgs e)
+    {
+      if (m_Sheet == null) return;
+      chkReadOnly.Checked = false;
+      txtDefinition.Focus();
+    }
     private void menuHelpAbout_Click(object sender, System.EventArgs e)
     { DoAbout(); }
     private void menuFileExit_Click(object sender, System.EventArgs e)
@@ -1085,6 +1170,9 @@ namespace Uberware.Study
     private void menuMenuExit_Click(object sender, System.EventArgs e)
     { this.Close(); }
     
+    
+    private void btnDelete_Click(object sender, System.EventArgs e)
+    { DoRemoveTerm(); }
     
     private void btnMenu_Click(object sender, System.EventArgs e)
     { menuMenu.GetContextMenu().Show(btnMenu.Parent, new Point(btnMenu.Left, btnMenu.Bottom)); }
@@ -1130,6 +1218,7 @@ namespace Uberware.Study
     {
       if (m_Sheet == null) return;  // Failsafe
       
+      // Set 'title' info
       if (txtTitle.Text == "")
       {
         m_Sheet.Title = "";
@@ -1153,7 +1242,7 @@ namespace Uberware.Study
       if (m_Sheet.Group == "")
       {
         txtGroup.SelectionStart = 0; txtGroup.SelectionLength = 0;
-        txtGroup.Text = ""; txtGroup.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
+        SetGroup(""); txtGroup.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
         return;
       }
       
@@ -1203,12 +1292,6 @@ namespace Uberware.Study
     
     
     
-    private void btnDelete_Click(object sender, System.EventArgs e)
-    {
-      // !!!!!
-    }
-    
-    
     private void chkInfo_CheckedChanged(object sender, System.EventArgs e)
     {
       // Show/hide 'Sheet Information'
@@ -1240,7 +1323,7 @@ namespace Uberware.Study
       if ((m_Sheet != null) && (chkAdd.Checked)) txtTermsAdd.Focus();
     }
     
-    private bool grpAddFocus;
+    bool grpAddFocus = false;
     private void grpAdd_Enter(object sender, System.EventArgs e)
     { grpAddFocus = true;  this.AcceptButton = btnAddTerm; }
     private void grpAdd_Leave(object sender, System.EventArgs e)
@@ -1249,18 +1332,49 @@ namespace Uberware.Study
     { if (chkMultiTerm.Checked) this.AcceptButton = null; }
     private void txtTermsAdd_Leave(object sender, System.EventArgs e)
     { this.AcceptButton = (( grpAddFocus )?( btnAddTerm ):( null )); }
+    private void txtDefinitionAdd_Enter(object sender, System.EventArgs e)
+    {
+      // !!!!! Option: Enter inserts return (otherwise, enter accepts and shift+enter inserts return)
+      this.AcceptButton = null;
+    }
+    private void txtDefinitionAdd_Leave(object sender, System.EventArgs e)
+    { this.AcceptButton = (( grpAddFocus )?( btnAddTerm ):( null )); }
     
+    
+    
+    string m_sLastTerm = "";
+    private void txtTerm_Enter(object sender, System.EventArgs e)
+    { if (m_sLastTerm == "") m_sLastTerm = txtTerm.Text; }
+    private void txtTerm_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+    { if (e.KeyCode == Keys.Escape) DoCancelSetTerm(); }
+    private void txtTerm_Leave(object sender, System.EventArgs e)
+    { if (DoSetTerm()) m_sLastTerm = ""; }
+    private void DoCancelSetTerm ()
+    { txtTerm.Text = m_sLastTerm; }
+    
+    string m_sLastDefinition = "";
+    private void txtDefinition_Enter(object sender, System.EventArgs e)
+    { if (m_sLastDefinition == "") m_sLastDefinition = txtDefinition.Rtf; }
+    private void txtDefinition_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+    { if (e.KeyCode == Keys.Escape) DoCancelSetDefinition(); }
+    private void txtDefinition_Leave(object sender, System.EventArgs e)
+    { if (DoSetDefinition()) m_sLastDefinition = ""; }
+    private void DoCancelSetDefinition ()
+    { txtDefinition.Rtf = m_sLastDefinition; }
+    
+    
+    
+    private void chkReadOnly_EnabledChanged(object sender, System.EventArgs e)
+    { chkReadOnly_CheckedChanged(sender, new EventArgs()); }
     private void chkReadOnly_CheckedChanged(object sender, System.EventArgs e)
     {
-      // !!!!!
+      lstTermList_SelectedIndexChanged(lstTermList, new EventArgs());
+      
+      bool b = ((chkReadOnly.Checked == false) && (chkReadOnly.Enabled) && (lstTermList.SelectedIndex != -1));
+      lblDefinition.Text = (( b )?( "Definitions [edit]: " ):( "Definitions:" ));
+      splTerms.Visible = b; txtTerm.Visible = b; txtTerm.ReadOnly = !b;
+      splTerms.Enabled = false;   // !!!!! Multiterm
     }
-    
-    private void lstTermList_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
-    {
-      // !!!!! shortcut keys
-    }
-    
-    
     
     private void lstTermList_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
     { if (e.Button == MouseButtons.Left) lstTermList_SelectedIndexChanged(sender, new EventArgs()); }
@@ -1272,14 +1386,27 @@ namespace Uberware.Study
       
       if (lstTermList.SelectedIndex != -1)
       {
-        txtDefinition.Text = "";  // !!!!!
+        txtTerm.Text = m_Sheet.Terms[lstTermList.SelectedIndex];
+        string s = m_Sheet.Definitions[lstTermList.SelectedIndex];
+        if (s.Substring(0, 1) == ((char)27).ToString())
+          txtDefinition.Rtf = s.Substring(1);
+        else
+          txtDefinition.Text = s;
+        if (!txtDefinition.Text.EndsWith("\n")) txtDefinition.AppendText("\n");
         txtDefinition.ReadOnly = chkReadOnly.Checked;
       }
       else
       {
+        txtTerm.Text = "";
         txtDefinition.Text = "";
         txtDefinition.ReadOnly = true;
       }
+    }
+    private void lstTermList_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+    {
+      if (m_Sheet == null) return;
+      if (lstTermList.SelectedIndex == -1) return;
+      if (e.KeyCode == Keys.Delete) btnDelete_Click(btnDelete, new EventArgs());
     }
     
     private void LinkClicked (object sender, System.Windows.Forms.LinkClickedEventArgs e)
@@ -1302,10 +1429,11 @@ namespace Uberware.Study
       DoMakeDirty();
       
       if (m_DesignMode)
-        txtTitle.Focus();
+      { txtTitle.Text = ""; txtTitle.Focus(); }
       else
         txtSource.Focus();
       
+      chkReadOnly_CheckedChanged(chkReadOnly, new EventArgs());
       return true;
     }
     
@@ -1344,6 +1472,7 @@ namespace Uberware.Study
       else
         txtSource.Focus();
       
+      chkReadOnly_CheckedChanged(chkReadOnly, new EventArgs());
       return true;
     }
     private bool DoOpen (MatchingSheet sheet)
@@ -1360,6 +1489,7 @@ namespace Uberware.Study
       else
         txtSource.Focus();
       
+      chkReadOnly_CheckedChanged(chkReadOnly, new EventArgs());
       return true;
     }
     
@@ -1367,7 +1497,10 @@ namespace Uberware.Study
     {
       if (m_Sheet == null) return true;
       
-      if (m_SheetDirty)
+      // Failsafe .. be sure all definitions are complete
+      if (!ValidateEditing()) return false;
+      
+      if (IsDirty())
       {
         DialogResult result;
         if (m_Sheet.FileName == "")
@@ -1396,7 +1529,8 @@ namespace Uberware.Study
       if (m_Sheet.FileName == "")
         if (!DoSaveAs()) return false;
       
-      DoMakeDirty(false);
+      // Failsafe .. be sure all definitions are complete
+      if (!ValidateEditing()) return false;
       
       try
       {
@@ -1411,10 +1545,11 @@ namespace Uberware.Study
       }
       catch (IOException e)
       {
-        MessageBox.Show(this, e.Message, "File Load Error");
+        MessageBox.Show(this, e.Message, "File Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         return false;
       }
       
+      DoMakeDirty(false);
       return true;
     }
     
@@ -1439,21 +1574,26 @@ namespace Uberware.Study
     private void DoShowDesigner ()
     { DoShowMode(true); }
     
-    private void DoShowMode (bool DesignerMode)
+    private void DoShowMode (bool DesignMode)
     {
-      MatchingSheet sheet = null;
+      if (DesignMode == m_DesignMode) return;
       
+      MatchingSheet sheet = null;
       if (m_Sheet != null)
       {
         if (m_DesignMode)
+        {
+          // Failsafe .. be sure all definitions are complete
+          if (!ValidateEditing()) return;
           sheet = m_Sheet;
+        }
         else
           sheet = MatchingSheet.FromString(txtSource.Text, m_Sheet.FileName);
         
         DoUpdateSheet(null);
       }
       
-      m_DesignMode = DesignerMode;
+      m_DesignMode = DesignMode;
       DoUpdateSheet(sheet);
       UpdateWindowText();
       
@@ -1466,7 +1606,7 @@ namespace Uberware.Study
     
     private bool DoPreferences ()
     {
-      // !!!!!
+      // !!!!! Preferences
       MessageBox.Show(":: Preferences ::");
       return true;
     }
@@ -1481,16 +1621,35 @@ namespace Uberware.Study
     
     private bool DoTest ()
     {
-      if (!DoSave()) return false;
-      return DoShowPlayer();
+      if (m_Sheet == null) return false;
+      
+      if (IsDirty())
+      {
+        if (MessageBox.Show(this, "Study Sheet must be saved in order to test it. Save?", "Study Guide Editor", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+        { if (!DoSave()) return false; }
+        else { return false; }
+      }
+      
+      return DoShowPlayer(new string [] { "-b", m_Sheet.FileName } );
     }
     
     private bool DoShowPlayer ()
     { return DoShowPlayer(""); }
-    private bool DoShowPlayer (string arguments)
+    private bool DoShowPlayer (string arg)
+    { return DoShowPlayer( new string [] { arg }); }
+    private bool DoShowPlayer (string [] args)
     {
+      string cmdline = "";
+      
+      // Build command line
+      foreach (string arg in args)
+      {
+        if (cmdline != "") cmdline += " ";
+        cmdline += (( arg.IndexOf(' ') == -1 )?( arg ):( '"' + arg + '"' ));
+      }
+      
       try
-      { System.Diagnostics.Process.Start(Path.Combine(Application.StartupPath, "Study Guide"), (( arguments == "" )?( "" ):('"' + arguments + '"')) ); }
+      { System.Diagnostics.Process.Start(Path.Combine(Application.StartupPath, "Study Guide"), cmdline); }
       catch (Win32Exception e)
       {
         // Failsafe
@@ -1502,31 +1661,35 @@ namespace Uberware.Study
     }
     
     
-    private void DoAddTerm ()
+    private bool DoAddTerm ()
     {
+      if (m_Sheet == null) return false;
+      
       // Failsafe
       if (txtTermsAdd.Text == "")
       {
         MessageBox.Show(this, "Could not add; required term.", "Study Guide Editor", MessageBoxButtons.OK, MessageBoxIcon.Information);
         txtTermsAdd.Focus();
-        return;
+        return false;
       }
       if (txtDefinitionAdd.Text == "")
       {
         MessageBox.Show(this, "Could not add; required definition.", "Study Guide Editor", MessageBoxButtons.OK, MessageBoxIcon.Information);
         txtDefinitionAdd.Focus();
-        return;
+        return false;
       }
       
-      DoAddTerm(txtTermsAdd.Text, txtDefinitionAdd.Text);
+      bool b = DoAddTerm(txtTermsAdd.Text, txtDefinitionAdd.Text);
       
       txtTermsAdd.Text = "";
       txtDefinitionAdd.Text = "";
       txtTermsAdd.Focus();
+      
+      return b;
     }
-    private void DoAddTerm (string term, string definition)
+    private bool DoAddTerm (string term, string definition)
     {
-      // !!!!! Add unique
+      if (m_Sheet == null) return false;
       
       string [] terms = new String [(m_Sheet.Terms.Length + 1)];
       m_Sheet.Terms.CopyTo(terms, 0);
@@ -1540,16 +1703,136 @@ namespace Uberware.Study
       
       // Add to list
       lstTermList.Items.Add(m_Sheet.Terms[(m_Sheet.Terms.Length - 1)]);
+      lstTermList.SelectedIndex = (lstTermList.Items.Count - 1);
       
       DoMakeDirty();
       DoUpdateSheetItems();
+      
+      chkReadOnly_CheckedChanged(chkReadOnly, new EventArgs());
+      return true;
+    }
+    
+    private bool DoRemoveTerm ()
+    {
+      if (m_Sheet == null) return false;
+      if (lstTermList.SelectedIndex == -1) return false;
+      
+      // !!!!! Option: prompt
+      return DoRemoveTerm(lstTermList.SelectedIndex);
+    }
+    private bool DoRemoveTerm (int index)
+    {
+      if (m_Sheet == null) return false;
+      if (index >= m_Sheet.TermCount) return false;
+      
+      // Delete term at index
+      string [] terms = new string [(m_Sheet.TermCount - 1)];
+      Array.Copy(m_Sheet.Terms, 0, terms, 0, (index));
+      Array.Copy(m_Sheet.Terms, (index+1), terms, (index), ((m_Sheet.TermCount-1) - index));
+      
+      // Delete term at index
+      string [] defs  = new string [(m_Sheet.TermCount - 1)];
+      Array.Copy(m_Sheet.Definitions, 0, defs, 0, (index));
+      Array.Copy(m_Sheet.Definitions, (index+1), defs, (index), ((m_Sheet.TermCount-1) - index));
+      
+      // Set new data
+      m_Sheet.Terms = terms;
+      m_Sheet.Definitions = defs;
+      
+      // Remove from list
+      if (m_DesignMode)
+      {
+        int n = lstTermList.SelectedIndex;
+        lstTermList.Items.RemoveAt(index);
+        if (n < lstTermList.Items.Count)
+          lstTermList.SelectedIndex = n;
+        else
+          lstTermList.SelectedIndex = (lstTermList.Items.Count - 1);
+      }
+      
+      // Update sheet info
+      DoMakeDirty();
+      DoUpdateSheetItems();
+      chkReadOnly_CheckedChanged(chkReadOnly, new EventArgs());
+      return true;
+    }
+    
+    
+    private bool ValidateEditing ()
+    {
+      if (m_Sheet == null) return true;
+      if (lstTermList.SelectedIndex == -1) return true;
+      
+      // Validate editing term and definition
+      if (!DoSetTerm()) return false;
+      if (!DoSetDefinition()) return false;
+      
+      return true;
+    }
+    private bool DoSetTerm ()
+    {
+      if (m_Sheet == null) return false;
+      if (lstTermList.SelectedIndex == -1) return false;
+      
+      // Set 'author' info
+      if (txtTerm.Text.Trim() == "")
+      {
+        if (MessageBox.Show(this, "Invalid value; term required.", "Study Guide Editor", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.Cancel)
+        { DoCancelSetTerm(); return true; }
+        txtTerm.Focus();
+        return false;
+      }
+      
+      if (m_Sheet.Terms[lstTermList.SelectedIndex] == txtTerm.Text)
+        return true;
+      
+      m_Sheet.Terms[lstTermList.SelectedIndex] = txtTerm.Text;
+      lstTermList.Items[lstTermList.SelectedIndex] = txtTerm.Text;
+      DoMakeDirty();
+      
+      lstTermList_SelectedIndexChanged(lstTermList, new EventArgs());
+      return true;
+    }
+    private bool DoSetDefinition ()
+    {
+      if (m_Sheet == null) return false;
+      if (lstTermList.SelectedIndex == -1) return false;
+      
+      // Set 'author' info
+      if (txtDefinition.Text.Trim() == "")
+      {
+        if (MessageBox.Show(this, "Invalid value; definition required.", "Study Guide Editor", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.Cancel)
+        { DoCancelSetDefinition(); return true; }
+        txtDefinition.Focus();
+        return false;
+      }
+      
+      string s = txtDefinition.Rtf;
+      txtDefinition.Text = txtDefinition.Text;
+      if (txtDefinition.Rtf == s)
+        s = txtDefinition.Text;
+      else
+      {
+        txtDefinition.Rtf = s;
+        s = ((char)27) + s;
+      }
+      while ((s.Length > 0) && (s.EndsWith("\0"))) s = s.Substring(0, (s.Length-1));
+      
+      if (MatchingSheet.TextEquals(m_Sheet.Definitions[lstTermList.SelectedIndex], s))
+        return true;
+      
+      m_Sheet.Definitions[lstTermList.SelectedIndex] = s;
+      DoMakeDirty();
+      
+      lstTermList_SelectedIndexChanged(lstTermList, new EventArgs());
+      return true;
     }
     
     
     private string GetSheetTitle ()
     {
       if (m_Sheet == null) return "";
-      return (( (txtTitle.Text == "") || (txtTitle.Text == "( untitled )") )?( "Untitled" ):( txtTitle.Text ));
+      return (( (txtTitle.Text == "") || (txtTitle.Text == "( untitled )") || (txtTitle.Text == "( nothing loaded )") )?( "Untitled" ):( txtTitle.Text ));
     }
     private string GetSheetFileTitle ()
     {
@@ -1560,6 +1843,12 @@ namespace Uberware.Study
     {
       if (m_Sheet == null) return "";
       return (( m_Sheet.FileName == "" )?( GetSheetTitle() ):( m_Sheet.FileName ));
+    }
+    
+    private bool IsDirty ()
+    {
+      if (!ValidateEditing()) return true;
+      return m_SheetDirty;
     }
     
     private void DoMakeDirty ()
@@ -1592,7 +1881,9 @@ namespace Uberware.Study
         menuFileClose.Enabled = true;
         menuFileSave.Enabled = true;
         menuFileSaveAs.Enabled = true;
-        menuDesignerAddTerm.Enabled = true;
+        menuDesignerAddItem.Enabled = true;
+        menuToolsTest.Enabled = true;
+        btnTest.Enabled = true;
         
         Color cbg = Color.FromKnownColor(KnownColor.Window);
         
@@ -1626,10 +1917,15 @@ namespace Uberware.Study
             }
             lstTermList.EndUpdate();
           }
+          if (lstTermList.Items.Count > 0)
+            lstTermList.SelectedIndex = 0;
+          else
+            lstTermList_SelectedIndexChanged(lstTermList, new EventArgs());
           lstTermList.BackColor = cbg;
-          txtDefinition.BackColor = cbg; lstTermList_SelectedIndexChanged(lstTermList, new EventArgs());
+          txtDefinition.BackColor = cbg;
           
-          chkReadOnly.Enabled = true; chkReadOnly.Checked = true;
+          chkReadOnly.Enabled = true;
+          chkReadOnly_CheckedChanged(chkReadOnly, new EventArgs());
           
           txtTermsAdd.BackColor = cbg; txtTermsAdd.ReadOnly = false;
           txtDefinitionAdd.BackColor = cbg; txtDefinitionAdd.ReadOnly = false;
@@ -1642,7 +1938,9 @@ namespace Uberware.Study
         menuFileClose.Enabled = false;
         menuFileSave.Enabled = false;
         menuFileSaveAs.Enabled = false;
-        menuDesignerAddTerm.Enabled = false;
+        menuDesignerAddItem.Enabled = false;
+        menuToolsTest.Enabled = false;
+        btnTest.Enabled = false;
         
         Color cbg = Color.FromKnownColor(KnownColor.Control);
         
@@ -1667,6 +1965,7 @@ namespace Uberware.Study
           lstTermList.Items.Clear();
           lstTermList.BackColor = cbg;
           txtDefinition.BackColor = cbg; txtDefinition.ReadOnly = true;
+          txtDefinition.Text = "";
           
           chkReadOnly.Enabled = false; chkReadOnly.Checked = false;
           
@@ -1685,8 +1984,10 @@ namespace Uberware.Study
     
     private void DoUpdateSheetItems ()
     {
-      btnDelete.Enabled = ((m_Sheet != null) && (m_Sheet.Terms.Length > 0));
-      btnTest.Enabled = btnDelete.Enabled;
+      bool b = ((m_Sheet != null) && (m_Sheet.Terms.Length > 0));
+      btnDelete.Enabled = b;
+      menuDesignerEditDefinition.Enabled = b;
+      txtTerm.ReadOnly = !b;
     }
     
     
@@ -1715,12 +2016,13 @@ namespace Uberware.Study
     
     private void UpdateWindowText ()
     {
-      this.Text = c_Title + (( m_DesignMode )?( " [Design]" ):( "" ));
+      string s = c_Title + (( m_DesignMode )?( " [Design]" ):( "" ));
       if (m_Sheet != null)
-        this.Text += (( m_Sheet.FileName == "" )?( "" ):( " - " + Path.GetFileName(m_Sheet.FileName) )) + (( m_SheetDirty )?( " *" ):( "" ));
+        s += (( m_Sheet.FileName == "" )?( "" ):( " - " + Path.GetFileName(m_Sheet.FileName) )) + (( m_SheetDirty )?( " *" ):( "" ));
+      if (this.Text != s) this.Text = s;
     }
     
-    // !!!!! Option:
+    // !!!!! Option: constraints
     private void splDefinition_SplitterMoved(object sender, System.Windows.Forms.SplitterEventArgs e)
     {
       if (this.WindowState == FormWindowState.Minimized) return;
@@ -1734,14 +2036,6 @@ namespace Uberware.Study
       if (splDefinition.SplitPosition != newPos) splDefinition.SplitPosition = newPos;
     }
     
-    private void txtTermsAdd_MultilineChanged(object sender, System.EventArgs e)
-    { panAddTermTextBox_SizeChanged(sender, new EventArgs()); }
-    
-    private void panAddTermTextBox_SizeChanged(object sender, System.EventArgs e)
-    {
-      txtTermsAdd.Height = (panAddTermTextBox.Height - (chkMultiTerm.Height + 1));
-      chkMultiTerm.Top = (txtTermsAdd.Top + (txtTermsAdd.Height + 2));
-    }
     private void chkMultiTerm_CheckedChanged(object sender, System.EventArgs e)
     {
       txtTermsAdd.Multiline = chkMultiTerm.Checked;
@@ -1751,13 +2045,13 @@ namespace Uberware.Study
       
       if (m_DesignMode)
       { chkAdd.Checked = true; txtTermsAdd.Focus(); }
-    }
-    
-    private void menuDesignerAddTerm_Click(object sender, System.EventArgs e)
-    {
-      if (m_Sheet == null) return;
-      chkAdd.Checked = true;
-      txtTermsAdd.Focus();
+      
+      // !!!!! Multiterm
+      if (chkMultiTerm.Checked)
+      {
+        MessageBox.Show(this, "Feature not yet implemented.", "Study Guide Editor");
+        chkMultiTerm.Checked = false;
+      }
     }
     
   }

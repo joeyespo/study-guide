@@ -62,7 +62,7 @@ namespace Uberware.Study
     {
       bool b;
       
-      FileStream fs = File.OpenWrite(FileName);
+      FileStream fs = File.Open(FileName, FileMode.Create, FileAccess.Write, FileShare.Read);
       if (fs == null) return false;
       
       b = Save(fs);
@@ -99,7 +99,7 @@ namespace Uberware.Study
     
     
     public static MatchingSheet FromString (string text, string FileName)
-    { return FromFile(new System.IO.StringReader(text), FileName); }
+    { return FromFile(new StringReader(text), FileName); }
     public static MatchingSheet FromString (string text)
     { return FromString(text, ""); }
     
@@ -112,7 +112,7 @@ namespace Uberware.Study
       catch (FileNotFoundException)
       { return null; }
       
-      MatchingSheet sheet = FromFile(file);
+      MatchingSheet sheet = FromFile(file, FileName);
       file.Close();
       
       return sheet;
@@ -186,6 +186,21 @@ namespace Uberware.Study
       return writer.GetStringBuilder().ToString();
     }
     
+    public static MatchingSheet Validate (MatchingSheet sheet)
+    {
+      StringWriter writer = new StringWriter();
+      
+      bool b = sheet.Save(writer);
+      writer.Close();
+      if (!b) return sheet;
+      
+      StringReader reader = new StringReader(writer.GetStringBuilder().ToString());
+      MatchingSheet result = FromFile(reader);
+      reader.Close();
+      
+      return result;
+    }
+    
     
     
     private static string GetNewLine (string s)
@@ -213,15 +228,30 @@ namespace Uberware.Study
       return Default;
     }
     
-    private static string EscapeString (string s)
+    public static bool TextEquals (string a, string b)
+    {
+      string newline1 = GetNewLine(a);
+      if (newline1 != "\n") a = a.Replace(newline1, "\n");
+      while ((a.Length > 0) && (a.EndsWith("\0"))) a = a.Substring(0, (a.Length-1));
+      
+      string newline2 = GetNewLine(b);
+      if (newline2 != "\n") b = b.Replace(newline2, "\n");
+      while ((b.Length > 0) && (b.EndsWith("\0"))) b = b.Substring(0, (b.Length-1));
+      
+      return string.Equals(a, b);
+    }
+    
+    public static string EscapeString (string s)
     {
       string res = s;
+      string newline = GetNewLine(res);
+      if (newline != "\n") res = res.Replace(newline, "\n");
       if (res.EndsWith("\n")) res = res.Remove((res.Length - 1), 1);
-      return res.Replace("\\", "\\\\").Replace(",", "\\,").Replace("\n", "\\n");
+      return res.Replace(@"\\", @"\").Replace("\n", @"\n").Replace(((char)27).ToString(), @"\.");
     }
-    private static string DescapeString (string s)
+    public static string DescapeString (string s)
     {
-      string res = s.Replace("\\n", "\n").Replace("\\,", ",").Replace("\\\\", "\\");
+      string res = s.Replace(@"\.", ((char)27).ToString()).Replace(@"\n", "\n").Replace(@"\\", @"\");
       return (res + "\n");
     }
   }

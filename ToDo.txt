@@ -1,19 +1,23 @@
 ToDo - Study Guide: Matching
 -----------------------------
  
- - Fix command line
- - Fix rtb .. no colors, etc until mini-html code is added
- - Control pasted colors in RTB
+ * Fix command line
  * Separate Editor and Player into two programs
+ * Fix rtb .. no colors, etc until mini-html code is added
+ * Fix wierd term-add bug -- was because file was NOT being truncated .. must use FileMode.Create to create/truncate a file
+ * Fix group .. do not make dirty unless selected
+ * Use 'regular' font style when text is too long in definitions box
+ * Use RTB for definitions
+   - Use HTML-like code for colors/fonts .. NOT RTF
+   - Control pasted colors in RTF .. convert to HTML-like code
  - Show parsing errors for the matching sheets
  - Create a dialog for loading sheets
- - Use regular font when text is too long in definitions box
- * Use RTB for definitions
-   - Mini HTML in definitions
  - "Stop studying?" dialog box
  - "Perfect!" in definition window on perfect completion (until Done is clicked)
  - Statistics (charts of improvement, terms that needed most work, etc)
- - Hide mouse
+ - Hide mouse when not in use (editor/player)
+ - Context menus in each RTB
+ - Better empty term/definition handling
  * Preferences
  * SetFocus
  * Option: Custom sounds (have None as a selection)
