@@ -18,6 +18,7 @@ namespace Uberware.Study
     private MatchingSheet m_Sheet = null;
     private bool m_InternalEditing = false;
     private int m_AddHeight = 0;
+    private Font m_StdFont = null;
     
     #region Controls
     
@@ -185,6 +186,8 @@ namespace Uberware.Study
       this.menuFileSave = new System.Windows.Forms.MenuItem();
       this.menuFileSaveAs = new System.Windows.Forms.MenuItem();
       this.menuFileLine02 = new System.Windows.Forms.MenuItem();
+      this.menuFilePlayer = new System.Windows.Forms.MenuItem();
+      this.menuFileLine03 = new System.Windows.Forms.MenuItem();
       this.menuFileExit = new System.Windows.Forms.MenuItem();
       this.menuView = new System.Windows.Forms.MenuItem();
       this.menuViewSource = new System.Windows.Forms.MenuItem();
@@ -209,8 +212,6 @@ namespace Uberware.Study
       this.btnMenu = new System.Windows.Forms.Button();
       this.menuMenu = new System.Windows.Forms.ContextMenu();
       this.menuMenuExit = new System.Windows.Forms.MenuItem();
-      this.menuFileLine03 = new System.Windows.Forms.MenuItem();
-      this.menuFilePlayer = new System.Windows.Forms.MenuItem();
       this.grpInfo.SuspendLayout();
       this.panSheet.SuspendLayout();
       this.panItems.SuspendLayout();
@@ -762,6 +763,17 @@ namespace Uberware.Study
       this.menuFileLine02.Index = 6;
       this.menuFileLine02.Text = "-";
       // 
+      // menuFilePlayer
+      // 
+      this.menuFilePlayer.Index = 7;
+      this.menuFilePlayer.Text = "&Player...";
+      this.menuFilePlayer.Click += new System.EventHandler(this.menuFilePlayer_Click);
+      // 
+      // menuFileLine03
+      // 
+      this.menuFileLine03.Index = 8;
+      this.menuFileLine03.Text = "-";
+      // 
       // menuFileExit
       // 
       this.menuFileExit.Index = 9;
@@ -861,6 +873,18 @@ namespace Uberware.Study
       this.btnPlayer.Text = "&Player...";
       this.btnPlayer.Click += new System.EventHandler(this.btnPlayer_Click);
       // 
+      // openFileDialog
+      // 
+      this.openFileDialog.DefaultExt = "sheet";
+      this.openFileDialog.Filter = "Study Sheet Files (*.sheet)|*.sheet|All Files (*.*)|*.*";
+      this.openFileDialog.Title = "Open Study Sheet";
+      // 
+      // saveFileDialog
+      // 
+      this.saveFileDialog.DefaultExt = "sheet";
+      this.saveFileDialog.Filter = "Study Sheet Files (*.sheet)|*.sheet|All Files (*.*)|*.*";
+      this.saveFileDialog.Title = "Save Study Sheet As";
+      // 
       // panInfo
       // 
       this.panInfo.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -945,17 +969,6 @@ namespace Uberware.Study
       this.menuMenuExit.Index = 0;
       this.menuMenuExit.Text = "E&xit";
       this.menuMenuExit.Click += new System.EventHandler(this.menuMenuExit_Click);
-      // 
-      // menuFileLine03
-      // 
-      this.menuFileLine03.Index = 8;
-      this.menuFileLine03.Text = "-";
-      // 
-      // menuFilePlayer
-      // 
-      this.menuFilePlayer.Index = 7;
-      this.menuFilePlayer.Text = "&Player...";
-      this.menuFilePlayer.Click += new System.EventHandler(this.menuFilePlayer_Click);
       // 
       // frmMain
       // 
@@ -1076,6 +1089,8 @@ namespace Uberware.Study
       // Adjust min/max sizes
       splAdd.MinSize = ((chkAdd.Height + lblTermsAdd.Height + txtAuthor.Height + panAddTermFooter.Height) + 18) + 1;
       splAdd.MinExtra = (lblTermList.Height + txtAuthor.Height + splTerms.Height + txtAuthor.Height + panTermsModify.Height) + 16;
+      
+      m_StdFont = txtDefinition.Font;
       
       // Show designer mode
       DoShowDesigner();
@@ -1335,10 +1350,13 @@ namespace Uberware.Study
     private void txtDefinitionAdd_Enter(object sender, System.EventArgs e)
     {
       // !!!!! Option: Enter inserts return (otherwise, enter accepts and shift+enter inserts return)
-      this.AcceptButton = null;
+      //this.AcceptButton = null;
     }
     private void txtDefinitionAdd_Leave(object sender, System.EventArgs e)
-    { this.AcceptButton = (( grpAddFocus )?( btnAddTerm ):( null )); }
+    {
+      // !!!!! ^-- Option
+      //this.AcceptButton = (( grpAddFocus )?( btnAddTerm ):( null ));
+    }
     
     
     
@@ -1354,13 +1372,13 @@ namespace Uberware.Study
     
     string m_sLastDefinition = "";
     private void txtDefinition_Enter(object sender, System.EventArgs e)
-    { if (m_sLastDefinition == "") m_sLastDefinition = txtDefinition.Rtf; }
+    { if (m_sLastDefinition == "") m_sLastDefinition = txtDefinition.Text; }
     private void txtDefinition_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
     { if (e.KeyCode == Keys.Escape) DoCancelSetDefinition(); }
     private void txtDefinition_Leave(object sender, System.EventArgs e)
     { if (DoSetDefinition()) m_sLastDefinition = ""; }
     private void DoCancelSetDefinition ()
-    { txtDefinition.Rtf = m_sLastDefinition; }
+    { txtDefinition.Text = m_sLastDefinition; }
     
     
     
@@ -1387,11 +1405,15 @@ namespace Uberware.Study
       if (lstTermList.SelectedIndex != -1)
       {
         txtTerm.Text = m_Sheet.Terms[lstTermList.SelectedIndex];
-        string s = m_Sheet.Definitions[lstTermList.SelectedIndex];
-        if (s.Substring(0, 1) == ((char)27).ToString())
-          txtDefinition.Rtf = s.Substring(1);
-        else
-          txtDefinition.Text = s;
+        
+        // !!!!! Mini-HTML
+        //string s = m_Sheet.Definitions[lstTermList.SelectedIndex];
+        //if (s.Substring(0, 1) == ((char)27).ToString())
+        //  txtDefinition.Rtf = s.Substring(1);
+        //else
+        //  txtDefinition.Text = s;
+        
+        txtDefinition.Text = m_Sheet.Definitions[lstTermList.SelectedIndex];
         if (!txtDefinition.Text.EndsWith("\n")) txtDefinition.AppendText("\n");
         txtDefinition.ReadOnly = chkReadOnly.Checked;
       }
@@ -1807,21 +1829,25 @@ namespace Uberware.Study
         return false;
       }
       
-      string s = txtDefinition.Rtf;
-      txtDefinition.Text = txtDefinition.Text;
-      if (txtDefinition.Rtf == s)
-        s = txtDefinition.Text;
-      else
-      {
-        txtDefinition.Rtf = s;
-        s = ((char)27) + s;
-      }
-      while ((s.Length > 0) && (s.EndsWith("\0"))) s = s.Substring(0, (s.Length-1));
+      // !!!!! Mini-HTML
+      //string s = txtDefinition.Rtf;
+      //txtDefinition.Text = txtDefinition.Text;
+      //if (txtDefinition.Rtf == s)
+      //  s = txtDefinition.Text;
+      //else
+      //{
+      //  txtDefinition.Rtf = s;
+      //  //s = ((char)27) + s;
+      //}
+      //while ((s.Length > 0) && (s.EndsWith("\0"))) s = s.Substring(0, (s.Length-1));
+      //
+      //if (MatchingSheet.TextEquals(m_Sheet.Definitions[lstTermList.SelectedIndex], s))
+      //  return true;
       
-      if (MatchingSheet.TextEquals(m_Sheet.Definitions[lstTermList.SelectedIndex], s))
+      if (MatchingSheet.TextEquals(m_Sheet.Definitions[lstTermList.SelectedIndex], txtDefinition.Text))
         return true;
       
-      m_Sheet.Definitions[lstTermList.SelectedIndex] = s;
+      m_Sheet.Definitions[lstTermList.SelectedIndex] = txtDefinition.Text;
       DoMakeDirty();
       
       lstTermList_SelectedIndexChanged(lstTermList, new EventArgs());

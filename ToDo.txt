@@ -10,6 +10,7 @@ ToDo - Study Guide: Matching
  * Use RTB for definitions
    - Use HTML-like code for colors/fonts .. NOT RTF
    - Control pasted colors in RTF .. convert to HTML-like code
+ - Use 'Validating' events in editor for textboxes
  - Show parsing errors for the matching sheets
  - Create a dialog for loading sheets
  - "Stop studying?" dialog box

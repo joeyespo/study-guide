@@ -935,23 +935,30 @@ namespace Uberware.Study
     
     private void DoShowDefinition (string definition)
     {
-      if (definition.Substring(0, 1) == ((char)27).ToString())
+      //if (definition.Substring(0, 1) == ((char)27).ToString())
+      //{
+      //  if (!MatchingSheet.TextEquals(txtDefinition.Rtf, definition.Substring(1)))
+      //  {
+      //    txtDefinition.Clear();
+      //    txtDefinition.Font = m_BoldFont;
+      //    txtDefinition.Rtf = definition.Substring(1);
+      //  }
+      //}
+      //else
+      //{
+      //  if (txtDefinition.Text != definition)
+      //  {
+      //    txtDefinition.Clear();
+      //    txtDefinition.Font = m_BoldFont;
+      //    txtDefinition.Text = definition;
+      //  }
+      //}
+      
+      if (txtDefinition.Text != definition)
       {
-        if (!MatchingSheet.TextEquals(txtDefinition.Rtf, definition.Substring(1)))
-        {
-          txtDefinition.Clear();
-          txtDefinition.Font = m_BoldFont;
-          txtDefinition.Rtf = definition.Substring(1);
-        }
-      }
-      else
-      {
-        if (txtDefinition.Text != definition)
-        {
-          txtDefinition.Clear();
-          txtDefinition.Font = m_BoldFont;
-          txtDefinition.Text = definition;
-        }
+        txtDefinition.Clear();
+        txtDefinition.Font = m_BoldFont;
+        txtDefinition.Text = definition;
       }
     }
     

@@ -7,7 +7,7 @@ namespace Uberware.Study
 {
   public class MatchingSheet
   {
-		
+    
     // Major = major file format changes; minor = still loadable format if > current
     public static readonly Version SheetVersion = new Version(1, 0);
     
@@ -231,11 +231,11 @@ namespace Uberware.Study
     public static bool TextEquals (string a, string b)
     {
       string newline1 = GetNewLine(a);
-      if (newline1 != "\n") a = a.Replace(newline1, "\n");
+      if ((newline1 != "") && (newline1 != "\n")) a = a.Replace(newline1, "\n");
       while ((a.Length > 0) && (a.EndsWith("\0"))) a = a.Substring(0, (a.Length-1));
       
       string newline2 = GetNewLine(b);
-      if (newline2 != "\n") b = b.Replace(newline2, "\n");
+      if ((newline2 != "") && (newline2 != "\n")) b = b.Replace(newline2, "\n");
       while ((b.Length > 0) && (b.EndsWith("\0"))) b = b.Substring(0, (b.Length-1));
       
       return string.Equals(a, b);
@@ -245,14 +245,15 @@ namespace Uberware.Study
     {
       string res = s;
       string newline = GetNewLine(res);
-      if (newline != "\n") res = res.Replace(newline, "\n");
+      if ((newline != "") && (newline != "\n")) res = res.Replace(newline, "\n");
       if (res.EndsWith("\n")) res = res.Remove((res.Length - 1), 1);
-      return res.Replace(@"\\", @"\").Replace("\n", @"\n").Replace(((char)27).ToString(), @"\.");
+      return res.Replace(@"\\", @"\").Replace("\n", @"\n");
     }
     public static string DescapeString (string s)
     {
-      string res = s.Replace(@"\.", ((char)27).ToString()).Replace(@"\n", "\n").Replace(@"\\", @"\");
+      string res = s.Replace(@"\n", "\n").Replace(@"\\", @"\");
       return (res + "\n");
     }
+    
   }
 }
