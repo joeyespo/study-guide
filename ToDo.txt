@@ -1,6 +1,9 @@
 ToDo - Study Guide: Matching
 -----------------------------
  
+ - Fix command line
+ - Fix rtb .. no colors, etc until mini-html code is added
+ - Control pasted colors in RTB
  * Separate Editor and Player into two programs
  - Show parsing errors for the matching sheets
  - Create a dialog for loading sheets

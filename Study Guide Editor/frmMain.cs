@@ -12,8 +12,11 @@ namespace Uberware.Study
     
     #region Class Variables
     
+    private const string c_Title = "Study Guide Editor";
     private bool m_SheetDirty = false;
+    private bool m_DesignMode = false;
     private MatchingSheet m_Sheet = null;
+    private bool m_InternalEditing = false;
     private int m_AddHeight = 0;
     
     #region Controls
@@ -23,51 +26,72 @@ namespace Uberware.Study
     private System.Windows.Forms.TextBox txtAuthor;
     private System.Windows.Forms.TextBox txtGroup;
     private System.Windows.Forms.Label lblGroup;
-    private System.Windows.Forms.TextBox txtDescription;
     private System.Windows.Forms.Label lblDescription;
     private System.Windows.Forms.CheckBox chkInfo;
     private System.Windows.Forms.GroupBox grpInfo;
     private System.Windows.Forms.Panel panSheet;
-    private System.Windows.Forms.Label lblTermList;
-    private System.Windows.Forms.Label lblDefinition;
-    private System.Windows.Forms.ListBox lstTermList;
     private System.Windows.Forms.GroupBox grpAdd;
-    private System.Windows.Forms.CheckBox chkMultiTerm;
     private System.Windows.Forms.Button btnAddTerm;
-    private System.Windows.Forms.TextBox txtTermsAdd;
     private System.Windows.Forms.CheckBox chkAdd;
-    private System.Windows.Forms.Label lblTermsAdd;
     private System.Windows.Forms.Label lblDefinitionAdd;
-    private System.Windows.Forms.TextBox txtMultiTerm;
-    private System.Windows.Forms.Panel panTerms;
     private System.Windows.Forms.Panel panAdd;
     private System.Windows.Forms.Button btnDelete;
-    private System.Windows.Forms.CheckBox chkEdit;
-    private System.Windows.Forms.RichTextBox rtbDefinition;
-    private System.Windows.Forms.RichTextBox rtbDefinitionAdd;
+    private System.Windows.Forms.RichTextBox txtDefinitionAdd;
     private System.Windows.Forms.Splitter splAdd;
-    private System.Windows.Forms.Splitter splDefinition;
-    private System.Windows.Forms.Splitter splTerms;
-    private System.Windows.Forms.ContextMenu menuMain;
-    private System.Windows.Forms.MenuItem menuMainNew;
-    private System.Windows.Forms.MenuItem menuMainOpen;
-    private System.Windows.Forms.MenuItem menuMainSave;
-    private System.Windows.Forms.MenuItem menuMainSaveAs;
-    private System.Windows.Forms.MenuItem menuMainClose;
-    private System.Windows.Forms.MenuItem menuMainLine01;
-    private System.Windows.Forms.MenuItem menuMainLine02;
-    private System.Windows.Forms.MenuItem menuMainExit;
-    private System.Windows.Forms.Button btnMenu;
+    private System.Windows.Forms.MainMenu menuMain;
+    private System.Windows.Forms.MenuItem menuFile;
+    private System.Windows.Forms.MenuItem menuFileNew;
+    private System.Windows.Forms.MenuItem menuFileOpen;
+    private System.Windows.Forms.MenuItem menuFileSave;
+    private System.Windows.Forms.MenuItem menuFileSaveAs;
+    private System.Windows.Forms.MenuItem menuFileClose;
+    private System.Windows.Forms.MenuItem menuFileLine01;
+    private System.Windows.Forms.MenuItem menuFileExit;
+    private System.Windows.Forms.MenuItem menuEditorPreferences;
+    private System.Windows.Forms.MenuItem menuHelpAbout;
     private System.Windows.Forms.Button btnExit;
     private System.Windows.Forms.Button btnTest;
-    private System.Windows.Forms.Panel panDefinition;
     private System.Windows.Forms.Panel panTermsModify;
     private System.Windows.Forms.Button btnPlayer;
     private System.Windows.Forms.OpenFileDialog openFileDialog;
-    private System.Windows.Forms.MenuItem menuMainLine03;
-    private System.Windows.Forms.MenuItem menuMainPreferences;
-    private System.Windows.Forms.MenuItem menuMainAbout;
     private System.Windows.Forms.SaveFileDialog saveFileDialog;
+    private System.Windows.Forms.CheckBox chkReadOnly;
+    private System.Windows.Forms.Panel panInfo;
+    private System.Windows.Forms.RichTextBox txtDescription;
+    private System.Windows.Forms.RichTextBox txtSource;
+    private System.Windows.Forms.Button btnNormalize;
+    private System.Windows.Forms.Button btnMenu;
+    private System.Windows.Forms.ContextMenu menuMenu;
+    private System.Windows.Forms.MenuItem menuFileLine02;
+    private System.Windows.Forms.MenuItem menuMenuExit;
+    private System.Windows.Forms.MenuItem menuView;
+    private System.Windows.Forms.MenuItem menuViewSource;
+    private System.Windows.Forms.MenuItem menuViewDesigner;
+    private System.Windows.Forms.MenuItem menuTools;
+    private System.Windows.Forms.Panel panDesigner;
+    private System.Windows.Forms.Panel panSource;
+    private System.Windows.Forms.Panel panAddDefinition;
+    private System.Windows.Forms.Panel panAddTermFooter;
+    private System.Windows.Forms.Splitter splAddSep;
+    private System.Windows.Forms.Panel panAddTerm;
+    private System.Windows.Forms.Label lblTermsAdd;
+    private System.Windows.Forms.TextBox txtTermsAdd;
+    private System.Windows.Forms.Panel panAddTermTextBox;
+    private System.Windows.Forms.CheckBox chkMultiTerm;
+    private System.Windows.Forms.Panel panAddItem;
+    private System.Windows.Forms.MenuItem menuDesigner;
+    private System.Windows.Forms.MenuItem menuDesignerAddTerm;
+    private System.Windows.Forms.MenuItem menuHelp;
+    private System.Windows.Forms.Panel panDefinition;
+    private System.Windows.Forms.RichTextBox txtDefinition;
+    private System.Windows.Forms.Label lblDefinition;
+    private System.Windows.Forms.Splitter splDefinition;
+    private System.Windows.Forms.Panel panTerms;
+    private System.Windows.Forms.ListBox lstTermList;
+    private System.Windows.Forms.Splitter splTerms;
+    private System.Windows.Forms.TextBox txtMultiTerm;
+    private System.Windows.Forms.Label lblTermList;
+    private System.Windows.Forms.Panel panItems;
 		
     /// <summary> Required designer variable. </summary>
 		private System.ComponentModel.Container components = null;
@@ -113,13 +137,65 @@ namespace Uberware.Study
       this.txtAuthor = new System.Windows.Forms.TextBox();
       this.txtGroup = new System.Windows.Forms.TextBox();
       this.lblGroup = new System.Windows.Forms.Label();
-      this.txtDescription = new System.Windows.Forms.TextBox();
       this.lblDescription = new System.Windows.Forms.Label();
       this.grpInfo = new System.Windows.Forms.GroupBox();
+      this.txtDescription = new System.Windows.Forms.RichTextBox();
       this.chkInfo = new System.Windows.Forms.CheckBox();
       this.panSheet = new System.Windows.Forms.Panel();
+      this.panTermsModify = new System.Windows.Forms.Panel();
+      this.chkReadOnly = new System.Windows.Forms.CheckBox();
+      this.btnDelete = new System.Windows.Forms.Button();
+      this.splAdd = new System.Windows.Forms.Splitter();
+      this.panAdd = new System.Windows.Forms.Panel();
+      this.chkAdd = new System.Windows.Forms.CheckBox();
+      this.grpAdd = new System.Windows.Forms.GroupBox();
+      this.panAddItem = new System.Windows.Forms.Panel();
+      this.panAddDefinition = new System.Windows.Forms.Panel();
+      this.txtDefinitionAdd = new System.Windows.Forms.RichTextBox();
+      this.lblDefinitionAdd = new System.Windows.Forms.Label();
+      this.panAddTermFooter = new System.Windows.Forms.Panel();
+      this.btnAddTerm = new System.Windows.Forms.Button();
+      this.splAddSep = new System.Windows.Forms.Splitter();
+      this.panAddTerm = new System.Windows.Forms.Panel();
+      this.panAddTermTextBox = new System.Windows.Forms.Panel();
+      this.chkMultiTerm = new System.Windows.Forms.CheckBox();
+      this.txtTermsAdd = new System.Windows.Forms.TextBox();
+      this.lblTermsAdd = new System.Windows.Forms.Label();
+      this.btnExit = new System.Windows.Forms.Button();
+      this.btnTest = new System.Windows.Forms.Button();
+      this.menuMain = new System.Windows.Forms.MainMenu();
+      this.menuFile = new System.Windows.Forms.MenuItem();
+      this.menuFileNew = new System.Windows.Forms.MenuItem();
+      this.menuFileOpen = new System.Windows.Forms.MenuItem();
+      this.menuFileClose = new System.Windows.Forms.MenuItem();
+      this.menuFileLine01 = new System.Windows.Forms.MenuItem();
+      this.menuFileSave = new System.Windows.Forms.MenuItem();
+      this.menuFileSaveAs = new System.Windows.Forms.MenuItem();
+      this.menuFileLine02 = new System.Windows.Forms.MenuItem();
+      this.menuFileExit = new System.Windows.Forms.MenuItem();
+      this.menuView = new System.Windows.Forms.MenuItem();
+      this.menuViewSource = new System.Windows.Forms.MenuItem();
+      this.menuViewDesigner = new System.Windows.Forms.MenuItem();
+      this.menuTools = new System.Windows.Forms.MenuItem();
+      this.menuEditorPreferences = new System.Windows.Forms.MenuItem();
+      this.menuDesigner = new System.Windows.Forms.MenuItem();
+      this.menuDesignerAddTerm = new System.Windows.Forms.MenuItem();
+      this.menuHelp = new System.Windows.Forms.MenuItem();
+      this.menuHelpAbout = new System.Windows.Forms.MenuItem();
+      this.btnPlayer = new System.Windows.Forms.Button();
+      this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+      this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+      this.panInfo = new System.Windows.Forms.Panel();
+      this.panDesigner = new System.Windows.Forms.Panel();
+      this.panSource = new System.Windows.Forms.Panel();
+      this.btnNormalize = new System.Windows.Forms.Button();
+      this.txtSource = new System.Windows.Forms.RichTextBox();
+      this.btnMenu = new System.Windows.Forms.Button();
+      this.menuMenu = new System.Windows.Forms.ContextMenu();
+      this.menuMenuExit = new System.Windows.Forms.MenuItem();
+      this.panItems = new System.Windows.Forms.Panel();
       this.panDefinition = new System.Windows.Forms.Panel();
-      this.rtbDefinition = new System.Windows.Forms.RichTextBox();
+      this.txtDefinition = new System.Windows.Forms.RichTextBox();
       this.lblDefinition = new System.Windows.Forms.Label();
       this.splDefinition = new System.Windows.Forms.Splitter();
       this.panTerms = new System.Windows.Forms.Panel();
@@ -127,44 +203,22 @@ namespace Uberware.Study
       this.splTerms = new System.Windows.Forms.Splitter();
       this.txtMultiTerm = new System.Windows.Forms.TextBox();
       this.lblTermList = new System.Windows.Forms.Label();
-      this.panTermsModify = new System.Windows.Forms.Panel();
-      this.chkEdit = new System.Windows.Forms.CheckBox();
-      this.btnDelete = new System.Windows.Forms.Button();
-      this.splAdd = new System.Windows.Forms.Splitter();
-      this.panAdd = new System.Windows.Forms.Panel();
-      this.chkAdd = new System.Windows.Forms.CheckBox();
-      this.grpAdd = new System.Windows.Forms.GroupBox();
-      this.chkMultiTerm = new System.Windows.Forms.CheckBox();
-      this.btnAddTerm = new System.Windows.Forms.Button();
-      this.txtTermsAdd = new System.Windows.Forms.TextBox();
-      this.lblTermsAdd = new System.Windows.Forms.Label();
-      this.lblDefinitionAdd = new System.Windows.Forms.Label();
-      this.rtbDefinitionAdd = new System.Windows.Forms.RichTextBox();
-      this.btnMenu = new System.Windows.Forms.Button();
-      this.btnExit = new System.Windows.Forms.Button();
-      this.btnTest = new System.Windows.Forms.Button();
-      this.menuMain = new System.Windows.Forms.ContextMenu();
-      this.menuMainNew = new System.Windows.Forms.MenuItem();
-      this.menuMainOpen = new System.Windows.Forms.MenuItem();
-      this.menuMainClose = new System.Windows.Forms.MenuItem();
-      this.menuMainLine01 = new System.Windows.Forms.MenuItem();
-      this.menuMainSave = new System.Windows.Forms.MenuItem();
-      this.menuMainSaveAs = new System.Windows.Forms.MenuItem();
-      this.menuMainLine02 = new System.Windows.Forms.MenuItem();
-      this.menuMainPreferences = new System.Windows.Forms.MenuItem();
-      this.menuMainAbout = new System.Windows.Forms.MenuItem();
-      this.menuMainLine03 = new System.Windows.Forms.MenuItem();
-      this.menuMainExit = new System.Windows.Forms.MenuItem();
-      this.btnPlayer = new System.Windows.Forms.Button();
-      this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-      this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
       this.grpInfo.SuspendLayout();
       this.panSheet.SuspendLayout();
-      this.panDefinition.SuspendLayout();
-      this.panTerms.SuspendLayout();
       this.panTermsModify.SuspendLayout();
       this.panAdd.SuspendLayout();
       this.grpAdd.SuspendLayout();
+      this.panAddItem.SuspendLayout();
+      this.panAddDefinition.SuspendLayout();
+      this.panAddTermFooter.SuspendLayout();
+      this.panAddTerm.SuspendLayout();
+      this.panAddTermTextBox.SuspendLayout();
+      this.panInfo.SuspendLayout();
+      this.panDesigner.SuspendLayout();
+      this.panSource.SuspendLayout();
+      this.panItems.SuspendLayout();
+      this.panDefinition.SuspendLayout();
+      this.panTerms.SuspendLayout();
       this.SuspendLayout();
       // 
       // txtTitle
@@ -174,13 +228,12 @@ namespace Uberware.Study
       this.txtTitle.BackColor = System.Drawing.SystemColors.Control;
       this.txtTitle.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
       this.txtTitle.ForeColor = System.Drawing.SystemColors.GrayText;
-      this.txtTitle.Location = new System.Drawing.Point(8, 8);
       this.txtTitle.Name = "txtTitle";
-      this.txtTitle.ReadOnly = true;
       this.txtTitle.Size = new System.Drawing.Size(480, 22);
       this.txtTitle.TabIndex = 0;
       this.txtTitle.Text = "( nothing loaded )";
       this.txtTitle.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+      this.txtTitle.TextChanged += new System.EventHandler(this.txtTitle_TextChanged);
       this.txtTitle.Leave += new System.EventHandler(this.txtTitle_Leave);
       this.txtTitle.Enter += new System.EventHandler(this.txtTitle_Enter);
       // 
@@ -201,7 +254,7 @@ namespace Uberware.Study
       this.txtAuthor.Size = new System.Drawing.Size(168, 20);
       this.txtAuthor.TabIndex = 1;
       this.txtAuthor.Text = "";
-      this.txtAuthor.Leave += new System.EventHandler(this.txtAuthor_Leave);
+      this.txtAuthor.TextChanged += new System.EventHandler(this.txtAuthor_TextChanged);
       // 
       // txtGroup
       // 
@@ -212,6 +265,7 @@ namespace Uberware.Study
       this.txtGroup.Size = new System.Drawing.Size(168, 20);
       this.txtGroup.TabIndex = 5;
       this.txtGroup.Text = "";
+      this.txtGroup.TextChanged += new System.EventHandler(this.txtGroup_TextChanged);
       this.txtGroup.Leave += new System.EventHandler(this.txtGroup_Leave);
       this.txtGroup.Enter += new System.EventHandler(this.txtGroup_Enter);
       // 
@@ -221,21 +275,7 @@ namespace Uberware.Study
       this.lblGroup.Name = "lblGroup";
       this.lblGroup.Size = new System.Drawing.Size(168, 16);
       this.lblGroup.TabIndex = 4;
-      this.lblGroup.Text = "Group Name:";
-      // 
-      // txtDescription
-      // 
-      this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-        | System.Windows.Forms.AnchorStyles.Right);
-      this.txtDescription.BackColor = System.Drawing.SystemColors.Control;
-      this.txtDescription.Location = new System.Drawing.Point(184, 36);
-      this.txtDescription.Multiline = true;
-      this.txtDescription.Name = "txtDescription";
-      this.txtDescription.ReadOnly = true;
-      this.txtDescription.Size = new System.Drawing.Size(288, 64);
-      this.txtDescription.TabIndex = 3;
-      this.txtDescription.Text = "";
-      this.txtDescription.Leave += new System.EventHandler(this.txtDescription_Leave);
+      this.lblGroup.Text = "Group:";
       // 
       // lblDescription
       // 
@@ -249,31 +289,44 @@ namespace Uberware.Study
       // 
       // grpInfo
       // 
-      this.grpInfo.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+      this.grpInfo.Anchor = (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+        | System.Windows.Forms.AnchorStyles.Left) 
         | System.Windows.Forms.AnchorStyles.Right);
       this.grpInfo.Controls.AddRange(new System.Windows.Forms.Control[] {
+                                                                          this.txtDescription,
                                                                           this.lblGroup,
                                                                           this.lblDescription,
                                                                           this.txtAuthor,
                                                                           this.txtGroup,
-                                                                          this.lblAuthor,
-                                                                          this.txtDescription});
-      this.grpInfo.Location = new System.Drawing.Point(8, 40);
+                                                                          this.lblAuthor});
       this.grpInfo.Name = "grpInfo";
       this.grpInfo.Size = new System.Drawing.Size(480, 108);
-      this.grpInfo.TabIndex = 2;
+      this.grpInfo.TabIndex = 1;
       this.grpInfo.TabStop = false;
-      this.grpInfo.Text = "File Information";
+      // 
+      // txtDescription
+      // 
+      this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+        | System.Windows.Forms.AnchorStyles.Right);
+      this.txtDescription.BackColor = System.Drawing.SystemColors.Control;
+      this.txtDescription.Location = new System.Drawing.Point(184, 36);
+      this.txtDescription.Name = "txtDescription";
+      this.txtDescription.ReadOnly = true;
+      this.txtDescription.Size = new System.Drawing.Size(288, 64);
+      this.txtDescription.TabIndex = 3;
+      this.txtDescription.Text = "";
+      this.txtDescription.TextChanged += new System.EventHandler(this.txtDescription_TextChanged);
+      this.txtDescription.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.LinkClicked);
       // 
       // chkInfo
       // 
       this.chkInfo.Checked = true;
       this.chkInfo.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.chkInfo.Location = new System.Drawing.Point(16, 40);
+      this.chkInfo.Location = new System.Drawing.Point(8, 0);
       this.chkInfo.Name = "chkInfo";
-      this.chkInfo.Size = new System.Drawing.Size(116, 16);
-      this.chkInfo.TabIndex = 1;
-      this.chkInfo.Text = "Sheet Information";
+      this.chkInfo.Size = new System.Drawing.Size(120, 16);
+      this.chkInfo.TabIndex = 0;
+      this.chkInfo.Text = "Sheet &Information";
       this.chkInfo.CheckedChanged += new System.EventHandler(this.chkInfo_CheckedChanged);
       // 
       // panSheet
@@ -283,154 +336,50 @@ namespace Uberware.Study
         | System.Windows.Forms.AnchorStyles.Right);
       this.panSheet.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
       this.panSheet.Controls.AddRange(new System.Windows.Forms.Control[] {
-                                                                           this.panDefinition,
-                                                                           this.splDefinition,
-                                                                           this.panTerms,
+                                                                           this.panItems,
                                                                            this.panTermsModify,
                                                                            this.splAdd,
                                                                            this.panAdd});
       this.panSheet.DockPadding.All = 8;
-      this.panSheet.Location = new System.Drawing.Point(8, 156);
+      this.panSheet.Location = new System.Drawing.Point(0, 148);
       this.panSheet.Name = "panSheet";
-      this.panSheet.Size = new System.Drawing.Size(480, 329);
-      this.panSheet.TabIndex = 3;
-      // 
-      // panDefinition
-      // 
-      this.panDefinition.Controls.AddRange(new System.Windows.Forms.Control[] {
-                                                                                this.rtbDefinition,
-                                                                                this.lblDefinition});
-      this.panDefinition.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.panDefinition.Location = new System.Drawing.Point(236, 8);
-      this.panDefinition.Name = "panDefinition";
-      this.panDefinition.Size = new System.Drawing.Size(234, 139);
-      this.panDefinition.TabIndex = 1;
-      // 
-      // rtbDefinition
-      // 
-      this.rtbDefinition.BackColor = System.Drawing.SystemColors.Control;
-      this.rtbDefinition.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.rtbDefinition.Location = new System.Drawing.Point(0, 16);
-      this.rtbDefinition.Name = "rtbDefinition";
-      this.rtbDefinition.ReadOnly = true;
-      this.rtbDefinition.Size = new System.Drawing.Size(234, 123);
-      this.rtbDefinition.TabIndex = 1;
-      this.rtbDefinition.Text = "";
-      // 
-      // lblDefinition
-      // 
-      this.lblDefinition.Dock = System.Windows.Forms.DockStyle.Top;
-      this.lblDefinition.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-      this.lblDefinition.Name = "lblDefinition";
-      this.lblDefinition.Size = new System.Drawing.Size(234, 16);
-      this.lblDefinition.TabIndex = 0;
-      this.lblDefinition.Text = "Definition:";
-      // 
-      // splDefinition
-      // 
-      this.splDefinition.Location = new System.Drawing.Point(228, 8);
-      this.splDefinition.Name = "splDefinition";
-      this.splDefinition.Size = new System.Drawing.Size(8, 139);
-      this.splDefinition.TabIndex = 0;
-      this.splDefinition.TabStop = false;
-      // 
-      // panTerms
-      // 
-      this.panTerms.Controls.AddRange(new System.Windows.Forms.Control[] {
-                                                                           this.lstTermList,
-                                                                           this.splTerms,
-                                                                           this.txtMultiTerm,
-                                                                           this.lblTermList});
-      this.panTerms.Dock = System.Windows.Forms.DockStyle.Left;
-      this.panTerms.Location = new System.Drawing.Point(8, 8);
-      this.panTerms.Name = "panTerms";
-      this.panTerms.Size = new System.Drawing.Size(220, 139);
-      this.panTerms.TabIndex = 0;
-      // 
-      // lstTermList
-      // 
-      this.lstTermList.BackColor = System.Drawing.SystemColors.Control;
-      this.lstTermList.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.lstTermList.IntegralHeight = false;
-      this.lstTermList.Location = new System.Drawing.Point(0, 16);
-      this.lstTermList.Name = "lstTermList";
-      this.lstTermList.Size = new System.Drawing.Size(220, 95);
-      this.lstTermList.Sorted = true;
-      this.lstTermList.TabIndex = 1;
-      this.lstTermList.SelectedIndexChanged += new System.EventHandler(this.lstTermList_SelectedIndexChanged);
-      // 
-      // splTerms
-      // 
-      this.splTerms.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.splTerms.Location = new System.Drawing.Point(0, 111);
-      this.splTerms.MinExtra = 20;
-      this.splTerms.MinSize = 20;
-      this.splTerms.Name = "splTerms";
-      this.splTerms.Size = new System.Drawing.Size(220, 8);
-      this.splTerms.TabIndex = 2;
-      this.splTerms.TabStop = false;
-      this.splTerms.Visible = false;
-      // 
-      // txtMultiTerm
-      // 
-      this.txtMultiTerm.BackColor = System.Drawing.SystemColors.Control;
-      this.txtMultiTerm.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.txtMultiTerm.Location = new System.Drawing.Point(0, 119);
-      this.txtMultiTerm.Multiline = true;
-      this.txtMultiTerm.Name = "txtMultiTerm";
-      this.txtMultiTerm.ReadOnly = true;
-      this.txtMultiTerm.Size = new System.Drawing.Size(220, 20);
-      this.txtMultiTerm.TabIndex = 3;
-      this.txtMultiTerm.Text = "";
-      this.txtMultiTerm.Visible = false;
-      // 
-      // lblTermList
-      // 
-      this.lblTermList.Dock = System.Windows.Forms.DockStyle.Top;
-      this.lblTermList.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-      this.lblTermList.Name = "lblTermList";
-      this.lblTermList.Size = new System.Drawing.Size(220, 16);
-      this.lblTermList.TabIndex = 0;
-      this.lblTermList.Text = "Terms:";
+      this.panSheet.Size = new System.Drawing.Size(480, 288);
+      this.panSheet.TabIndex = 2;
       // 
       // panTermsModify
       // 
       this.panTermsModify.Controls.AddRange(new System.Windows.Forms.Control[] {
-                                                                                 this.chkEdit,
+                                                                                 this.chkReadOnly,
                                                                                  this.btnDelete});
       this.panTermsModify.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.panTermsModify.Location = new System.Drawing.Point(8, 147);
+      this.panTermsModify.Location = new System.Drawing.Point(8, 138);
       this.panTermsModify.Name = "panTermsModify";
-      this.panTermsModify.Size = new System.Drawing.Size(462, 32);
-      this.panTermsModify.TabIndex = 2;
+      this.panTermsModify.Size = new System.Drawing.Size(462, 28);
+      this.panTermsModify.TabIndex = 1;
       // 
-      // chkEdit
+      // chkReadOnly
       // 
-      this.chkEdit.Appearance = System.Windows.Forms.Appearance.Button;
-      this.chkEdit.Enabled = false;
-      this.chkEdit.Location = new System.Drawing.Point(0, 4);
-      this.chkEdit.Name = "chkEdit";
-      this.chkEdit.Size = new System.Drawing.Size(68, 28);
-      this.chkEdit.TabIndex = 0;
-      this.chkEdit.Text = "&Edit";
-      this.chkEdit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-      this.chkEdit.CheckedChanged += new System.EventHandler(this.chkEdit_CheckedChanged);
+      this.chkReadOnly.Appearance = System.Windows.Forms.Appearance.Button;
+      this.chkReadOnly.Location = new System.Drawing.Point(80, 0);
+      this.chkReadOnly.Name = "chkReadOnly";
+      this.chkReadOnly.Size = new System.Drawing.Size(80, 28);
+      this.chkReadOnly.TabIndex = 0;
+      this.chkReadOnly.Text = "Read-&only";
+      this.chkReadOnly.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+      this.chkReadOnly.CheckedChanged += new System.EventHandler(this.chkReadOnly_CheckedChanged);
       // 
       // btnDelete
       // 
-      this.btnDelete.Enabled = false;
-      this.btnDelete.Location = new System.Drawing.Point(72, 4);
       this.btnDelete.Name = "btnDelete";
-      this.btnDelete.Size = new System.Drawing.Size(68, 28);
+      this.btnDelete.Size = new System.Drawing.Size(72, 28);
       this.btnDelete.TabIndex = 1;
-      this.btnDelete.Text = "&Delete";
+      this.btnDelete.Text = "De&lete";
+      this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
       // 
       // splAdd
       // 
       this.splAdd.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.splAdd.Location = new System.Drawing.Point(8, 179);
-      this.splAdd.MinExtra = 82;
-      this.splAdd.MinSize = 82;
+      this.splAdd.Location = new System.Drawing.Point(8, 166);
       this.splAdd.Name = "splAdd";
       this.splAdd.Size = new System.Drawing.Size(462, 12);
       this.splAdd.TabIndex = 2;
@@ -442,9 +391,9 @@ namespace Uberware.Study
                                                                          this.chkAdd,
                                                                          this.grpAdd});
       this.panAdd.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.panAdd.Location = new System.Drawing.Point(8, 191);
+      this.panAdd.Location = new System.Drawing.Point(8, 178);
       this.panAdd.Name = "panAdd";
-      this.panAdd.Size = new System.Drawing.Size(462, 128);
+      this.panAdd.Size = new System.Drawing.Size(462, 100);
       this.panAdd.TabIndex = 3;
       // 
       // chkAdd
@@ -453,9 +402,9 @@ namespace Uberware.Study
       this.chkAdd.CheckState = System.Windows.Forms.CheckState.Checked;
       this.chkAdd.Location = new System.Drawing.Point(8, 0);
       this.chkAdd.Name = "chkAdd";
-      this.chkAdd.Size = new System.Drawing.Size(68, 16);
-      this.chkAdd.TabIndex = 1;
-      this.chkAdd.Text = "Add Item";
+      this.chkAdd.Size = new System.Drawing.Size(76, 16);
+      this.chkAdd.TabIndex = 0;
+      this.chkAdd.Text = "A&dd Item";
       this.chkAdd.CheckedChanged += new System.EventHandler(this.chkAdd_CheckedChanged);
       // 
       // grpAdd
@@ -464,244 +413,552 @@ namespace Uberware.Study
         | System.Windows.Forms.AnchorStyles.Left) 
         | System.Windows.Forms.AnchorStyles.Right);
       this.grpAdd.Controls.AddRange(new System.Windows.Forms.Control[] {
-                                                                         this.chkMultiTerm,
-                                                                         this.btnAddTerm,
-                                                                         this.txtTermsAdd,
-                                                                         this.lblTermsAdd,
-                                                                         this.lblDefinitionAdd,
-                                                                         this.rtbDefinitionAdd});
+                                                                         this.panAddItem});
       this.grpAdd.Name = "grpAdd";
-      this.grpAdd.Size = new System.Drawing.Size(462, 128);
-      this.grpAdd.TabIndex = 0;
+      this.grpAdd.Size = new System.Drawing.Size(462, 100);
+      this.grpAdd.TabIndex = 1;
       this.grpAdd.TabStop = false;
-      this.grpAdd.Text = "Add Item";
+      this.grpAdd.Enter += new System.EventHandler(this.grpAdd_Enter);
+      this.grpAdd.Leave += new System.EventHandler(this.grpAdd_Leave);
       // 
-      // chkMultiTerm
+      // panAddItem
       // 
-      this.chkMultiTerm.Enabled = false;
-      this.chkMultiTerm.Location = new System.Drawing.Point(8, 60);
-      this.chkMultiTerm.Name = "chkMultiTerm";
-      this.chkMultiTerm.Size = new System.Drawing.Size(196, 16);
-      this.chkMultiTerm.TabIndex = 2;
-      this.chkMultiTerm.Text = "Multiple Terms";
-      this.chkMultiTerm.CheckedChanged += new System.EventHandler(this.chkMultiTerm_CheckedChanged);
+      this.panAddItem.Controls.AddRange(new System.Windows.Forms.Control[] {
+                                                                             this.panAddDefinition,
+                                                                             this.panAddTermFooter,
+                                                                             this.splAddSep,
+                                                                             this.panAddTerm});
+      this.panAddItem.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.panAddItem.Location = new System.Drawing.Point(3, 16);
+      this.panAddItem.Name = "panAddItem";
+      this.panAddItem.Size = new System.Drawing.Size(456, 81);
+      this.panAddItem.TabIndex = 0;
       // 
-      // btnAddTerm
+      // panAddDefinition
       // 
-      this.btnAddTerm.Enabled = false;
-      this.btnAddTerm.Location = new System.Drawing.Point(156, 96);
-      this.btnAddTerm.Name = "btnAddTerm";
-      this.btnAddTerm.Size = new System.Drawing.Size(48, 24);
-      this.btnAddTerm.TabIndex = 5;
-      this.btnAddTerm.Text = "Add";
+      this.panAddDefinition.Controls.AddRange(new System.Windows.Forms.Control[] {
+                                                                                   this.txtDefinitionAdd,
+                                                                                   this.lblDefinitionAdd});
+      this.panAddDefinition.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.panAddDefinition.DockPadding.Bottom = 8;
+      this.panAddDefinition.DockPadding.Right = 8;
+      this.panAddDefinition.DockPadding.Top = 8;
+      this.panAddDefinition.Location = new System.Drawing.Point(232, 0);
+      this.panAddDefinition.Name = "panAddDefinition";
+      this.panAddDefinition.Size = new System.Drawing.Size(224, 52);
+      this.panAddDefinition.TabIndex = 2;
       // 
-      // txtTermsAdd
+      // txtDefinitionAdd
       // 
-      this.txtTermsAdd.BackColor = System.Drawing.SystemColors.Control;
-      this.txtTermsAdd.Location = new System.Drawing.Point(8, 36);
-      this.txtTermsAdd.Multiline = true;
-      this.txtTermsAdd.Name = "txtTermsAdd";
-      this.txtTermsAdd.ReadOnly = true;
-      this.txtTermsAdd.Size = new System.Drawing.Size(196, 20);
-      this.txtTermsAdd.TabIndex = 1;
-      this.txtTermsAdd.Text = "";
-      // 
-      // lblTermsAdd
-      // 
-      this.lblTermsAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-      this.lblTermsAdd.Location = new System.Drawing.Point(8, 20);
-      this.lblTermsAdd.Name = "lblTermsAdd";
-      this.lblTermsAdd.Size = new System.Drawing.Size(196, 16);
-      this.lblTermsAdd.TabIndex = 0;
-      this.lblTermsAdd.Text = "Term:";
+      this.txtDefinitionAdd.BackColor = System.Drawing.SystemColors.Control;
+      this.txtDefinitionAdd.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.txtDefinitionAdd.Location = new System.Drawing.Point(0, 24);
+      this.txtDefinitionAdd.Name = "txtDefinitionAdd";
+      this.txtDefinitionAdd.Size = new System.Drawing.Size(216, 20);
+      this.txtDefinitionAdd.TabIndex = 1;
+      this.txtDefinitionAdd.Text = "";
+      this.txtDefinitionAdd.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.LinkClicked);
       // 
       // lblDefinitionAdd
       // 
-      this.lblDefinitionAdd.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-        | System.Windows.Forms.AnchorStyles.Right);
+      this.lblDefinitionAdd.Dock = System.Windows.Forms.DockStyle.Top;
       this.lblDefinitionAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-      this.lblDefinitionAdd.Location = new System.Drawing.Point(212, 20);
+      this.lblDefinitionAdd.Location = new System.Drawing.Point(0, 8);
       this.lblDefinitionAdd.Name = "lblDefinitionAdd";
-      this.lblDefinitionAdd.Size = new System.Drawing.Size(241, 16);
-      this.lblDefinitionAdd.TabIndex = 3;
+      this.lblDefinitionAdd.Size = new System.Drawing.Size(216, 16);
+      this.lblDefinitionAdd.TabIndex = 0;
       this.lblDefinitionAdd.Text = "Definition:";
       // 
-      // rtbDefinitionAdd
+      // panAddTermFooter
       // 
-      this.rtbDefinitionAdd.Anchor = (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-        | System.Windows.Forms.AnchorStyles.Left) 
+      this.panAddTermFooter.Controls.AddRange(new System.Windows.Forms.Control[] {
+                                                                                   this.btnAddTerm});
+      this.panAddTermFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
+      this.panAddTermFooter.Location = new System.Drawing.Point(232, 52);
+      this.panAddTermFooter.Name = "panAddTermFooter";
+      this.panAddTermFooter.Size = new System.Drawing.Size(224, 29);
+      this.panAddTermFooter.TabIndex = 3;
+      // 
+      // btnAddTerm
+      // 
+      this.btnAddTerm.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
+      this.btnAddTerm.Location = new System.Drawing.Point(164, 0);
+      this.btnAddTerm.Name = "btnAddTerm";
+      this.btnAddTerm.Size = new System.Drawing.Size(52, 24);
+      this.btnAddTerm.TabIndex = 0;
+      this.btnAddTerm.Text = "&Add";
+      this.btnAddTerm.Click += new System.EventHandler(this.btnAddTerm_Click);
+      // 
+      // splAddSep
+      // 
+      this.splAddSep.Location = new System.Drawing.Point(224, 0);
+      this.splAddSep.MinExtra = 75;
+      this.splAddSep.MinSize = 75;
+      this.splAddSep.Name = "splAddSep";
+      this.splAddSep.Size = new System.Drawing.Size(8, 81);
+      this.splAddSep.TabIndex = 1;
+      this.splAddSep.TabStop = false;
+      this.splAddSep.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splAddSep_SplitterMoved);
+      // 
+      // panAddTerm
+      // 
+      this.panAddTerm.Controls.AddRange(new System.Windows.Forms.Control[] {
+                                                                             this.panAddTermTextBox,
+                                                                             this.lblTermsAdd});
+      this.panAddTerm.Dock = System.Windows.Forms.DockStyle.Left;
+      this.panAddTerm.DockPadding.Bottom = 8;
+      this.panAddTerm.DockPadding.Left = 8;
+      this.panAddTerm.DockPadding.Top = 8;
+      this.panAddTerm.Name = "panAddTerm";
+      this.panAddTerm.Size = new System.Drawing.Size(224, 81);
+      this.panAddTerm.TabIndex = 0;
+      // 
+      // panAddTermTextBox
+      // 
+      this.panAddTermTextBox.Controls.AddRange(new System.Windows.Forms.Control[] {
+                                                                                    this.chkMultiTerm,
+                                                                                    this.txtTermsAdd});
+      this.panAddTermTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.panAddTermTextBox.Location = new System.Drawing.Point(8, 24);
+      this.panAddTermTextBox.Name = "panAddTermTextBox";
+      this.panAddTermTextBox.Size = new System.Drawing.Size(216, 49);
+      this.panAddTermTextBox.TabIndex = 0;
+      this.panAddTermTextBox.SizeChanged += new System.EventHandler(this.panAddTermTextBox_SizeChanged);
+      // 
+      // chkMultiTerm
+      // 
+      this.chkMultiTerm.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
         | System.Windows.Forms.AnchorStyles.Right);
-      this.rtbDefinitionAdd.BackColor = System.Drawing.SystemColors.Control;
-      this.rtbDefinitionAdd.Location = new System.Drawing.Point(212, 36);
-      this.rtbDefinitionAdd.Name = "rtbDefinitionAdd";
-      this.rtbDefinitionAdd.ReadOnly = true;
-      this.rtbDefinitionAdd.Size = new System.Drawing.Size(241, 84);
-      this.rtbDefinitionAdd.TabIndex = 4;
-      this.rtbDefinitionAdd.Text = "";
+      this.chkMultiTerm.Location = new System.Drawing.Point(0, 24);
+      this.chkMultiTerm.Name = "chkMultiTerm";
+      this.chkMultiTerm.Size = new System.Drawing.Size(216, 28);
+      this.chkMultiTerm.TabIndex = 2;
+      this.chkMultiTerm.Text = "Multiple Te&rms";
+      this.chkMultiTerm.CheckedChanged += new System.EventHandler(this.chkMultiTerm_CheckedChanged);
       // 
-      // btnMenu
+      // txtTermsAdd
       // 
-      this.btnMenu.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
-      this.btnMenu.Location = new System.Drawing.Point(8, 496);
-      this.btnMenu.Name = "btnMenu";
-      this.btnMenu.Size = new System.Drawing.Size(80, 32);
-      this.btnMenu.TabIndex = 4;
-      this.btnMenu.Text = "&Menu";
-      this.btnMenu.Click += new System.EventHandler(this.btnMenu_Click);
-      this.btnMenu.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnMenu_MouseDown);
+      this.txtTermsAdd.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+        | System.Windows.Forms.AnchorStyles.Right);
+      this.txtTermsAdd.BackColor = System.Drawing.SystemColors.Control;
+      this.txtTermsAdd.Name = "txtTermsAdd";
+      this.txtTermsAdd.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+      this.txtTermsAdd.Size = new System.Drawing.Size(216, 20);
+      this.txtTermsAdd.TabIndex = 1;
+      this.txtTermsAdd.Text = "";
+      this.txtTermsAdd.MultilineChanged += new System.EventHandler(this.txtTermsAdd_MultilineChanged);
+      this.txtTermsAdd.Leave += new System.EventHandler(this.txtTermsAdd_Leave);
+      this.txtTermsAdd.Enter += new System.EventHandler(this.txtTermsAdd_Enter);
+      // 
+      // lblTermsAdd
+      // 
+      this.lblTermsAdd.Dock = System.Windows.Forms.DockStyle.Top;
+      this.lblTermsAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+      this.lblTermsAdd.Location = new System.Drawing.Point(8, 8);
+      this.lblTermsAdd.Name = "lblTermsAdd";
+      this.lblTermsAdd.Size = new System.Drawing.Size(216, 16);
+      this.lblTermsAdd.TabIndex = 0;
+      this.lblTermsAdd.Text = "Term:";
       // 
       // btnExit
       // 
       this.btnExit.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
-      this.btnExit.Location = new System.Drawing.Point(408, 496);
+      this.btnExit.Location = new System.Drawing.Point(416, 456);
       this.btnExit.Name = "btnExit";
-      this.btnExit.Size = new System.Drawing.Size(80, 32);
-      this.btnExit.TabIndex = 6;
-      this.btnExit.Text = "&Exit";
+      this.btnExit.Size = new System.Drawing.Size(72, 32);
+      this.btnExit.TabIndex = 5;
+      this.btnExit.Text = "E&xit";
       this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
       // 
       // btnTest
       // 
       this.btnTest.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
-      this.btnTest.Enabled = false;
-      this.btnTest.Location = new System.Drawing.Point(96, 496);
+      this.btnTest.Location = new System.Drawing.Point(104, 452);
       this.btnTest.Name = "btnTest";
-      this.btnTest.Size = new System.Drawing.Size(80, 32);
-      this.btnTest.TabIndex = 5;
+      this.btnTest.Size = new System.Drawing.Size(88, 36);
+      this.btnTest.TabIndex = 3;
       this.btnTest.Text = "&Test...";
       this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
       // 
       // menuMain
       // 
       this.menuMain.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-                                                                             this.menuMainNew,
-                                                                             this.menuMainOpen,
-                                                                             this.menuMainClose,
-                                                                             this.menuMainLine01,
-                                                                             this.menuMainSave,
-                                                                             this.menuMainSaveAs,
-                                                                             this.menuMainLine02,
-                                                                             this.menuMainPreferences,
-                                                                             this.menuMainAbout,
-                                                                             this.menuMainLine03,
-                                                                             this.menuMainExit});
+                                                                             this.menuFile,
+                                                                             this.menuView,
+                                                                             this.menuTools,
+                                                                             this.menuDesigner,
+                                                                             this.menuHelp});
       // 
-      // menuMainNew
+      // menuFile
       // 
-      this.menuMainNew.Index = 0;
-      this.menuMainNew.Text = "&New";
-      this.menuMainNew.Click += new System.EventHandler(this.menuMainNew_Click);
+      this.menuFile.Index = 0;
+      this.menuFile.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+                                                                             this.menuFileNew,
+                                                                             this.menuFileOpen,
+                                                                             this.menuFileClose,
+                                                                             this.menuFileLine01,
+                                                                             this.menuFileSave,
+                                                                             this.menuFileSaveAs,
+                                                                             this.menuFileLine02,
+                                                                             this.menuFileExit});
+      this.menuFile.Text = "&File";
       // 
-      // menuMainOpen
+      // menuFileNew
       // 
-      this.menuMainOpen.Index = 1;
-      this.menuMainOpen.Text = "&Open...";
-      this.menuMainOpen.Click += new System.EventHandler(this.menuMainOpen_Click);
+      this.menuFileNew.Index = 0;
+      this.menuFileNew.Shortcut = System.Windows.Forms.Shortcut.CtrlN;
+      this.menuFileNew.Text = "&New";
+      this.menuFileNew.Click += new System.EventHandler(this.menuFileNew_Click);
       // 
-      // menuMainClose
+      // menuFileOpen
       // 
-      this.menuMainClose.Enabled = false;
-      this.menuMainClose.Index = 2;
-      this.menuMainClose.Text = "&Close";
-      this.menuMainClose.Click += new System.EventHandler(this.menuMainClose_Click);
+      this.menuFileOpen.Index = 1;
+      this.menuFileOpen.Shortcut = System.Windows.Forms.Shortcut.CtrlO;
+      this.menuFileOpen.Text = "&Open...";
+      this.menuFileOpen.Click += new System.EventHandler(this.menuFileOpen_Click);
       // 
-      // menuMainLine01
+      // menuFileClose
       // 
-      this.menuMainLine01.Index = 3;
-      this.menuMainLine01.Text = "-";
+      this.menuFileClose.Index = 2;
+      this.menuFileClose.Text = "&Close";
+      this.menuFileClose.Click += new System.EventHandler(this.menuFileClose_Click);
       // 
-      // menuMainSave
+      // menuFileLine01
       // 
-      this.menuMainSave.Enabled = false;
-      this.menuMainSave.Index = 4;
-      this.menuMainSave.Text = "&Save";
-      this.menuMainSave.Click += new System.EventHandler(this.menuMainSave_Click);
+      this.menuFileLine01.Index = 3;
+      this.menuFileLine01.Text = "-";
       // 
-      // menuMainSaveAs
+      // menuFileSave
       // 
-      this.menuMainSaveAs.Enabled = false;
-      this.menuMainSaveAs.Index = 5;
-      this.menuMainSaveAs.Text = "&Save As...";
-      this.menuMainSaveAs.Click += new System.EventHandler(this.menuMainSaveAs_Click);
+      this.menuFileSave.Index = 4;
+      this.menuFileSave.Shortcut = System.Windows.Forms.Shortcut.CtrlS;
+      this.menuFileSave.Text = "&Save";
+      this.menuFileSave.Click += new System.EventHandler(this.menuFileSave_Click);
       // 
-      // menuMainLine02
+      // menuFileSaveAs
       // 
-      this.menuMainLine02.Index = 6;
-      this.menuMainLine02.Text = "-";
+      this.menuFileSaveAs.Index = 5;
+      this.menuFileSaveAs.Text = "Save &As...";
+      this.menuFileSaveAs.Click += new System.EventHandler(this.menuFileSaveAs_Click);
       // 
-      // menuMainPreferences
+      // menuFileLine02
       // 
-      this.menuMainPreferences.Index = 7;
-      this.menuMainPreferences.Text = "&Preferences...";
-      this.menuMainPreferences.Click += new System.EventHandler(this.menuMainPreferences_Click);
+      this.menuFileLine02.Index = 6;
+      this.menuFileLine02.Text = "-";
       // 
-      // menuMainAbout
+      // menuFileExit
       // 
-      this.menuMainAbout.Index = 8;
-      this.menuMainAbout.Text = "&About...";
-      this.menuMainAbout.Click += new System.EventHandler(this.menuMainAbout_Click);
+      this.menuFileExit.Index = 7;
+      this.menuFileExit.Text = "E&xit";
+      this.menuFileExit.Click += new System.EventHandler(this.menuFileExit_Click);
       // 
-      // menuMainLine03
+      // menuView
       // 
-      this.menuMainLine03.Index = 9;
-      this.menuMainLine03.Text = "-";
+      this.menuView.Index = 1;
+      this.menuView.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+                                                                             this.menuViewSource,
+                                                                             this.menuViewDesigner});
+      this.menuView.Text = "&View";
       // 
-      // menuMainExit
+      // menuViewSource
       // 
-      this.menuMainExit.Index = 10;
-      this.menuMainExit.Text = "&Exit";
-      this.menuMainExit.Click += new System.EventHandler(this.menuMainExit_Click);
+      this.menuViewSource.Index = 0;
+      this.menuViewSource.Shortcut = System.Windows.Forms.Shortcut.Ctrl0;
+      this.menuViewSource.Text = "View &Source";
+      this.menuViewSource.Click += new System.EventHandler(this.menuViewSource_Click);
+      // 
+      // menuViewDesigner
+      // 
+      this.menuViewDesigner.Index = 1;
+      this.menuViewDesigner.Shortcut = System.Windows.Forms.Shortcut.CtrlShift0;
+      this.menuViewDesigner.Text = "View &Designer";
+      this.menuViewDesigner.Click += new System.EventHandler(this.menuViewDesigner_Click);
+      // 
+      // menuTools
+      // 
+      this.menuTools.Index = 2;
+      this.menuTools.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+                                                                              this.menuEditorPreferences});
+      this.menuTools.Text = "&Tools";
+      // 
+      // menuEditorPreferences
+      // 
+      this.menuEditorPreferences.Index = 0;
+      this.menuEditorPreferences.Text = "&Preferences...";
+      this.menuEditorPreferences.Click += new System.EventHandler(this.menuEditorPreferences_Click);
+      // 
+      // menuDesigner
+      // 
+      this.menuDesigner.Index = 3;
+      this.menuDesigner.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+                                                                                 this.menuDesignerAddTerm});
+      this.menuDesigner.Text = "&Designer";
+      // 
+      // menuDesignerAddTerm
+      // 
+      this.menuDesignerAddTerm.Index = 0;
+      this.menuDesignerAddTerm.Shortcut = System.Windows.Forms.Shortcut.CtrlD;
+      this.menuDesignerAddTerm.Text = "A&dd Term";
+      this.menuDesignerAddTerm.Click += new System.EventHandler(this.menuDesignerAddTerm_Click);
+      // 
+      // menuHelp
+      // 
+      this.menuHelp.Index = 4;
+      this.menuHelp.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+                                                                             this.menuHelpAbout});
+      this.menuHelp.Text = "&Help";
+      // 
+      // menuHelpAbout
+      // 
+      this.menuHelpAbout.Index = 0;
+      this.menuHelpAbout.Text = "&About...";
+      this.menuHelpAbout.Click += new System.EventHandler(this.menuHelpAbout_Click);
       // 
       // btnPlayer
       // 
       this.btnPlayer.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
-      this.btnPlayer.Location = new System.Drawing.Point(328, 496);
+      this.btnPlayer.Location = new System.Drawing.Point(336, 456);
       this.btnPlayer.Name = "btnPlayer";
       this.btnPlayer.Size = new System.Drawing.Size(72, 32);
-      this.btnPlayer.TabIndex = 21;
+      this.btnPlayer.TabIndex = 4;
       this.btnPlayer.Text = "&Player...";
       this.btnPlayer.Click += new System.EventHandler(this.btnPlayer_Click);
       // 
-      // openFileDialog
+      // panInfo
       // 
-      this.openFileDialog.DefaultExt = "sheet";
-      this.openFileDialog.Filter = "Study Sheet Files (*.sheet)|*.sheet|All Files (*.*)|*.*";
-      this.openFileDialog.Title = "Open Study Sheet";
+      this.panInfo.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+        | System.Windows.Forms.AnchorStyles.Right);
+      this.panInfo.Controls.AddRange(new System.Windows.Forms.Control[] {
+                                                                          this.chkInfo,
+                                                                          this.grpInfo});
+      this.panInfo.Location = new System.Drawing.Point(0, 32);
+      this.panInfo.Name = "panInfo";
+      this.panInfo.Size = new System.Drawing.Size(480, 108);
+      this.panInfo.TabIndex = 1;
       // 
-      // saveFileDialog
+      // panDesigner
       // 
-      this.saveFileDialog.DefaultExt = "sheet";
-      this.saveFileDialog.FileName = "untitled";
-      this.saveFileDialog.Filter = "Study Sheet Files (*.sheet)|*.sheet|All Files (*.*)|*.*";
-      this.saveFileDialog.Title = "Open Study Sheet";
+      this.panDesigner.Anchor = (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+        | System.Windows.Forms.AnchorStyles.Left) 
+        | System.Windows.Forms.AnchorStyles.Right);
+      this.panDesigner.Controls.AddRange(new System.Windows.Forms.Control[] {
+                                                                              this.panInfo,
+                                                                              this.txtTitle,
+                                                                              this.panSheet});
+      this.panDesigner.Location = new System.Drawing.Point(8, 8);
+      this.panDesigner.Name = "panDesigner";
+      this.panDesigner.Size = new System.Drawing.Size(480, 436);
+      this.panDesigner.TabIndex = 0;
+      // 
+      // panSource
+      // 
+      this.panSource.Anchor = (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+        | System.Windows.Forms.AnchorStyles.Left) 
+        | System.Windows.Forms.AnchorStyles.Right);
+      this.panSource.Controls.AddRange(new System.Windows.Forms.Control[] {
+                                                                            this.btnNormalize,
+                                                                            this.txtSource});
+      this.panSource.Location = new System.Drawing.Point(8, 8);
+      this.panSource.Name = "panSource";
+      this.panSource.Size = new System.Drawing.Size(480, 436);
+      this.panSource.TabIndex = 1;
+      // 
+      // btnNormalize
+      // 
+      this.btnNormalize.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
+      this.btnNormalize.Location = new System.Drawing.Point(388, 404);
+      this.btnNormalize.Name = "btnNormalize";
+      this.btnNormalize.Size = new System.Drawing.Size(92, 32);
+      this.btnNormalize.TabIndex = 0;
+      this.btnNormalize.Text = "&Normalize";
+      this.btnNormalize.Click += new System.EventHandler(this.btnNormalize_Click);
+      // 
+      // txtSource
+      // 
+      this.txtSource.Anchor = (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+        | System.Windows.Forms.AnchorStyles.Left) 
+        | System.Windows.Forms.AnchorStyles.Right);
+      this.txtSource.BackColor = System.Drawing.SystemColors.Control;
+      this.txtSource.Name = "txtSource";
+      this.txtSource.Size = new System.Drawing.Size(480, 396);
+      this.txtSource.TabIndex = 1;
+      this.txtSource.Text = "";
+      this.txtSource.TextChanged += new System.EventHandler(this.txtSource_TextChanged);
+      this.txtSource.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.LinkClicked);
+      // 
+      // btnMenu
+      // 
+      this.btnMenu.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+      this.btnMenu.Location = new System.Drawing.Point(8, 452);
+      this.btnMenu.Name = "btnMenu";
+      this.btnMenu.Size = new System.Drawing.Size(88, 36);
+      this.btnMenu.TabIndex = 2;
+      this.btnMenu.Text = "&Menu";
+      this.btnMenu.Click += new System.EventHandler(this.btnMenu_Click);
+      this.btnMenu.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnMenu_MouseDown);
+      // 
+      // menuMenu
+      // 
+      this.menuMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+                                                                             this.menuMenuExit});
+      // 
+      // menuMenuExit
+      // 
+      this.menuMenuExit.Index = 0;
+      this.menuMenuExit.Text = "E&xit";
+      this.menuMenuExit.Click += new System.EventHandler(this.menuMenuExit_Click);
+      // 
+      // panItems
+      // 
+      this.panItems.Controls.AddRange(new System.Windows.Forms.Control[] {
+                                                                           this.panDefinition,
+                                                                           this.splDefinition,
+                                                                           this.panTerms});
+      this.panItems.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.panItems.Location = new System.Drawing.Point(8, 8);
+      this.panItems.Name = "panItems";
+      this.panItems.Size = new System.Drawing.Size(462, 130);
+      this.panItems.TabIndex = 0;
+      // 
+      // panDefinition
+      // 
+      this.panDefinition.Controls.AddRange(new System.Windows.Forms.Control[] {
+                                                                                this.txtDefinition,
+                                                                                this.lblDefinition});
+      this.panDefinition.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.panDefinition.DockPadding.Bottom = 8;
+      this.panDefinition.Location = new System.Drawing.Point(236, 0);
+      this.panDefinition.Name = "panDefinition";
+      this.panDefinition.Size = new System.Drawing.Size(226, 130);
+      this.panDefinition.TabIndex = 2;
+      // 
+      // txtDefinition
+      // 
+      this.txtDefinition.BackColor = System.Drawing.SystemColors.Control;
+      this.txtDefinition.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.txtDefinition.Location = new System.Drawing.Point(0, 16);
+      this.txtDefinition.Name = "txtDefinition";
+      this.txtDefinition.ReadOnly = true;
+      this.txtDefinition.Size = new System.Drawing.Size(226, 106);
+      this.txtDefinition.TabIndex = 1;
+      this.txtDefinition.Text = "";
+      // 
+      // lblDefinition
+      // 
+      this.lblDefinition.Dock = System.Windows.Forms.DockStyle.Top;
+      this.lblDefinition.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+      this.lblDefinition.Name = "lblDefinition";
+      this.lblDefinition.Size = new System.Drawing.Size(226, 16);
+      this.lblDefinition.TabIndex = 0;
+      this.lblDefinition.Text = "Definitions:";
+      // 
+      // splDefinition
+      // 
+      this.splDefinition.Location = new System.Drawing.Point(228, 0);
+      this.splDefinition.MinExtra = 75;
+      this.splDefinition.MinSize = 75;
+      this.splDefinition.Name = "splDefinition";
+      this.splDefinition.Size = new System.Drawing.Size(8, 130);
+      this.splDefinition.TabIndex = 1;
+      this.splDefinition.TabStop = false;
+      this.splDefinition.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splDefinition_SplitterMoved);
+      // 
+      // panTerms
+      // 
+      this.panTerms.Controls.AddRange(new System.Windows.Forms.Control[] {
+                                                                           this.lstTermList,
+                                                                           this.splTerms,
+                                                                           this.txtMultiTerm,
+                                                                           this.lblTermList});
+      this.panTerms.Dock = System.Windows.Forms.DockStyle.Left;
+      this.panTerms.DockPadding.Bottom = 8;
+      this.panTerms.Name = "panTerms";
+      this.panTerms.Size = new System.Drawing.Size(228, 130);
+      this.panTerms.TabIndex = 0;
+      // 
+      // lstTermList
+      // 
+      this.lstTermList.BackColor = System.Drawing.SystemColors.Control;
+      this.lstTermList.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.lstTermList.IntegralHeight = false;
+      this.lstTermList.Location = new System.Drawing.Point(0, 16);
+      this.lstTermList.Name = "lstTermList";
+      this.lstTermList.Size = new System.Drawing.Size(228, 78);
+      this.lstTermList.TabIndex = 2;
+      this.lstTermList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lstTermList_MouseDown);
+      this.lstTermList.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.lstTermList_KeyPress);
+      this.lstTermList.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lstTermList_MouseMove);
+      this.lstTermList.SelectedIndexChanged += new System.EventHandler(this.lstTermList_SelectedIndexChanged);
+      // 
+      // splTerms
+      // 
+      this.splTerms.Dock = System.Windows.Forms.DockStyle.Bottom;
+      this.splTerms.Location = new System.Drawing.Point(0, 94);
+      this.splTerms.Name = "splTerms";
+      this.splTerms.Size = new System.Drawing.Size(228, 8);
+      this.splTerms.TabIndex = 1;
+      this.splTerms.TabStop = false;
+      this.splTerms.Visible = false;
+      // 
+      // txtMultiTerm
+      // 
+      this.txtMultiTerm.BackColor = System.Drawing.SystemColors.Control;
+      this.txtMultiTerm.Dock = System.Windows.Forms.DockStyle.Bottom;
+      this.txtMultiTerm.Location = new System.Drawing.Point(0, 102);
+      this.txtMultiTerm.Name = "txtMultiTerm";
+      this.txtMultiTerm.ReadOnly = true;
+      this.txtMultiTerm.Size = new System.Drawing.Size(228, 20);
+      this.txtMultiTerm.TabIndex = 3;
+      this.txtMultiTerm.Text = "";
+      this.txtMultiTerm.Visible = false;
+      // 
+      // lblTermList
+      // 
+      this.lblTermList.Dock = System.Windows.Forms.DockStyle.Top;
+      this.lblTermList.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+      this.lblTermList.Name = "lblTermList";
+      this.lblTermList.Size = new System.Drawing.Size(228, 16);
+      this.lblTermList.TabIndex = 0;
+      this.lblTermList.Text = "Terms:";
       // 
       // frmMain
       // 
       this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-      this.ClientSize = new System.Drawing.Size(496, 533);
+      this.ClientSize = new System.Drawing.Size(496, 493);
       this.Controls.AddRange(new System.Windows.Forms.Control[] {
                                                                   this.btnPlayer,
-                                                                  this.chkInfo,
-                                                                  this.btnMenu,
-                                                                  this.panSheet,
-                                                                  this.grpInfo,
-                                                                  this.txtTitle,
                                                                   this.btnExit,
-                                                                  this.btnTest});
+                                                                  this.btnTest,
+                                                                  this.btnMenu,
+                                                                  this.panDesigner,
+                                                                  this.panSource});
       this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+      this.Menu = this.menuMain;
+      this.MinimumSize = new System.Drawing.Size(368, 480);
       this.Name = "frmMain";
       this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-      this.Text = "Study Guide: Matching [Edit]";
+      this.Text = "Study Guide Editor [Design]";
+      this.Closing += new System.ComponentModel.CancelEventHandler(this.frmMain_Closing);
+      this.SizeChanged += new System.EventHandler(this.frmMain_SizeChanged);
       this.Load += new System.EventHandler(this.frmMain_Load);
       this.Activated += new System.EventHandler(this.frmMain_Activated);
       this.grpInfo.ResumeLayout(false);
       this.panSheet.ResumeLayout(false);
-      this.panDefinition.ResumeLayout(false);
-      this.panTerms.ResumeLayout(false);
       this.panTermsModify.ResumeLayout(false);
       this.panAdd.ResumeLayout(false);
       this.grpAdd.ResumeLayout(false);
+      this.panAddItem.ResumeLayout(false);
+      this.panAddDefinition.ResumeLayout(false);
+      this.panAddTermFooter.ResumeLayout(false);
+      this.panAddTerm.ResumeLayout(false);
+      this.panAddTermTextBox.ResumeLayout(false);
+      this.panInfo.ResumeLayout(false);
+      this.panDesigner.ResumeLayout(false);
+      this.panSource.ResumeLayout(false);
+      this.panItems.ResumeLayout(false);
+      this.panDefinition.ResumeLayout(false);
+      this.panTerms.ResumeLayout(false);
       this.ResumeLayout(false);
 
     }
@@ -737,61 +994,102 @@ namespace Uberware.Study
     #endregion
     
     
-    
     private void frmMain_Load(object sender, System.EventArgs e)
     {
+      // Populate context menu
+      menuMenu.MenuItems.RemoveAt(0);       // Remove 'Exit' menu item
+      menuMenu.MergeMenu(menuFile);         // Append 'File' menu items
+      menuMenu.MenuItems.RemoveAt(7);       // Remove 'File' menu's exit
+      menuMenu.MergeMenu(menuTools);        // Append 'Editor' menu items
+      menuMenu.MergeMenu(menuHelp);        // Append 'About' menu items
+      menuMenu.MenuItems.Add("-");          // Add a separator menu item
+      menuMenu.MenuItems.Add(menuMenuExit); // Add the 'Exit' menu item
+      
       // Close all checks via the CheckedChanged functions
       chkInfo.Checked = false;
       chkAdd.Checked = false;
       
       // Adjust min/max sizes
-      splAdd.MinSize = txtGroup.Height + chkMultiTerm.Height + lblTermsAdd.Height + 32;
-      splAdd.MinExtra = splAdd.MinSize;
+      splAdd.MinSize = (chkMultiTerm.Height + lblTermsAdd.Height + txtAuthor.Height + chkMultiTerm.Height) + 8;
+      splAdd.MinExtra = (lblTermList.Height + txtAuthor.Height + splTerms.Height + txtAuthor.Height + panTermsModify.Height) + 16;
+      
+      // Show designer mode
+      DoShowDesigner();
     }
     
     private void frmMain_Activated(object sender, System.EventArgs e)
     {
       if (m_Sheet != null)
       {
-        if (m_Sheet.Title == "")
-          txtTitle.Focus();
-        else if ((chkInfo.Checked) && (m_Sheet.Author == ""))
-          txtAuthor.Focus();
-        else if ((chkInfo.Checked) && (m_Sheet.Description == ""))
-          txtDescription.Focus();
-        else if ((lstTermList.Items.Count == 0) && (chkAdd.Checked))
-          txtTermsAdd.Focus();
+        if (m_DesignMode)
+        {
+          if (m_Sheet.Title == "")
+            txtTitle.Focus();
+          else if ((chkInfo.Checked) && (m_Sheet.Author == ""))
+            txtAuthor.Focus();
+          else if ((chkInfo.Checked) && (m_Sheet.Description == ""))
+            txtDescription.Focus();
+          else if ((lstTermList.Items.Count == 0) && (chkAdd.Checked))
+            txtTermsAdd.Focus();
+          else
+            lstTermList.Focus();
+        }
         else
-          lstTermList.Focus();
+          txtSource.Focus();
       }
       else
         btnMenu.Focus();
     }
     
+    private void frmMain_SizeChanged(object sender, System.EventArgs e)
+    {
+      if (this.WindowState == FormWindowState.Minimized) return;
+      splAddSep.SplitPosition = splAddSep.SplitPosition;
+    }
+    
+    private void frmMain_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    { if (!DoClose()) e.Cancel = true; }
     
     
-    private void menuMainNew_Click(object sender, System.EventArgs e)
+    
+    private void menuFileNew_Click(object sender, System.EventArgs e)
     { DoNew(); }
-    private void menuMainOpen_Click(object sender, System.EventArgs e)
+    private void menuFileOpen_Click(object sender, System.EventArgs e)
     { DoOpen(); }
-    private void menuMainClose_Click(object sender, System.EventArgs e)
+    private void menuFileClose_Click(object sender, System.EventArgs e)
     { DoClose(); }
-    private void menuMainSave_Click(object sender, System.EventArgs e)
+    private void menuFileSave_Click(object sender, System.EventArgs e)
     { DoSave(); }
-    private void menuMainSaveAs_Click(object sender, System.EventArgs e)
+    private void menuFileSaveAs_Click(object sender, System.EventArgs e)
     { DoSaveAs(); }
-    private void menuMainPreferences_Click(object sender, System.EventArgs e)
+    private void menuViewSource_Click(object sender, System.EventArgs e)
+    {
+      if (!m_DesignMode) return;
+      
+      DoShowSource();
+      frmMain_Activated(this, new EventArgs());
+    }
+    private void menuViewDesigner_Click(object sender, System.EventArgs e)
+    {
+      if (m_DesignMode) return;
+      
+      DoShowDesigner();
+      frmMain_Activated(this, new EventArgs());
+    }
+    private void menuEditorPreferences_Click(object sender, System.EventArgs e)
     { DoPreferences(); }
-    private void menuMainAbout_Click(object sender, System.EventArgs e)
+    private void menuHelpAbout_Click(object sender, System.EventArgs e)
     { DoAbout(); }
-    private void menuMainExit_Click(object sender, System.EventArgs e)
+    private void menuFileExit_Click(object sender, System.EventArgs e)
+    { this.Close(); }
+    private void menuMenuExit_Click(object sender, System.EventArgs e)
     { this.Close(); }
     
     
     private void btnMenu_Click(object sender, System.EventArgs e)
-    { menuMain.Show(btnMenu.Parent, new Point(btnMenu.Left, btnMenu.Bottom)); }
+    { menuMenu.GetContextMenu().Show(btnMenu.Parent, new Point(btnMenu.Left, btnMenu.Bottom)); }
     private void btnMenu_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
-    { menuMain.Show(btnMenu.Parent, new Point(btnMenu.Left, btnMenu.Bottom)); }
+    { menuMenu.GetContextMenu().Show(btnMenu.Parent, new Point(btnMenu.Left, btnMenu.Bottom)); }
     
     private void btnTest_Click(object sender, System.EventArgs e)
     { DoTest(); }
@@ -800,30 +1098,20 @@ namespace Uberware.Study
     private void btnExit_Click(object sender, System.EventArgs e)
     { this.Close(); }
     
+    private void btnAddTerm_Click(object sender, System.EventArgs e)
+    { DoAddTerm(); }
     
-    private void chkInfo_CheckedChanged(object sender, System.EventArgs e)
+    private void btnNormalize_Click(object sender, System.EventArgs e)
     {
-      // Show/hide 'Sheet Information'
-      grpInfo.Enabled = chkInfo.Checked;
-      grpInfo.Height = (( chkInfo.Checked )?( txtDescription.Top + txtDescription.Height + 8 ):( chkInfo.Height + 4 ));
-      panSheet.Top = grpInfo.Top + grpInfo.Height + 8;
-      panSheet.Height = (this.ClientSize.Height - (btnMenu.Height + 8)) - (panSheet.Top + 8);
+      if (m_Sheet == null) return;
+      
+      string s = MatchingSheet.Normalize(txtSource.Text);
+      if (s != txtSource.Text) txtSource.Text = s;
+      txtSource.Focus();
     }
-    private void chkAdd_CheckedChanged(object sender, System.EventArgs e)
-    {
-      // Show/hide 'Add Item'
-      grpAdd.Enabled = chkAdd.Checked;
-      if (!chkAdd.Checked) m_AddHeight = panAdd.Height;
-      panAdd.Height = (( chkAdd.Checked )?( m_AddHeight ):( chkAdd.Height + 4 ));
-      splAdd.Enabled = chkAdd.Checked;
-    }
+    private void txtSource_TextChanged(object sender, System.EventArgs e)
+    { if ((!m_InternalEditing) && (m_Sheet != null)) DoMakeDirty(); }
     
-    private void chkMultiTerm_CheckedChanged(object sender, System.EventArgs e)
-    { chkMultiTerm.Text = (( chkMultiTerm.Checked )?( "Multiple Terms (one per line)" ):( "Multiple Terms" )); }
-    private void chkEdit_CheckedChanged(object sender, System.EventArgs e)
-    {
-      // !!!!!
-    }
     
     
     private void txtTitle_Enter(object sender, System.EventArgs e)
@@ -832,7 +1120,7 @@ namespace Uberware.Study
       if (m_Sheet.Title == "")
       {
         txtTitle.SelectionStart = 0; txtTitle.SelectionLength = 0;
-        txtTitle.Text = ""; txtTitle.ForeColor = Color.FromKnownColor(KnownColor.InfoText);
+        SetTitle(""); txtTitle.ForeColor = Color.FromKnownColor(KnownColor.InfoText);
         return;
       }
       
@@ -841,17 +1129,23 @@ namespace Uberware.Study
     private void txtTitle_Leave (object sender, System.EventArgs e)
     {
       if (m_Sheet == null) return;  // Failsafe
-      if (txtTitle.Text != "")
-      { m_Sheet.Title = txtTitle.Text; return; }
       
-      m_Sheet.Title = "";
-      txtTitle.Text = "( untitled )"; txtTitle.ForeColor = Color.FromKnownColor(KnownColor.GrayText);
-      txtTitle.SelectionStart = 0; txtTitle.SelectionLength = 0;
+      if (txtTitle.Text == "")
+      {
+        m_Sheet.Title = "";
+        SetTitle("( untitled )"); txtTitle.ForeColor = Color.FromKnownColor(KnownColor.GrayText);
+        txtTitle.SelectionStart = 0; txtTitle.SelectionLength = 0;
+      }
     }
-    
-    
-    private void txtAuthor_Leave(object sender, System.EventArgs e)
-    { if (m_Sheet != null)  m_Sheet.Author = txtAuthor.Text; }
+    private void txtTitle_TextChanged(object sender, System.EventArgs e)
+    {
+      if (m_Sheet == null) return;  // Failsafe
+      if (m_InternalEditing) return;
+      
+      // Set 'title' info
+      m_Sheet.Title = txtTitle.Text;
+      DoMakeDirty();
+    }
     
     private void txtGroup_Enter(object sender, System.EventArgs e)
     {
@@ -868,32 +1162,134 @@ namespace Uberware.Study
     private void txtGroup_Leave(object sender, System.EventArgs e)
     {
       if (m_Sheet == null) return;  // Failsafe
-      if (txtGroup.Text != "")
-      { m_Sheet.Group = txtGroup.Text; return; }
       
-      m_Sheet.Group = "";
-      txtGroup.Text = "( All Groups )"; txtGroup.ForeColor = Color.FromKnownColor(KnownColor.GrayText);
-      txtGroup.SelectionStart = 0; txtGroup.SelectionLength = 0;
+      // Set 'group' info
+      if (txtGroup.Text == "")
+      {
+        m_Sheet.Group = "";
+        SetGroup("( All Groups )"); txtGroup.ForeColor = Color.FromKnownColor(KnownColor.GrayText);
+        txtGroup.SelectionStart = 0; txtGroup.SelectionLength = 0;
+      }
+    }
+    private void txtGroup_TextChanged(object sender, System.EventArgs e)
+    {
+      if (m_Sheet == null) return;  // Failsafe
+      if (m_InternalEditing) return;
+      
+      // Set 'group' info
+      m_Sheet.Group = txtGroup.Text;
+      DoMakeDirty();
     }
     
-    private void txtDescription_Leave (object sender, System.EventArgs e)
-    { if (m_Sheet != null)  m_Sheet.Description = txtDescription.Text; }
+    private void txtAuthor_TextChanged(object sender, System.EventArgs e)
+    {
+      if (m_Sheet == null) return;
+      if (m_InternalEditing) return;
+      
+      // Set 'author' info
+      m_Sheet.Author = txtAuthor.Text;
+      DoMakeDirty();
+    }
+    
+    private void txtDescription_TextChanged(object sender, System.EventArgs e)
+    {
+      if (m_Sheet == null) return;
+      if (m_InternalEditing) return;
+      
+      // Set 'description' info
+      m_Sheet.Description = txtDescription.Text;
+      DoMakeDirty();
+    }
     
     
+    
+    private void btnDelete_Click(object sender, System.EventArgs e)
+    {
+      // !!!!!
+    }
+    
+    
+    private void chkInfo_CheckedChanged(object sender, System.EventArgs e)
+    {
+      // Show/hide 'Sheet Information'
+      this.SuspendLayout();
+      grpInfo.Enabled = chkInfo.Checked;
+      panInfo.Height = (( chkInfo.Checked )?( txtDescription.Top + txtDescription.Height + 8 ):( chkInfo.Height + 4 ));
+      panSheet.Top = panInfo.Top + panInfo.Height + 8;
+      panSheet.Height = (panDesigner.Height - panSheet.Top);
+      this.ResumeLayout();
+      
+      if ((m_Sheet != null) && (chkInfo.Checked))
+      {
+        if (m_Sheet.Author == "")
+          txtAuthor.Focus();
+        else if (m_Sheet.Description == "")
+          txtDescription.Focus();
+      }
+    }
+    private void chkAdd_CheckedChanged(object sender, System.EventArgs e)
+    {
+      // Show/hide 'Add Item'
+      this.SuspendLayout();
+      grpAdd.Enabled = chkAdd.Checked;
+      if (!chkAdd.Checked) m_AddHeight = panAdd.Height;
+      panAdd.Height = (( chkAdd.Checked )?( m_AddHeight ):( chkAdd.Height + 4 ));
+      splAdd.Enabled = chkAdd.Checked;
+      this.ResumeLayout();
+      
+      if ((m_Sheet != null) && (chkAdd.Checked)) txtTermsAdd.Focus();
+    }
+    
+    private bool grpAddFocus;
+    private void grpAdd_Enter(object sender, System.EventArgs e)
+    { grpAddFocus = true;  this.AcceptButton = btnAddTerm; }
+    private void grpAdd_Leave(object sender, System.EventArgs e)
+    { grpAddFocus = false; this.AcceptButton = null; }
+    private void txtTermsAdd_Enter(object sender, System.EventArgs e)
+    { if (chkMultiTerm.Checked) this.AcceptButton = null; }
+    private void txtTermsAdd_Leave(object sender, System.EventArgs e)
+    { this.AcceptButton = (( grpAddFocus )?( btnAddTerm ):( null )); }
+    
+    private void chkReadOnly_CheckedChanged(object sender, System.EventArgs e)
+    {
+      // !!!!!
+    }
+    
+    private void lstTermList_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
+    {
+      // !!!!! shortcut keys
+    }
+    
+    
+    
+    private void lstTermList_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+    { if (e.Button == MouseButtons.Left) lstTermList_SelectedIndexChanged(sender, new EventArgs()); }
+    private void lstTermList_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+    { if (e.Button == MouseButtons.Left) lstTermList_SelectedIndexChanged(sender, new EventArgs()); }
     private void lstTermList_SelectedIndexChanged (object sender, System.EventArgs e)
     {
       if (m_Sheet == null) return;
       
-      if (lstTermList.Items.Count > 0)
+      if (lstTermList.SelectedIndex != -1)
       {
-        rtbDefinition.Text = "";  // !!!!!
-        rtbDefinition.ReadOnly = true;
+        txtDefinition.Text = "";  // !!!!!
+        txtDefinition.ReadOnly = chkReadOnly.Checked;
       }
       else
       {
-        rtbDefinition.Text = "";
-        rtbDefinition.ReadOnly = true;
+        txtDefinition.Text = "";
+        txtDefinition.ReadOnly = true;
       }
+    }
+    
+    private void LinkClicked (object sender, System.Windows.Forms.LinkClickedEventArgs e)
+    {
+      try // Call the Process.Start method to open the default browser with a URL:
+      { System.Diagnostics.Process.Start(e.LinkText); }
+      catch (Win32Exception)
+      {}
+      catch   // Failsafe
+      { MessageBox.Show(this, "Could not start browser process.", "Study Guide", MessageBoxButtons.OK, MessageBoxIcon.Error); }
     }
     
     
@@ -902,8 +1298,14 @@ namespace Uberware.Study
     {
       if (!DoClose()) return false;
       
-      m_Sheet = new MatchingSheet();
-      DoUpdateSheet(true);
+      DoUpdateSheet(new MatchingSheet());
+      DoMakeDirty();
+      
+      if (m_DesignMode)
+        txtTitle.Focus();
+      else
+        txtSource.Focus();
+      
       return true;
     }
     
@@ -914,18 +1316,49 @@ namespace Uberware.Study
     }
     private bool DoOpen (string FileName)
     {
+      if (!DoClose()) return false;
+      string s = "";
+      
       try
-      { return DoOpen(MatchingSheet.FromFile(FileName)); }
+      {
+        TextReader file = new StreamReader(FileName);
+        s = file.ReadToEnd();
+        file.Close();
+      }
       catch (IOException e)
-      { MessageBox.Show(this, e.Message, "File Load Error"); }
-      return false;
+      {
+        MessageBox.Show(this, e.Message, "File Load Error");
+        return false;
+      }
+      
+      MatchingSheet sheet = MatchingSheet.FromString(s, FileName);
+      if (sheet == null) return false;
+      
+      DoUpdateSheet(sheet);
+      DoMakeDirty(false);
+      SetSource(s);
+      
+      chkAdd.Checked = (m_Sheet.TermCount == 0);
+      if (m_DesignMode)
+        lstTermList.Focus();
+      else
+        txtSource.Focus();
+      
+      return true;
     }
     private bool DoOpen (MatchingSheet sheet)
     {
+      if (sheet == null) return false;
       if (!DoClose()) return false;
       
-      m_Sheet = sheet;
-      DoUpdateSheet(false);
+      DoUpdateSheet(sheet);
+      DoMakeDirty(false);
+      
+      chkAdd.Checked = (m_Sheet.TermCount == 0);
+      if (m_DesignMode)
+        lstTermList.Focus();
+      else
+        txtSource.Focus();
       
       return true;
     }
@@ -937,44 +1370,98 @@ namespace Uberware.Study
       if (m_SheetDirty)
       {
         DialogResult result;
-        if (m_Sheet.Filename == "")
+        if (m_Sheet.FileName == "")
           result = MessageBox.Show(this, "Save first?", "Study Sheet Editor", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
         else
-          result = MessageBox.Show(this, "Save changes to " + m_Sheet.Filename + "?", "Study Sheet Editor", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+          result = MessageBox.Show(this, "Save changes to " + m_Sheet.FileName + "?", "Study Sheet Editor", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
         
         if (result == DialogResult.Yes)
           if (!DoSave()) return false;
         if (result == DialogResult.Cancel) return false;
       }
       
-      m_Sheet = null;
-      DoUpdateSheet(false);
+      DoUpdateSheet(null);
+      DoMakeDirty(false);
       
+      // Make sure sheet is empty
+      chkAdd.Checked = false;
+      txtSource.Text = "";
+      btnMenu.Focus();
       return true;
     }
     
     private bool DoSave ()
     {
       if (m_Sheet == null) return false;
-      if (m_Sheet.Filename == "")
+      if (m_Sheet.FileName == "")
         if (!DoSaveAs()) return false;
       
-      m_SheetDirty = false;
-      return m_Sheet.Save();
+      DoMakeDirty(false);
+      
+      try
+      {
+        if (txtSource.Text == "")
+        { m_Sheet.Save(); }
+        else
+        {
+          StreamWriter file = new StreamWriter(m_Sheet.FileName);
+          file.Write(txtSource.Text);
+          file.Flush(); file.Close();
+        }
+      }
+      catch (IOException e)
+      {
+        MessageBox.Show(this, e.Message, "File Load Error");
+        return false;
+      }
+      
+      return true;
     }
     
-    private bool DoSaveAs (string Filename)
+    private bool DoSaveAs (string FileName)
     {
-      m_Sheet.Filename = Filename;
+      m_Sheet.FileName = FileName;
       return DoSave();
     }
     private bool DoSaveAs ()
     {
       if (m_Sheet == null) return false;
       
-      saveFileDialog.FileName = (( m_Sheet.Filename == "" )?( txtTitle.Text ):( m_Sheet.Filename ));
+      saveFileDialog.FileName = GetSheetFileName();
       if (saveFileDialog.ShowDialog(this) != DialogResult.OK) return false;
       return DoSaveAs(saveFileDialog.FileName);
+    }
+    
+    
+    
+    private void DoShowSource ()
+    { DoShowMode(false); }
+    private void DoShowDesigner ()
+    { DoShowMode(true); }
+    
+    private void DoShowMode (bool DesignerMode)
+    {
+      MatchingSheet sheet = null;
+      
+      if (m_Sheet != null)
+      {
+        if (m_DesignMode)
+          sheet = m_Sheet;
+        else
+          sheet = MatchingSheet.FromString(txtSource.Text, m_Sheet.FileName);
+        
+        DoUpdateSheet(null);
+      }
+      
+      m_DesignMode = DesignerMode;
+      DoUpdateSheet(sheet);
+      UpdateWindowText();
+      
+      SuspendLayout();
+      menuDesigner.Visible = m_DesignMode;
+      panDesigner.Visible = m_DesignMode;
+      panSource.Visible = !m_DesignMode;
+      ResumeLayout();
     }
     
     private bool DoPreferences ()
@@ -1015,74 +1502,262 @@ namespace Uberware.Study
     }
     
     
-    private void DoUpdateSheet (bool IsDirty)
+    private void DoAddTerm ()
+    {
+      // Failsafe
+      if (txtTermsAdd.Text == "")
+      {
+        MessageBox.Show(this, "Could not add; required term.", "Study Guide Editor", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        txtTermsAdd.Focus();
+        return;
+      }
+      if (txtDefinitionAdd.Text == "")
+      {
+        MessageBox.Show(this, "Could not add; required definition.", "Study Guide Editor", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        txtDefinitionAdd.Focus();
+        return;
+      }
+      
+      DoAddTerm(txtTermsAdd.Text, txtDefinitionAdd.Text);
+      
+      txtTermsAdd.Text = "";
+      txtDefinitionAdd.Text = "";
+      txtTermsAdd.Focus();
+    }
+    private void DoAddTerm (string term, string definition)
+    {
+      // !!!!! Add unique
+      
+      string [] terms = new String [(m_Sheet.Terms.Length + 1)];
+      m_Sheet.Terms.CopyTo(terms, 0);
+      terms[m_Sheet.Terms.Length] = term;
+      m_Sheet.Terms = terms;
+      
+      string [] definitions = new String [(m_Sheet.Definitions.Length + 1)];
+      m_Sheet.Definitions.CopyTo(definitions, 0);
+      definitions[m_Sheet.Definitions.Length] = definition;
+      m_Sheet.Definitions = definitions;
+      
+      // Add to list
+      lstTermList.Items.Add(m_Sheet.Terms[(m_Sheet.Terms.Length - 1)]);
+      
+      DoMakeDirty();
+      DoUpdateSheetItems();
+    }
+    
+    
+    private string GetSheetTitle ()
+    {
+      if (m_Sheet == null) return "";
+      return (( (txtTitle.Text == "") || (txtTitle.Text == "( untitled )") )?( "Untitled" ):( txtTitle.Text ));
+    }
+    private string GetSheetFileTitle ()
+    {
+      if (m_Sheet == null) return "";
+      return (( m_Sheet.FileName == "" )?( GetSheetTitle() ):( Path.GetFileName(m_Sheet.FileName) ));
+    }
+    private string GetSheetFileName ()
+    {
+      if (m_Sheet == null) return "";
+      return (( m_Sheet.FileName == "" )?( GetSheetTitle() ):( m_Sheet.FileName ));
+    }
+    
+    private void DoMakeDirty ()
+    { DoMakeDirty(true); }
+    private void DoMakeDirty (bool IsDirty)
     {
       m_SheetDirty = IsDirty;
+      if (m_DesignMode && IsDirty)
+        SetSource("");
+      UpdateWindowText();
+    }
+    
+    private void DoUpdateSheet (MatchingSheet sheet, bool IsDirty)
+    {
+      DoMakeDirty(IsDirty);
+      DoUpdateSheet(sheet);
+    }
+    private void DoUpdateSheet (MatchingSheet sheet)
+    {
+      m_Sheet = sheet;
+      DoUpdateSheet();
+    }
+    private void DoUpdateSheet ()
+    {
+      SuspendLayout();
+      m_InternalEditing = true;
       
       if (m_Sheet != null)
       {
-        txtTitle.ForeColor = Color.FromKnownColor(KnownColor.InfoText);
-        txtTitle.BackColor = Color.FromKnownColor(KnownColor.Info);
-        txtTitle.ReadOnly = false;
-        txtTitle.Text = m_Sheet.Title; txtTitle_Leave(txtTitle, new EventArgs());
+        menuFileClose.Enabled = true;
+        menuFileSave.Enabled = true;
+        menuFileSaveAs.Enabled = true;
+        menuDesignerAddTerm.Enabled = true;
         
         Color cbg = Color.FromKnownColor(KnownColor.Window);
         
-        txtAuthor.BackColor = cbg; txtAuthor.ReadOnly = false; txtAuthor.Text = "";
-        txtDescription.BackColor = cbg; txtDescription.ReadOnly = false; txtDescription.Text = "";
-        txtGroup.BackColor = cbg; txtGroup.ReadOnly = false; txtGroup.Text = "";
-        txtGroup_Leave(txtGroup, new EventArgs());
-        
-        lstTermList.Items.Clear();
-        if (m_Sheet.TermCount > 0)
+        if (!m_DesignMode)
         {
-          lstTermList.BeginUpdate();
-          for (int i = 0; i < m_Sheet.TermCount; i++)
-          {
-            lstTermList.Items.Add(m_Sheet.Terms[i]);
-          }
-          lstTermList.EndUpdate();
+          txtSource.BackColor = cbg;
+          if (txtSource.Text == "")
+            txtSource.Text = m_Sheet.ToString();   // Get sheet text from sheet data
+          txtSource.ReadOnly = false;
+          btnNormalize.Enabled = true;
         }
-        lstTermList.BackColor = cbg;
-        rtbDefinition.BackColor = cbg; lstTermList_SelectedIndexChanged(lstTermList, new EventArgs());
-        
-        chkEdit.Enabled = true;
-        
-        menuMainClose.Enabled = true;
-        menuMainSave.Enabled = true;
-        menuMainSaveAs.Enabled = true;
+        else
+        {
+          txtTitle.ForeColor = Color.FromKnownColor(KnownColor.InfoText);
+          txtTitle.BackColor = Color.FromKnownColor(KnownColor.Info);
+          txtTitle.ReadOnly = false;
+          txtTitle.Text = m_Sheet.Title; txtTitle_Leave(txtTitle, new EventArgs());
+          
+          txtAuthor.BackColor = cbg; txtAuthor.ReadOnly = false; txtAuthor.Text = m_Sheet.Author;
+          txtDescription.BackColor = cbg; txtDescription.ReadOnly = false; txtDescription.Text = m_Sheet.Description;
+          txtGroup.BackColor = cbg; txtGroup.ReadOnly = false; txtGroup.Text = m_Sheet.Group;
+          txtGroup_Leave(txtGroup, new EventArgs());
+          
+          lstTermList.Items.Clear();
+          if (m_Sheet.TermCount > 0)
+          {
+            lstTermList.BeginUpdate();
+            for (int i = 0; i < m_Sheet.TermCount; i++)
+            {
+              lstTermList.Items.Add(m_Sheet.Terms[i]);
+            }
+            lstTermList.EndUpdate();
+          }
+          lstTermList.BackColor = cbg;
+          txtDefinition.BackColor = cbg; lstTermList_SelectedIndexChanged(lstTermList, new EventArgs());
+          
+          chkReadOnly.Enabled = true; chkReadOnly.Checked = true;
+          
+          txtTermsAdd.BackColor = cbg; txtTermsAdd.ReadOnly = false;
+          txtDefinitionAdd.BackColor = cbg; txtDefinitionAdd.ReadOnly = false;
+          chkMultiTerm.Enabled = true;
+          btnAddTerm.Enabled = true;
+        }
       }
       else
       {
-        txtTitle.ForeColor = Color.FromKnownColor(KnownColor.GrayText);
-        txtTitle.BackColor = Color.FromKnownColor(KnownColor.Control);
-        txtTitle.ReadOnly = true;
-        txtTitle.Text = "( nothing loaded )";
+        menuFileClose.Enabled = false;
+        menuFileSave.Enabled = false;
+        menuFileSaveAs.Enabled = false;
+        menuDesignerAddTerm.Enabled = false;
         
         Color cbg = Color.FromKnownColor(KnownColor.Control);
         
-        txtAuthor.BackColor = cbg; txtAuthor.ReadOnly = true; txtAuthor.Text = "";
-        txtDescription.BackColor = cbg; txtAuthor.ReadOnly = true; txtDescription.Text = "";
-        txtGroup.BackColor = cbg; txtAuthor.ReadOnly = true; txtGroup.Text = "";
-        
-        lstTermList.Items.Clear();
-        lstTermList.BackColor = cbg;
-        rtbDefinition.BackColor = cbg; rtbDefinition.ReadOnly = true;
-        
-        chkEdit.Enabled = false; chkEdit.Checked = false;
-        
-        menuMainClose.Enabled = false;
-        menuMainSave.Enabled = false;
-        menuMainSaveAs.Enabled = false;
+        if (!m_DesignMode)
+        {
+          txtSource.ReadOnly = true;
+          txtSource.BackColor = cbg;
+          btnNormalize.Enabled = false;
+          // Source text (txtSource.Text) stays the same
+        }
+        else
+        {
+          txtTitle.ForeColor = Color.FromKnownColor(KnownColor.GrayText);
+          txtTitle.BackColor = Color.FromKnownColor(KnownColor.Control);
+          txtTitle.ReadOnly = true;
+          txtTitle.Text = "( nothing loaded )";
+          
+          txtAuthor.BackColor = cbg; txtAuthor.ReadOnly = true; txtAuthor.Text = "";
+          txtDescription.BackColor = cbg; txtAuthor.ReadOnly = true; txtDescription.Text = "";
+          txtGroup.BackColor = cbg; txtAuthor.ReadOnly = true; txtGroup.Text = "";
+          
+          lstTermList.Items.Clear();
+          lstTermList.BackColor = cbg;
+          txtDefinition.BackColor = cbg; txtDefinition.ReadOnly = true;
+          
+          chkReadOnly.Enabled = false; chkReadOnly.Checked = false;
+          
+          txtTermsAdd.BackColor = cbg; txtTermsAdd.ReadOnly = true; txtTermsAdd.Text = "";
+          txtDefinitionAdd.BackColor = cbg; txtDefinitionAdd.ReadOnly = true; txtDefinitionAdd.Text = "";
+          chkMultiTerm.Enabled = false;
+          btnAddTerm.Enabled = false;
+        }
       }
       
       DoUpdateSheetItems();
+      
+      m_InternalEditing = false;
+      ResumeLayout();
     }
     
     private void DoUpdateSheetItems ()
     {
-      btnDelete.Enabled = ((m_Sheet == null) && (lstTermList.Items.Count > 0));
+      btnDelete.Enabled = ((m_Sheet != null) && (m_Sheet.Terms.Length > 0));
       btnTest.Enabled = btnDelete.Enabled;
+    }
+    
+    
+    
+    private void SetSource (string s)
+    { SetInternalControlText(txtSource, s); }
+    private void SetTitle (string s)
+    { SetInternalControlText(txtTitle, s); }
+    private void SetGroup (string s)
+    { SetInternalControlText(txtGroup, s); }
+    private void SetAuthor (string s)
+    { SetInternalControlText(txtAuthor, s); }
+    private void SetDescription (string s)
+    { SetInternalControlText(txtDescription, s); }
+    
+    
+    private void SetInternalControlText (Control control, string s)
+    {
+      if (m_InternalEditing)
+      { control.Text = s; return; }
+      
+      m_InternalEditing = true;
+      control.Text = s;
+      m_InternalEditing = false;
+    }
+    
+    private void UpdateWindowText ()
+    {
+      this.Text = c_Title + (( m_DesignMode )?( " [Design]" ):( "" ));
+      if (m_Sheet != null)
+        this.Text += (( m_Sheet.FileName == "" )?( "" ):( " - " + Path.GetFileName(m_Sheet.FileName) )) + (( m_SheetDirty )?( " *" ):( "" ));
+    }
+    
+    // !!!!! Option:
+    private void splDefinition_SplitterMoved(object sender, System.Windows.Forms.SplitterEventArgs e)
+    {
+      if (this.WindowState == FormWindowState.Minimized) return;
+      int newPos = ((splDefinition.SplitPosition - 2) - 1);
+      if (splAddSep.SplitPosition != newPos) splAddSep.SplitPosition = newPos;
+    }
+    private void splAddSep_SplitterMoved(object sender, System.Windows.Forms.SplitterEventArgs e)
+    {
+      if (this.WindowState == FormWindowState.Minimized) return;
+      int newPos = ((splAddSep.SplitPosition + 2) + 1);
+      if (splDefinition.SplitPosition != newPos) splDefinition.SplitPosition = newPos;
+    }
+    
+    private void txtTermsAdd_MultilineChanged(object sender, System.EventArgs e)
+    { panAddTermTextBox_SizeChanged(sender, new EventArgs()); }
+    
+    private void panAddTermTextBox_SizeChanged(object sender, System.EventArgs e)
+    {
+      txtTermsAdd.Height = (panAddTermTextBox.Height - (chkMultiTerm.Height + 1));
+      chkMultiTerm.Top = (txtTermsAdd.Top + (txtTermsAdd.Height + 2));
+    }
+    private void chkMultiTerm_CheckedChanged(object sender, System.EventArgs e)
+    {
+      txtTermsAdd.Multiline = chkMultiTerm.Checked;
+      if ((!txtTermsAdd.Multiline) && (txtTermsAdd.Lines.Length > 0))
+        txtTermsAdd.Text = txtTermsAdd.Lines[0];
+      chkMultiTerm.Text = (( chkMultiTerm.Checked )?( "Multiple Te&rms (one per line)" ):( "Multiple Te&rms" ));
+      
+      if (m_DesignMode)
+      { chkAdd.Checked = true; txtTermsAdd.Focus(); }
+    }
+    
+    private void menuDesignerAddTerm_Click(object sender, System.EventArgs e)
+    {
+      if (m_Sheet == null) return;
+      chkAdd.Checked = true;
+      txtTermsAdd.Focus();
     }
     
   }

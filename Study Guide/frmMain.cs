@@ -29,7 +29,7 @@ namespace Uberware.Study
       SND_NOWAIT = 0x00002000, /* don't wait if the driver is busy */
       SND_ALIAS = 0x00010000, /* name is a registry alias */
       SND_ALIAS_ID = 0x00110000, /* alias is a predefined ID */
-      SND_FILENAME = 0x00020000, /* name is file name */
+      SND_FileName = 0x00020000, /* name is file name */
       SND_RESOURCE = 0x00040004  /* name is resource name or atom */
     }
     
@@ -302,7 +302,7 @@ namespace Uberware.Study
       this.btnStudy.Location = new System.Drawing.Point(104, 456);
       this.btnStudy.Name = "btnStudy";
       this.btnStudy.Size = new System.Drawing.Size(88, 36);
-      this.btnStudy.TabIndex = 16;
+      this.btnStudy.TabIndex = 17;
       this.btnStudy.Text = "&Begin";
       this.btnStudy.Click += new System.EventHandler(this.btnStudy_Click);
       // 
@@ -312,7 +312,7 @@ namespace Uberware.Study
       this.btnMenu.Location = new System.Drawing.Point(8, 456);
       this.btnMenu.Name = "btnMenu";
       this.btnMenu.Size = new System.Drawing.Size(88, 36);
-      this.btnMenu.TabIndex = 15;
+      this.btnMenu.TabIndex = 16;
       this.btnMenu.Text = "&Menu";
       this.btnMenu.Click += new System.EventHandler(this.btnMenu_Click);
       this.btnMenu.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnMenu_MouseDown);
@@ -324,7 +324,7 @@ namespace Uberware.Study
       this.grpLine04.Location = new System.Drawing.Point(0, 444);
       this.grpLine04.Name = "grpLine04";
       this.grpLine04.Size = new System.Drawing.Size(376, 3);
-      this.grpLine04.TabIndex = 14;
+      this.grpLine04.TabIndex = 15;
       this.grpLine04.TabStop = false;
       // 
       // lblTermList
@@ -349,7 +349,7 @@ namespace Uberware.Study
       this.panTerms.Location = new System.Drawing.Point(8, 244);
       this.panTerms.Name = "panTerms";
       this.panTerms.Size = new System.Drawing.Size(356, 192);
-      this.panTerms.TabIndex = 9;
+      this.panTerms.TabIndex = 14;
       // 
       // panTermList
       // 
@@ -360,7 +360,7 @@ namespace Uberware.Study
       this.panTermList.Dock = System.Windows.Forms.DockStyle.Fill;
       this.panTermList.Name = "panTermList";
       this.panTermList.Size = new System.Drawing.Size(188, 192);
-      this.panTermList.TabIndex = 10;
+      this.panTermList.TabIndex = 0;
       // 
       // btnSelect
       // 
@@ -397,7 +397,7 @@ namespace Uberware.Study
       this.splTerms.Location = new System.Drawing.Point(188, 0);
       this.splTerms.Name = "splTerms";
       this.splTerms.Size = new System.Drawing.Size(8, 192);
-      this.splTerms.TabIndex = 0;
+      this.splTerms.TabIndex = 1;
       this.splTerms.TabStop = false;
       // 
       // panImprove
@@ -409,7 +409,7 @@ namespace Uberware.Study
       this.panImprove.Location = new System.Drawing.Point(196, 0);
       this.panImprove.Name = "panImprove";
       this.panImprove.Size = new System.Drawing.Size(160, 192);
-      this.panImprove.TabIndex = 11;
+      this.panImprove.TabIndex = 2;
       // 
       // lblImprove
       // 
@@ -433,6 +433,8 @@ namespace Uberware.Study
       this.lstImprove.Name = "lstImprove";
       this.lstImprove.Size = new System.Drawing.Size(160, 176);
       this.lstImprove.TabIndex = 1;
+      this.lstImprove.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lstImprove_MouseDown);
+      this.lstImprove.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lstImprove_MouseMove);
       this.lstImprove.SelectedIndexChanged += new System.EventHandler(this.lstImprove_SelectedIndexChanged);
       // 
       // lblCorrect
@@ -521,7 +523,7 @@ namespace Uberware.Study
       // 
       this.menuMainEdit.Enabled = false;
       this.menuMainEdit.Index = 4;
-      this.menuMainEdit.Text = "Edi&t sheet...";
+      this.menuMainEdit.Text = "&Edit sheet...";
       this.menuMainEdit.Click += new System.EventHandler(this.menuMainEdit_Click);
       // 
       // menuMainLine02
@@ -538,7 +540,7 @@ namespace Uberware.Study
       // menuMainAbout
       // 
       this.menuMainAbout.Index = 7;
-      this.menuMainAbout.Text = "&About...";
+      this.menuMainAbout.Text = "Ab&out...";
       this.menuMainAbout.Click += new System.EventHandler(this.menuMainAbout_Click);
       // 
       // menuMainLine03
@@ -549,7 +551,7 @@ namespace Uberware.Study
       // menuMainExit
       // 
       this.menuMainExit.Index = 9;
-      this.menuMainExit.Text = "&Exit";
+      this.menuMainExit.Text = "E&xit";
       this.menuMainExit.Click += new System.EventHandler(this.menuMainExit_Click);
       // 
       // openFileDialog
@@ -564,7 +566,7 @@ namespace Uberware.Study
       this.btnExit.Location = new System.Drawing.Point(292, 460);
       this.btnExit.Name = "btnExit";
       this.btnExit.Size = new System.Drawing.Size(72, 32);
-      this.btnExit.TabIndex = 17;
+      this.btnExit.TabIndex = 19;
       this.btnExit.Text = "E&xit";
       this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
       // 
@@ -585,8 +587,9 @@ namespace Uberware.Study
       this.rtbDefinition.ReadOnly = true;
       this.rtbDefinition.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
       this.rtbDefinition.Size = new System.Drawing.Size(354, 94);
-      this.rtbDefinition.TabIndex = 18;
+      this.rtbDefinition.TabIndex = 0;
       this.rtbDefinition.Text = "";
+      this.rtbDefinition.ContentsResized += new System.Windows.Forms.ContentsResizedEventHandler(this.rtbDefinition_ContentsResized);
       this.rtbDefinition.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.rtbDefinition_LinkClicked);
       // 
       // panDefinition
@@ -599,7 +602,7 @@ namespace Uberware.Study
       this.panDefinition.Location = new System.Drawing.Point(8, 64);
       this.panDefinition.Name = "panDefinition";
       this.panDefinition.Size = new System.Drawing.Size(356, 96);
-      this.panDefinition.TabIndex = 19;
+      this.panDefinition.TabIndex = 3;
       // 
       // btnEditor
       // 
@@ -607,7 +610,7 @@ namespace Uberware.Study
       this.btnEditor.Location = new System.Drawing.Point(212, 460);
       this.btnEditor.Name = "btnEditor";
       this.btnEditor.Size = new System.Drawing.Size(72, 32);
-      this.btnEditor.TabIndex = 20;
+      this.btnEditor.TabIndex = 18;
       this.btnEditor.Text = "&Editor...";
       this.btnEditor.Click += new System.EventHandler(this.btnEditor_Click);
       // 
@@ -641,7 +644,8 @@ namespace Uberware.Study
       this.Name = "frmMain";
       this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-      this.Text = "Study Guide: Matching";
+      this.Text = "Study Guide";
+      this.Closing += new System.ComponentModel.CancelEventHandler(this.frmMain_Closing);
       this.Activated += new System.EventHandler(this.frmMain_Activated);
       this.panTerms.ResumeLayout(false);
       this.panTermList.ResumeLayout(false);
@@ -696,6 +700,9 @@ namespace Uberware.Study
         btnMenu.Focus();
     }
     
+    private void frmMain_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    { if (!DoClose()) e.Cancel = true; }
+    
     
     
     private void menuMainNew_Click(object sender, System.EventArgs e)
@@ -735,6 +742,10 @@ namespace Uberware.Study
     private void tmrResetColors_Tick(object sender, System.EventArgs e)
     { DoResetColors(); }
     
+    private void lstImprove_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+    { if (e.Button == MouseButtons.Left) lstImprove_SelectedIndexChanged(sender, new EventArgs()); }
+    private void lstImprove_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+    { if (e.Button == MouseButtons.Left) lstImprove_SelectedIndexChanged(sender, new EventArgs()); }
     private void lstImprove_SelectedIndexChanged(object sender, System.EventArgs e)
     { DoShowImproveItem(); }
     
@@ -794,7 +805,7 @@ namespace Uberware.Study
     
     private bool DoEdit ()
     {
-      return DoShowEditor(m_Sheet.Filename);
+      return DoShowEditor(m_Sheet.FileName);
     }
     
     private bool DoClose ()
@@ -1081,25 +1092,25 @@ namespace Uberware.Study
     
     private void PlaySound (MatchingSounds sound)
     {
-      string Filename;
+      string FileName;
       
       // Failsafe
       if (!m_Settings.PlaySounds) return;
       
-      // Get filename
-      Filename = "";
+      // Get FileName
+      FileName = "";
       switch (sound)
       {
-        case MatchingSounds.Begin: Filename = m_Settings.Sounds[0]; break;
-        case MatchingSounds.Correct: Filename = m_Settings.Sounds[1]; break;
-        case MatchingSounds.Wrong: Filename = m_Settings.Sounds[2]; break;
-        case MatchingSounds.Complete: Filename = m_Settings.Sounds[3]; break;
-        case MatchingSounds.Perfect: Filename = m_Settings.Sounds[4]; break;
+        case MatchingSounds.Begin: FileName = m_Settings.Sounds[0]; break;
+        case MatchingSounds.Correct: FileName = m_Settings.Sounds[1]; break;
+        case MatchingSounds.Wrong: FileName = m_Settings.Sounds[2]; break;
+        case MatchingSounds.Complete: FileName = m_Settings.Sounds[3]; break;
+        case MatchingSounds.Perfect: FileName = m_Settings.Sounds[4]; break;
         default: return;
       }
       
       // Play sound
-      sndPlaySound(Filename, IntPtr.Zero, (SoundFlags.SND_FILENAME | SoundFlags.SND_ASYNC | SoundFlags.SND_NOWAIT));
+      sndPlaySound(FileName, IntPtr.Zero, (SoundFlags.SND_FileName | SoundFlags.SND_ASYNC | SoundFlags.SND_NOWAIT));
     }
     
     private void RandomizeTerms ()
@@ -1134,6 +1145,18 @@ namespace Uberware.Study
         
         // Term is unique; use it
         m_TermList[i] = val;
+      }
+    }
+
+    private void rtbDefinition_ContentsResized(object sender, System.Windows.Forms.ContentsResizedEventArgs e)
+    {
+      if (rtbDefinition.Text == "") return;
+      
+      bool b = e.NewRectangle.Height <= rtbDefinition.ClientSize.Height;
+      if (rtbDefinition.Font.Bold != b)
+      {
+        rtbDefinition.Font = new Font(rtbDefinition.Font, (( b )?( FontStyle.Bold ):( FontStyle.Regular )) );
+        rtbDefinition.Text = rtbDefinition.Text;  // Refresh
       }
     }
     
