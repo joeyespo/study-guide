@@ -1,0 +1,28 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Study Guide", "Study Guide\Study Guide.csproj", "{7791D6F6-B3FE-474F-A9B0-0123823C8D35}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Study Guide Editor", "Study Guide Editor\Study Guide Editor.csproj", "{78D1D123-6858-4BD7-A9A0-6AA253A526BD}"
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+		{78D1D123-6858-4BD7-A9A0-6AA253A526BD}.0 = {7791D6F6-B3FE-474F-A9B0-0123823C8D35}
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{7791D6F6-B3FE-474F-A9B0-0123823C8D35}.Debug.ActiveCfg = Debug|.NET
+		{7791D6F6-B3FE-474F-A9B0-0123823C8D35}.Debug.Build.0 = Debug|.NET
+		{7791D6F6-B3FE-474F-A9B0-0123823C8D35}.Release.ActiveCfg = Release|.NET
+		{7791D6F6-B3FE-474F-A9B0-0123823C8D35}.Release.Build.0 = Release|.NET
+		{78D1D123-6858-4BD7-A9A0-6AA253A526BD}.Debug.ActiveCfg = Debug|.NET
+		{78D1D123-6858-4BD7-A9A0-6AA253A526BD}.Debug.Build.0 = Debug|.NET
+		{78D1D123-6858-4BD7-A9A0-6AA253A526BD}.Release.ActiveCfg = Release|.NET
+		{78D1D123-6858-4BD7-A9A0-6AA253A526BD}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,17 @@
+ToDo - Study Guide: Matching
+-----------------------------
+ 
+ * Separate Editor and Player into two programs
+ - Show parsing errors for the matching sheets
+ - Create a dialog for loading sheets
+ - Use regular font when text is too long in definitions box
+ * Use RTB for definitions
+   - Mini HTML in definitions
+ - "Stop studying?" dialog box
+ - "Perfect!" in definition window on perfect completion (until Done is clicked)
+ - Statistics (charts of improvement, terms that needed most work, etc)
+ - Hide mouse
+ * Preferences
+ * SetFocus
+ * Option: Custom sounds (have None as a selection)
+ * Option: Mute sounds
