@@ -1,0 +1,34 @@
+syntax: glob
+
+# C/C-Sharp Files
+*.ncb
+*.nlb
+*.aps
+*.clw
+ 
+# VB6 Files
+*.SCC
+*.vbw
+*.pdb
+*.log
+*.Log
+
+# Project Files
+*.suo
+*.user
+*.sln.cache
+_ReSharper.*
+
+# Build and Debug Files
+build/*
+bin/*
+obj/*
+*.exe
+*.dll
+*.ex_
+*.pdb
+
+# Misc and OS Files
+Desktop.ini             # Directory atttributes in Windows.
+Thumbs.db               # Picture thumbnail cache in Windows 98.
+.DS_Store               # Directory attributes in Mac OS X.
