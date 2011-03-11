@@ -1,5 +1,3 @@
-syntax: glob
-
 # C/C-Sharp Files
 *.ncb
 *.nlb
@@ -50,6 +48,6 @@ OBJ/*
 *.ex_
 
 # Misc and OS Files
-Desktop.ini             # Directory atttributes in Windows.
-Thumbs.db               # Picture thumbnail cache in Windows 98.
-.DS_Store               # Directory attributes in Mac OS X.
+Desktop.ini
+Thumbs.db
+.DS_Store
