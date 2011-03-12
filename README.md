@@ -5,7 +5,7 @@ A program designed for students whose grades are not showing his or her best
 ability on tests and quizzes. This program is a unique way of helping such
 students to study and prepare for an upcomming exam.
 
-Or more simply put: A fun, high-tech alternative to flash cards. But more fun.
+Or more simply put: A fun, high-tech alternative to flash cards.
 
 Usage
 =====
