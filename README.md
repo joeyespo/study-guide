@@ -18,26 +18,26 @@ the editor directly to create new or edit existing study sheets.
 Screenshots
 -----------
 
-![Study Guide Screenshot 1](http://s3.amazonaws.com/scrnshots.com/screenshots/285060/studyguide_screenshot_01png)
+![Study Guide Screenshot 1](./Graphics/Screenshots/StudyGuide-Screenshot-01.png)
 
 Study guide, without any sheets loaded yet. Click on 'Menu' to open a study sheet or create a new one.
 
 
-![Study Guide Screenshot 2](http://s3.amazonaws.com/scrnshots.com/screenshots/285072/studyguide_screenshot_02png)
+![Study Guide Screenshot 2](./Graphics/Screenshots/StudyGuide-Screenshot-02.png)
 
 The game in action. A definition is displayed and you have to match it with the correct term. Do you know which one it is?
 
 
-![Study Guide Screenshot 3](http://s3.amazonaws.com/scrnshots.com/screenshots/285076/studyguide_screenshot_03png_large)
+![Study Guide Screenshot 3](./Graphics/Screenshots/StudyGuide-Screenshot-03.png)
 
 All definitions have been matched, so the round is over. Looks like you got some wrong. Try again!
 
 
-![Study Guide Screenshot 4](http://s3.amazonaws.com/scrnshots.com/screenshots/285080/studyguide_screenshot_04png_large)
+![Study Guide Screenshot 4](./Graphics/Screenshots/StudyGuide-Screenshot-04.png)
 
 Nice job! Looks like your game playing, err, *studying* has paid off -- perfect score!
 
 
-![Study Guide Screenshot 5](http://s3.amazonaws.com/scrnshots.com/screenshots/285092/studyguide_screenshot_05png_large)
+![Study Guide Screenshot 5](./Graphics/Screenshots/StudyGuide-Screenshot-05.png)
 
 The editor, with the sample study sheet currently loaded. (The sample sheet is located in the same directory as the executable.)
